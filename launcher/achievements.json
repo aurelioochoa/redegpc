@@ -1,0 +1,327 @@
+{
+  "version": 1,
+  "scope": "Artwork and achievement design. These entries do not claim implemented runtime tracking.",
+  "source_references": [
+    {
+      "url": "https://gamefaqs.gamespot.com/iphone/960237-resident-evil-degeneration/faqs/57543",
+      "use": "Original iPhone walkthrough: seven firearm names, upgrade attributes, Easy / Normal / Professional difficulty labels."
+    },
+    {
+      "url": "http://sephirosuy.blogspot.com/2009/08/re-degeneration-game-basic.html",
+      "use": "Guide author's original difficulty explanation."
+    }
+  ],
+  "achievements": [
+    {
+      "id": "first-contact",
+      "title": "First Contact",
+      "description": "Complete the opening encounter.",
+      "category": "story",
+      "asset": "assets/achievement-first-contact.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Complete the opening encounter."
+      }
+    },
+    {
+      "id": "clear-terminal",
+      "title": "Clear the Terminal",
+      "description": "Complete the airport campaign.",
+      "category": "story",
+      "asset": "assets/achievement-clear-terminal.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Complete the airport campaign."
+      }
+    },
+    {
+      "id": "fully-equipped",
+      "title": "Fully Equipped",
+      "description": "Collect every firearm.",
+      "category": "weapons",
+      "asset": "assets/achievement-fully-equipped.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Collect every firearm."
+      }
+    },
+    {
+      "id": "survivor",
+      "title": "Survivor",
+      "description": "Finish a chapter without dying.",
+      "category": "challenge",
+      "asset": "assets/achievement-survivor.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Finish a chapter without dying."
+      }
+    },
+    {
+      "id": "hero",
+      "title": "Harvardville Hero",
+      "description": "Rescue the survivors.",
+      "category": "story",
+      "asset": "assets/achievement-hero.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Rescue the survivors."
+      }
+    },
+    {
+      "id": "mercenary",
+      "title": "Mercenary",
+      "description": "Complete a Mercenary mode run.",
+      "category": "challenge",
+      "asset": "assets/achievement-mercenary.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Complete a Mercenary mode run."
+      }
+    },
+    {
+      "id": "upgrades",
+      "title": "Fine Tuning",
+      "description": "Purchase a weapon upgrade.",
+      "category": "weapons",
+      "asset": "assets/achievement-upgrades.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Purchase a weapon upgrade."
+      }
+    },
+    {
+      "id": "escape",
+      "title": "Escape Route",
+      "description": "Complete the final chapter.",
+      "category": "story",
+      "asset": "assets/achievement-escape.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Complete the final chapter."
+      }
+    },
+    {
+      "id": "cargo",
+      "title": "Cargo Secured",
+      "description": "Clear the cargo hold.",
+      "category": "story",
+      "asset": "assets/achievement-cargo.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Clear the cargo hold."
+      }
+    },
+    {
+      "id": "gvirus",
+      "title": "G-Virus Contained",
+      "description": "Defeat the final G-virus threat.",
+      "category": "story",
+      "asset": "assets/achievement-gvirus.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Defeat the final G-virus threat."
+      }
+    },
+    {
+      "id": "shutter",
+      "title": "Access Granted",
+      "description": "Open the terminal shutter.",
+      "category": "story",
+      "asset": "assets/achievement-shutter.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Open the terminal shutter."
+      }
+    },
+    {
+      "id": "vip",
+      "title": "VIP Protection",
+      "description": "Rescue the senator.",
+      "category": "story",
+      "asset": "assets/achievement-vip.png",
+      "unlock_rule": {
+        "type": "proposed_goal",
+        "description": "Rescue the senator."
+      }
+    },
+    {
+      "id": "handgun",
+      "title": "Sidearm Specialist",
+      "description": "Fully upgrade the Handgun.",
+      "category": "weapons",
+      "asset": "assets/achievement-handgun.png",
+      "unlock_rule": {
+        "type": "fully_upgrade_weapon",
+        "weapon": "handgun",
+        "attributes": [
+          "firepower",
+          "reload_speed",
+          "ammo_capacity"
+        ]
+      }
+    },
+    {
+      "id": "punisher",
+      "title": "Double Impact",
+      "description": "Fully upgrade the Punisher.",
+      "category": "weapons",
+      "asset": "assets/achievement-punisher.png",
+      "unlock_rule": {
+        "type": "fully_upgrade_weapon",
+        "weapon": "punisher",
+        "attributes": [
+          "firepower",
+          "reload_speed",
+          "ammo_capacity"
+        ]
+      }
+    },
+    {
+      "id": "shotgun",
+      "title": "Close Quarters",
+      "description": "Fully upgrade the Shotgun.",
+      "category": "weapons",
+      "asset": "assets/achievement-shotgun.png",
+      "unlock_rule": {
+        "type": "fully_upgrade_weapon",
+        "weapon": "shotgun",
+        "attributes": [
+          "firepower",
+          "reload_speed",
+          "ammo_capacity"
+        ]
+      }
+    },
+    {
+      "id": "riot-gun",
+      "title": "Crowd Control",
+      "description": "Fully upgrade the Riot Gun.",
+      "category": "weapons",
+      "asset": "assets/achievement-riot-gun.png",
+      "unlock_rule": {
+        "type": "fully_upgrade_weapon",
+        "weapon": "riot-gun",
+        "attributes": [
+          "firepower",
+          "reload_speed",
+          "ammo_capacity"
+        ]
+      }
+    },
+    {
+      "id": "tmp",
+      "title": "Automatic Response",
+      "description": "Fully upgrade the TMP.",
+      "category": "weapons",
+      "asset": "assets/achievement-tmp.png",
+      "unlock_rule": {
+        "type": "fully_upgrade_weapon",
+        "weapon": "tmp",
+        "attributes": [
+          "firepower",
+          "reload_speed",
+          "ammo_capacity"
+        ]
+      }
+    },
+    {
+      "id": "rifle",
+      "title": "Long Sight",
+      "description": "Fully upgrade the Rifle.",
+      "category": "weapons",
+      "asset": "assets/achievement-rifle.png",
+      "unlock_rule": {
+        "type": "fully_upgrade_weapon",
+        "weapon": "rifle",
+        "attributes": [
+          "firepower",
+          "reload_speed",
+          "ammo_capacity"
+        ]
+      }
+    },
+    {
+      "id": "magnum",
+      "title": "Heavy Hitter",
+      "description": "Fully upgrade the Magnum.",
+      "category": "weapons",
+      "asset": "assets/achievement-magnum.png",
+      "unlock_rule": {
+        "type": "fully_upgrade_weapon",
+        "weapon": "magnum",
+        "attributes": [
+          "firepower",
+          "reload_speed",
+          "ammo_capacity"
+        ]
+      }
+    },
+    {
+      "id": "difficulty-easy",
+      "title": "First Tour",
+      "description": "Complete the campaign on Easy.",
+      "category": "difficulty",
+      "asset": "assets/achievement-difficulty-easy.png",
+      "unlock_rule": {
+        "type": "complete_campaign",
+        "difficulty": "easy"
+      }
+    },
+    {
+      "id": "difficulty-normal",
+      "title": "Seasoned Agent",
+      "description": "Complete the campaign on Normal.",
+      "category": "difficulty",
+      "asset": "assets/achievement-difficulty-normal.png",
+      "unlock_rule": {
+        "type": "complete_campaign",
+        "difficulty": "normal"
+      }
+    },
+    {
+      "id": "difficulty-professional",
+      "title": "Professional",
+      "description": "Complete the campaign on Professional.",
+      "category": "difficulty",
+      "asset": "assets/achievement-difficulty-professional.png",
+      "unlock_rule": {
+        "type": "complete_campaign",
+        "difficulty": "professional"
+      }
+    },
+    {
+      "id": "platinum",
+      "title": "Harvardville Legend",
+      "description": "Unlock every other achievement.",
+      "category": "completion",
+      "asset": "assets/achievement-platinum.png",
+      "unlock_rule": {
+        "type": "all_other_achievements",
+        "required_ids": [
+          "first-contact",
+          "clear-terminal",
+          "fully-equipped",
+          "survivor",
+          "hero",
+          "mercenary",
+          "upgrades",
+          "escape",
+          "cargo",
+          "gvirus",
+          "shutter",
+          "vip",
+          "handgun",
+          "punisher",
+          "shotgun",
+          "riot-gun",
+          "tmp",
+          "rifle",
+          "magnum",
+          "difficulty-easy",
+          "difficulty-normal",
+          "difficulty-professional"
+        ]
+      }
+    }
+  ]
+}

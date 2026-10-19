@@ -1,0 +1,2393 @@
+{
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "name": "achievement-first-contact",
+      "transparent": true,
+      "source": "sources/achievement-first-contact.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "0fa1c5da8e0aba7c6df5a29f3ead3d67eaaf4da05aa8822cd59fa7c793415d00",
+        "bytes": 1980653,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 892612,
+          "opaque": 463,
+          "bbox": [
+            0,
+            27,
+            1254,
+            1239
+          ]
+        }
+      },
+      "output": "../assets/achievement-first-contact.png",
+      "output_info": {
+        "size": [
+          768,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "c410b896a03a929e380014c4921eaea23c4a536e4a901df7719193e8a61be24a",
+        "bytes": 284027,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 286345,
+          "opaque": 38,
+          "bbox": [
+            135,
+            118,
+            633,
+            461
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          768,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "91efdc4c65f14102b15c4a8247b9c876ebb3fac7108b60f71d9e138df0927d73",
+        "bytes": 731737,
+        "alpha": {
+          "range": [
+            0,
+            254
+          ],
+          "transparent": 187864,
+          "opaque": 0,
+          "bbox": [
+            0,
+            0,
+            768,
+            512
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-clear-terminal",
+      "transparent": true,
+      "source": "sources/achievement-clear-terminal.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "9030350e9dd15e2f71875514d9d38a41910f5bdaf976f4f686c036bd3e42b4bb",
+        "bytes": 2098478,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 723877,
+          "opaque": 226,
+          "bbox": [
+            0,
+            21,
+            1240,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-clear-terminal.png",
+      "output_info": {
+        "size": [
+          698,
+          497
+        ],
+        "mode": "RGBA",
+        "sha256": "bc7d53506d62832428c4c8440280485fc694b8eefdcc1276d0665ad98f4b449c",
+        "bytes": 262052,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 225479,
+          "opaque": 19,
+          "bbox": [
+            118,
+            115,
+            584,
+            445
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          698,
+          497
+        ],
+        "mode": "RGBA",
+        "sha256": "41f9b8e4f34845e2a1239288e2189e4db8464a3719ea912653af71663ad7360a",
+        "bytes": 629082,
+        "alpha": {
+          "range": [
+            0,
+            254
+          ],
+          "transparent": 139657,
+          "opaque": 0,
+          "bbox": [
+            0,
+            8,
+            690,
+            497
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-fully-equipped",
+      "transparent": true,
+      "source": "sources/achievement-fully-equipped.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "5ba07a034fe0ed4593b928d3ac93efd7c3644fba46349283160c6e671593906a",
+        "bytes": 2032657,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 786063,
+          "opaque": 345,
+          "bbox": [
+            0,
+            35,
+            1240,
+            1235
+          ]
+        }
+      },
+      "output": "../assets/achievement-fully-equipped.png",
+      "output_info": {
+        "size": [
+          768,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "affc292151772177ce214936661b8f44efa26e179dd8a854638d51118ddba370",
+        "bytes": 310004,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 267133,
+          "opaque": 34,
+          "bbox": [
+            144,
+            19,
+            631,
+            452
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          768,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "03b59f963bf5a4f3e0cb543d5eea0603a4f448c539fcbd2d8ed89c1273e127e3",
+        "bytes": 706715,
+        "alpha": {
+          "range": [
+            0,
+            254
+          ],
+          "transparent": 155943,
+          "opaque": 0,
+          "bbox": [
+            0,
+            0,
+            768,
+            512
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-survivor",
+      "transparent": true,
+      "source": "sources/achievement-survivor.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "bd28690c2b9422e8d93998b208c325725db1e8a8355667be3cc896e81abafd44",
+        "bytes": 2338012,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 751995,
+          "opaque": 417,
+          "bbox": [
+            0,
+            59,
+            1184,
+            1189
+          ]
+        }
+      },
+      "output": "../assets/achievement-survivor.png",
+      "output_info": {
+        "size": [
+          762,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "3671654e789d6c11b649eeff5017c5b7f5356c0a8ae45221591fd5d54adfa924",
+        "bytes": 397279,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 241676,
+          "opaque": 11,
+          "bbox": [
+            182,
+            15,
+            610,
+            496
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          762,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "a7955b192f7c3f30ece4bf1749e0572eac6ad35b82a2ff47496e69099b717154",
+        "bytes": 669800,
+        "alpha": {
+          "range": [
+            0,
+            254
+          ],
+          "transparent": 204982,
+          "opaque": 0,
+          "bbox": [
+            0,
+            0,
+            754,
+            512
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-hero",
+      "transparent": true,
+      "source": "sources/achievement-hero.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "48417a211e3afe83be615106279b71414626cbba9dd27de971aacc86888a3049",
+        "bytes": 2676510,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 606405,
+          "opaque": 990,
+          "bbox": [
+            0,
+            11,
+            1214,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-hero.png",
+      "output_info": {
+        "size": [
+          446,
+          382
+        ],
+        "mode": "RGBA",
+        "sha256": "ff4be8588dd7c9041f91b5df039ae38267ebaf91e9ea52906d4e3ce1c550b696",
+        "bytes": 216814,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 89636,
+          "opaque": 76,
+          "bbox": [
+            71,
+            11,
+            386,
+            367
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          446,
+          382
+        ],
+        "mode": "RGBA",
+        "sha256": "50c8bdb6266f6991b442ebf5abcd59fe4e90cc1bd45fec3b47e1da50a7fa2872",
+        "bytes": 325606,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 60526,
+          "opaque": 90474,
+          "bbox": [
+            8,
+            8,
+            438,
+            374
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-mercenary",
+      "transparent": true,
+      "source": "sources/achievement-mercenary.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "4e3536d41fe69eecfca227fa74f5bf037d21494efb973e0487398c0014b60fd4",
+        "bytes": 1340501,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1133363,
+          "opaque": 673,
+          "bbox": [
+            18,
+            23,
+            1240,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-mercenary.png",
+      "output_info": {
+        "size": [
+          445,
+          446
+        ],
+        "mode": "RGBA",
+        "sha256": "1f0ded632fa7e416c136c229e153856eb39bb3eece1237dd13d12d539e6d5f40",
+        "bytes": 151866,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 148283,
+          "opaque": 50,
+          "bbox": [
+            14,
+            15,
+            430,
+            422
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          445,
+          446
+        ],
+        "mode": "RGBA",
+        "sha256": "e327aa0bee59206d69dc22f8183acb482c48b60a4389b01bfb70408b192656fc",
+        "bytes": 250683,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 141173,
+          "opaque": 46299,
+          "bbox": [
+            8,
+            8,
+            437,
+            438
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-upgrades",
+      "transparent": true,
+      "source": "sources/achievement-upgrades.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "b96defbccd60bbcd721b753cdea261bc96da6f96267231985cbef77975861a18",
+        "bytes": 1981464,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 806526,
+          "opaque": 588,
+          "bbox": [
+            0,
+            7,
+            1235,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-upgrades.png",
+      "output_info": {
+        "size": [
+          435,
+          344
+        ],
+        "mode": "RGBA",
+        "sha256": "4be6f95f8fcc28113659df44b573691dd9a29f5e26c78fd66d36deb670874e0c",
+        "bytes": 132679,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 98140,
+          "opaque": 93,
+          "bbox": [
+            57,
+            21,
+            376,
+            305
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          435,
+          344
+        ],
+        "mode": "RGBA",
+        "sha256": "6d9c0c7ae93c3539192bef02d79520af4d6102f5c399c347e97489e73b6a4892",
+        "bytes": 254629,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 69468,
+          "opaque": 46998,
+          "bbox": [
+            8,
+            8,
+            427,
+            336
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-escape",
+      "transparent": true,
+      "source": "sources/achievement-escape.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "11f61af6ceed6bcbb6846f4db69b7ffa084f7548128b07cd053826b405a15d79",
+        "bytes": 2289262,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 812437,
+          "opaque": 628,
+          "bbox": [
+            0,
+            21,
+            1246,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-escape.png",
+      "output_info": {
+        "size": [
+          474,
+          325
+        ],
+        "mode": "RGBA",
+        "sha256": "e95f64412f154b3aed2fbad8edfe2a26c550dc8a1b9a360248c5d65de63dfe83",
+        "bytes": 146469,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 107394,
+          "opaque": 167,
+          "bbox": [
+            90,
+            23,
+            385,
+            291
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          474,
+          325
+        ],
+        "mode": "RGBA",
+        "sha256": "6ac240b242290c107c70286b2c99535579d88828e694b19a89ffbf16af011f08",
+        "bytes": 214754,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 90578,
+          "opaque": 53541,
+          "bbox": [
+            6,
+            6,
+            468,
+            319
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-cargo",
+      "transparent": true,
+      "source": "sources/achievement-cargo.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "1602ceea645bd79041f17f4185746b09e26b1ffe3ad45ee5fba5511f8de29982",
+        "bytes": 2719255,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 459475,
+          "opaque": 486,
+          "bbox": [
+            0,
+            0,
+            1244,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-cargo.png",
+      "output_info": {
+        "size": [
+          422,
+          372
+        ],
+        "mode": "RGBA",
+        "sha256": "eee85a9e1af00cbf78267a0264f61549350c6782f619b92065e185d16a9d89d7",
+        "bytes": 205007,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 70326,
+          "opaque": 55,
+          "bbox": [
+            37,
+            11,
+            384,
+            357
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          422,
+          372
+        ],
+        "mode": "RGBA",
+        "sha256": "c659498cd355e40061363facbe9854ce73e81388143c0ee58bcda376bc94420b",
+        "bytes": 244261,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 50422,
+          "opaque": 105097,
+          "bbox": [
+            6,
+            6,
+            416,
+            366
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-gvirus",
+      "transparent": true,
+      "source": "sources/achievement-gvirus.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "9094f35ce6c43159592b3a155df9ebedff611b0177ed27b8b16d5c674e349d30",
+        "bytes": 1798224,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 927105,
+          "opaque": 388,
+          "bbox": [
+            0,
+            11,
+            1235,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-gvirus.png",
+      "output_info": {
+        "size": [
+          358,
+          407
+        ],
+        "mode": "RGBA",
+        "sha256": "797a39c529f5af074525ec6afd0a7c9b2da18a41e5fbf73b7169bb19fec20e52",
+        "bytes": 140432,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 97706,
+          "opaque": 50,
+          "bbox": [
+            15,
+            35,
+            346,
+            364
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          358,
+          407
+        ],
+        "mode": "RGBA",
+        "sha256": "d2e90bb5525b69e783a91b88d175205f390300adda983efd869f835bb96d67c7",
+        "bytes": 216958,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 78641,
+          "opaque": 66089,
+          "bbox": [
+            6,
+            6,
+            352,
+            401
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-shutter",
+      "transparent": true,
+      "source": "sources/achievement-shutter.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "634598451482d59417a95f7db3d59dea7ca9cc41dbe031a3859cb0c29c09501e",
+        "bytes": 2206265,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 717842,
+          "opaque": 534,
+          "bbox": [
+            0,
+            0,
+            1245,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-shutter.png",
+      "output_info": {
+        "size": [
+          369,
+          410
+        ],
+        "mode": "RGBA",
+        "sha256": "1d4b336edf6c6a946567e88e3ae6425d1e0fc6fc848e2ef43142dea58c2da5d2",
+        "bytes": 161358,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 84984,
+          "opaque": 69,
+          "bbox": [
+            11,
+            38,
+            358,
+            372
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          369,
+          410
+        ],
+        "mode": "RGBA",
+        "sha256": "0f3b5c8725a7f6cf1d5c1584b9493b8aa80111ce4add91a326fa364d54435c9a",
+        "bytes": 267057,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 58781,
+          "opaque": 89590,
+          "bbox": [
+            6,
+            6,
+            363,
+            404
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-vip",
+      "transparent": true,
+      "source": "sources/achievement-vip.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "5bc691dae0953350cab797773acf814a22bc207c3dd024a63b3d29eebbbb683a",
+        "bytes": 2130211,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 796586,
+          "opaque": 690,
+          "bbox": [
+            0,
+            12,
+            1242,
+            1242
+          ]
+        }
+      },
+      "output": "../assets/achievement-vip.png",
+      "output_info": {
+        "size": [
+          431,
+          408
+        ],
+        "mode": "RGBA",
+        "sha256": "152753e57510234abce1f3a0af924cf8a23df0a3052de056a73e66136b54e7b5",
+        "bytes": 201630,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 100547,
+          "opaque": 133,
+          "bbox": [
+            83,
+            12,
+            408,
+            396
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          431,
+          408
+        ],
+        "mode": "RGBA",
+        "sha256": "354e90f28fb683d1bd201d396a3f12e4670b1eafcedadee3206a3d5619b8772b",
+        "bytes": 297508,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 90085,
+          "opaque": 78962,
+          "bbox": [
+            6,
+            6,
+            425,
+            402
+          ]
+        }
+      }
+    },
+    {
+      "name": "icon-achievements",
+      "transparent": true,
+      "source": "sources/icon-achievements.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "15c44253371a0705a98c6312379e7cc1d8fc132aa17e51ea6ff1fd1b5ac92ab8",
+        "bytes": 1520655,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1031826,
+          "opaque": 930,
+          "bbox": [
+            0,
+            33,
+            1198,
+            1250
+          ]
+        }
+      },
+      "output": "../assets/icon-achievements.png",
+      "output_info": {
+        "size": [
+          80,
+          85
+        ],
+        "mode": "RGBA",
+        "sha256": "8d5862c567c3d8d8dc1e16de73db9629f155add5130c0381e4ee847dab39fd51",
+        "bytes": 8221,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 4531,
+          "opaque": 128,
+          "bbox": [
+            20,
+            4,
+            62,
+            77
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          80,
+          85
+        ],
+        "mode": "RGBA",
+        "sha256": "6d89c6e741afa63ad4c244ce3c0ad47185ed3052d10261ea348c404b391d7951",
+        "bytes": 18410,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 922,
+          "opaque": 3996,
+          "bbox": [
+            0,
+            0,
+            80,
+            85
+          ]
+        }
+      }
+    },
+    {
+      "name": "icon-settings",
+      "transparent": true,
+      "source": "sources/icon-settings.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "0936699bfb844136cf8283faf64406db3ad48d4f10ba278b0ec96e674351718c",
+        "bytes": 2256536,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 741015,
+          "opaque": 1499,
+          "bbox": [
+            0,
+            38,
+            1234,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/icon-settings.png",
+      "output_info": {
+        "size": [
+          75,
+          70
+        ],
+        "mode": "RGBA",
+        "sha256": "defad5477dafb9fc82bd73ea81dc02d4e4fb5b810d3f848c0b7477693689a02d",
+        "bytes": 10613,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 2568,
+          "opaque": 185,
+          "bbox": [
+            6,
+            2,
+            70,
+            65
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          75,
+          70
+        ],
+        "mode": "RGBA",
+        "sha256": "7d813be0ca5cd24e4690786b1d2e68a3b384bdf76336007b6cd4416e3c433d6f",
+        "bytes": 13016,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 359,
+          "opaque": 3846,
+          "bbox": [
+            0,
+            0,
+            75,
+            70
+          ]
+        }
+      }
+    },
+    {
+      "name": "icon-import",
+      "transparent": true,
+      "source": "sources/icon-import.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "af1566dbf8ab7988716997e16e5758de6a4a154ffdd0a47ed0bc8a8ed7915ca2",
+        "bytes": 2130880,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 714641,
+          "opaque": 487,
+          "bbox": [
+            0,
+            0,
+            1212,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/icon-import.png",
+      "output_info": {
+        "size": [
+          80,
+          70
+        ],
+        "mode": "RGBA",
+        "sha256": "84a3903083e43fa0f0277ca5eebc2ca50f0ca787c868c9cdb4010e5dd096fa2e",
+        "bytes": 7807,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 3092,
+          "opaque": 92,
+          "bbox": [
+            10,
+            12,
+            72,
+            61
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          80,
+          70
+        ],
+        "mode": "RGBA",
+        "sha256": "84aa87a195b7075ba66f30a007737e544165679f609803c68e7b8088507839c1",
+        "bytes": 12766,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 91,
+          "opaque": 2378,
+          "bbox": [
+            0,
+            0,
+            80,
+            70
+          ]
+        }
+      }
+    },
+    {
+      "name": "title-logo",
+      "transparent": true,
+      "source": "sources/title-logo.png",
+      "source_info": {
+        "size": [
+          2041,
+          770
+        ],
+        "mode": "RGBA",
+        "sha256": "34e17908acafb546af35eb1abb61e5048090cfbfc5b6fc956dd8075af74b7db9",
+        "bytes": 465637,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1263209,
+          "opaque": 7437,
+          "bbox": [
+            31,
+            39,
+            2013,
+            730
+          ]
+        }
+      },
+      "output": "../assets/title-logo.png",
+      "output_info": {
+        "size": [
+          610,
+          230
+        ],
+        "mode": "RGBA",
+        "sha256": "6634adba80abaa3b4d18f101cec939fd6b17a7648d641c8c2a41fe27fac4c0b7",
+        "bytes": 67155,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 113513,
+          "opaque": 798,
+          "bbox": [
+            29,
+            21,
+            585,
+            211
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          610,
+          230
+        ],
+        "mode": "RGBA",
+        "sha256": "f27b0ad59742097cf1438a8231743163df86b6125b3e6abb71bcda0bd33a2d98",
+        "bytes": 241807,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 110899,
+          "opaque": 22995,
+          "bbox": [
+            0,
+            0,
+            610,
+            230
+          ]
+        }
+      }
+    },
+    {
+      "name": "paper",
+      "transparent": false,
+      "source": "sources/paper.png",
+      "source_info": {
+        "size": [
+          1678,
+          937
+        ],
+        "mode": "RGB",
+        "sha256": "c492c948a8f3a21d99f675a9dca67c55b9e140b92bdeb99b2a145304220c6fc4",
+        "bytes": 2782759
+      },
+      "output": "../assets/paper.png",
+      "output_info": {
+        "size": [
+          1376,
+          768
+        ],
+        "mode": "RGB",
+        "sha256": "7f3d50882c2aa62b029f37f9d82563d9f4e151fd0243ca8775699a72448c57c6",
+        "bytes": 1696505
+      },
+      "original_info": {
+        "size": [
+          1376,
+          768
+        ],
+        "mode": "RGB",
+        "sha256": "809d581a0899cb3c6b3a1b8d8feb753aa8be724b5786fc7f4c8cbc20321ea928",
+        "bytes": 2027714
+      }
+    },
+    {
+      "name": "photo-airport",
+      "transparent": false,
+      "source": "sources/photo-airport.png",
+      "source_info": {
+        "size": [
+          1529,
+          1028
+        ],
+        "mode": "RGB",
+        "sha256": "4817e365225cbb06770e7c54f296951280c4b7bef6e9a37244283c4593326ded",
+        "bytes": 3052255
+      },
+      "output": "../assets/photo-airport.png",
+      "output_info": {
+        "size": [
+          863,
+          580
+        ],
+        "mode": "RGB",
+        "sha256": "b1722a642f5564d7726a7f8b40fa711dd40fc185802d9b765afdd3b0434239bb",
+        "bytes": 1001823
+      },
+      "original_info": {
+        "size": [
+          863,
+          580
+        ],
+        "mode": "RGB",
+        "sha256": "0f86b5623d9b0c6cd7e86186d9399fba085663da02c1f51c52aa9c89874517cc",
+        "bytes": 881113
+      }
+    },
+    {
+      "name": "photo-leon",
+      "transparent": false,
+      "source": "sources/photo-leon.png",
+      "source_info": {
+        "size": [
+          1122,
+          1402
+        ],
+        "mode": "RGB",
+        "sha256": "36c916997c9df549179f3300b8ed8b2f6389673793ae7f0705f9993d21bde5c8",
+        "bytes": 2715951
+      },
+      "output": "../assets/photo-leon.png",
+      "output_info": {
+        "size": [
+          260,
+          325
+        ],
+        "mode": "RGB",
+        "sha256": "511580511678eb96da39aa7a6a22d98fe16c1c8086c3ef9d457725a0f5882512",
+        "bytes": 150706
+      },
+      "original_info": {
+        "size": [
+          260,
+          325
+        ],
+        "mode": "RGB",
+        "sha256": "414d819022a268ad4011ba861657d91c10e7b201e9132458bad7d5fbabdcb5d5",
+        "bytes": 148760
+      }
+    },
+    {
+      "name": "photo-claire",
+      "transparent": false,
+      "source": "sources/photo-claire.png",
+      "source_info": {
+        "size": [
+          1275,
+          1233
+        ],
+        "mode": "RGB",
+        "sha256": "502af57d550b0cbd58be3a652cee8f41728feaec1891e668bb3771134d0ed377",
+        "bytes": 2580885
+      },
+      "output": "../assets/photo-claire.png",
+      "output_info": {
+        "size": [
+          320,
+          310
+        ],
+        "mode": "RGB",
+        "sha256": "536e7ea0f2f388bbaa61722097468f8931d1b0cd771e14205933cfa9c6573f8e",
+        "bytes": 168572
+      },
+      "original_info": {
+        "size": [
+          320,
+          310
+        ],
+        "mode": "RGB",
+        "sha256": "cc6275964bef0e2bbf69989c5ce213fd2f74d9407d08257474523d0455919259",
+        "bytes": 172414
+      }
+    },
+    {
+      "name": "photo-protagonists",
+      "transparent": false,
+      "source": "sources/photo-protagonists.png",
+      "source_info": {
+        "size": [
+          1527,
+          1030
+        ],
+        "mode": "RGB",
+        "sha256": "718266cfc092e2d718b06c67c567e504da492be6e248100c7137af1e9520fb6e",
+        "bytes": 2872611
+      },
+      "output": "../assets/photo-protagonists.png",
+      "output_info": {
+        "size": [
+          548,
+          370
+        ],
+        "mode": "RGB",
+        "sha256": "d418e930f3c9bc51a1459cc3b9349a3edbec421a68fa5de5f67635a38dff5eaa",
+        "bytes": 379730
+      },
+      "original_info": {
+        "size": [
+          548,
+          370
+        ],
+        "mode": "RGB",
+        "sha256": "b1ce637d0bb8545d35ccaa96c1dce1834d15cb3f072d425a25b895a86e064b3e",
+        "bytes": 350283
+      }
+    },
+    {
+      "name": "play-plate",
+      "transparent": false,
+      "source": "sources/play-plate.png",
+      "source_info": {
+        "size": [
+          2084,
+          755
+        ],
+        "mode": "RGB",
+        "sha256": "ab0e2c9c76d58dbc64910076aa7a79bcc00218c56be8a5029bedf3b16adc5868",
+        "bytes": 2592519
+      },
+      "output": "../assets/play-plate.png",
+      "output_info": {
+        "size": [
+          645,
+          92
+        ],
+        "mode": "RGB",
+        "sha256": "c41c40c820ed8bdd8a0e9cf7568c56aac5f94028657c01d4c41dd282ded4e84d",
+        "bytes": 89934
+      },
+      "original_info": {
+        "size": [
+          645,
+          92
+        ],
+        "mode": "RGB",
+        "sha256": "3c68041e2fafbc251304bee6f8a419048f3c88b88b42c3d9ad80a373e6aaff6e",
+        "bytes": 71196
+      }
+    },
+    {
+      "name": "quarantine-stamp",
+      "transparent": true,
+      "source": "sources/quarantine-stamp.png",
+      "source_info": {
+        "size": [
+          1866,
+          843
+        ],
+        "mode": "RGBA",
+        "sha256": "1dd051515ef5c9150cae9daeac6c3abfa8c7b2df1958b1fdb59536412e7a1361",
+        "bytes": 1182247,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 944101,
+          "opaque": 3550,
+          "bbox": [
+            0,
+            9,
+            1853,
+            843
+          ]
+        }
+      },
+      "output": "../assets/quarantine-stamp.png",
+      "output_info": {
+        "size": [
+          255,
+          115
+        ],
+        "mode": "RGBA",
+        "sha256": "f95bff7bd8beb53c6b20b0a9c8d88f6daa0dfe4c420dc134e348cd03d68ee51b",
+        "bytes": 36773,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 18103,
+          "opaque": 234,
+          "bbox": [
+            13,
+            8,
+            247,
+            108
+          ]
+        }
+      },
+      "original_info": {
+        "size": [
+          255,
+          115
+        ],
+        "mode": "RGBA",
+        "sha256": "13de1d03755b8211e7a73a12ad157271ddce8d4e0b91fc9cf0ced6413ed4bc70",
+        "bytes": 66624,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 16742,
+          "opaque": 8168,
+          "bbox": [
+            0,
+            0,
+            255,
+            115
+          ]
+        }
+      }
+    },
+    {
+      "name": "desk-background",
+      "transparent": false,
+      "source": "sources/desk-background.png",
+      "source_info": {
+        "size": [
+          1672,
+          941
+        ],
+        "mode": "RGB",
+        "sha256": "454b54533017a8ece0f36e66b6d495c70572c57bd521074de3830e8123c12a29",
+        "bytes": 2897064
+      },
+      "output": "../assets/desk-background.png",
+      "output_info": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "sha256": "f0ae2daf85d0686db96f570dfe24d1e10a5173708e985bb0e89cd8a6c09185e8",
+        "bytes": 2935303
+      }
+    },
+    {
+      "name": "airport-blueprint",
+      "transparent": true,
+      "source": "sources/airport-blueprint.png",
+      "source_info": {
+        "size": [
+          1565,
+          1005
+        ],
+        "mode": "RGBA",
+        "sha256": "7bf7fd523479be054aa2ce6901b0d18c09e7a3011097b42b990d302873260451",
+        "bytes": 1937831,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 603935,
+          "opaque": 624,
+          "bbox": [
+            0,
+            13,
+            1565,
+            1005
+          ]
+        }
+      },
+      "output": "../assets/airport-blueprint.png",
+      "output_info": {
+        "size": [
+          1400,
+          900
+        ],
+        "mode": "RGBA",
+        "sha256": "490f8fb7de45ae829bf0ec50fa061e0f703e9c93e4584aa15f3e29f3cb9522ec",
+        "bytes": 1446747,
+        "alpha": {
+          "range": [
+            0,
+            251
+          ],
+          "transparent": 565595,
+          "opaque": 0,
+          "bbox": [
+            42,
+            33,
+            1358,
+            867
+          ]
+        }
+      }
+    },
+    {
+      "name": "dossier-folder",
+      "transparent": true,
+      "source": "sources/dossier-folder.png",
+      "source_info": {
+        "size": [
+          1308,
+          1203
+        ],
+        "mode": "RGBA",
+        "sha256": "fbef767821cdb14e7fc94254f8e26892a2917d9594e2de857d16497184292dc5",
+        "bytes": 2824780,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 200627,
+          "opaque": 6,
+          "bbox": [
+            0,
+            48,
+            1298,
+            1203
+          ]
+        }
+      },
+      "output": "../assets/dossier-folder.png",
+      "output_info": {
+        "size": [
+          1000,
+          920
+        ],
+        "mode": "RGBA",
+        "sha256": "a0dd2b6c13d1e95a5f3222b79cc4b1fb3414fb23d9257fddaf24f18d8da4ead5",
+        "bytes": 1259476,
+        "alpha": {
+          "range": [
+            0,
+            254
+          ],
+          "transparent": 200243,
+          "opaque": 0,
+          "bbox": [
+            47,
+            42,
+            969,
+            878
+          ]
+        }
+      }
+    },
+    {
+      "name": "detail-paper",
+      "transparent": true,
+      "source": "sources/detail-paper.png",
+      "source_info": {
+        "size": [
+          1236,
+          1272
+        ],
+        "mode": "RGBA",
+        "sha256": "0c91bf6c94405d3a568d5400429f47f5f2dd9ba3f1c3106a1108b577acf419be",
+        "bytes": 2669899,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 287722,
+          "opaque": 204,
+          "bbox": [
+            0,
+            19,
+            1206,
+            1230
+          ]
+        }
+      },
+      "output": "../assets/detail-paper.png",
+      "output_info": {
+        "size": [
+          700,
+          720
+        ],
+        "mode": "RGBA",
+        "sha256": "77a6ebf36d27811749c42a81306ac34ab4b9b4b42010c562bbd2c6a9e92c1488",
+        "bytes": 606272,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 121785,
+          "opaque": 10,
+          "bbox": [
+            38,
+            44,
+            679,
+            690
+          ]
+        }
+      }
+    },
+    {
+      "name": "airport-stamp",
+      "transparent": true,
+      "source": "sources/airport-stamp.png",
+      "source_info": {
+        "size": [
+          1891,
+          832
+        ],
+        "mode": "RGBA",
+        "sha256": "4f6536f0be07be7deae8314b42a9a65401a6f5c9ebd3121dbd2fb331db60285e",
+        "bytes": 865611,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1118611,
+          "opaque": 2469,
+          "bbox": [
+            31,
+            9,
+            1863,
+            832
+          ]
+        }
+      },
+      "output": "../assets/airport-stamp.png",
+      "output_info": {
+        "size": [
+          500,
+          220
+        ],
+        "mode": "RGBA",
+        "sha256": "93da99d9fc0057f2e6861eac35d007560c68244ff6628a877e528de19c4f2a01",
+        "bytes": 97357,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 82223,
+          "opaque": 161,
+          "bbox": [
+            38,
+            8,
+            464,
+            208
+          ]
+        }
+      }
+    },
+    {
+      "name": "paperclip",
+      "transparent": true,
+      "source": "sources/paperclip.png",
+      "source_info": {
+        "size": [
+          768,
+          2048
+        ],
+        "mode": "RGBA",
+        "sha256": "08b06baf766cc1a70ab943c6186cbfc13aeb6433921cf47ae9ef3c4f0b80b404",
+        "bytes": 1511279,
+        "alpha": {
+          "range": [
+            0,
+            254
+          ],
+          "transparent": 1246620,
+          "opaque": 0,
+          "bbox": [
+            47,
+            142,
+            698,
+            1932
+          ]
+        }
+      },
+      "output": "../assets/paperclip.png",
+      "output_info": {
+        "size": [
+          120,
+          320
+        ],
+        "mode": "RGBA",
+        "sha256": "e33b5963aaecc4374120d7c6b97ee387b9d66d0efd94e96f61f9bd13dd1030db",
+        "bytes": 31225,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 28698,
+          "opaque": 397,
+          "bbox": [
+            22,
+            9,
+            106,
+            303
+          ]
+        }
+      }
+    },
+    {
+      "name": "icon-logs",
+      "transparent": true,
+      "source": "sources/icon-logs.png",
+      "source_info": {
+        "size": [
+          1145,
+          1374
+        ],
+        "mode": "RGBA",
+        "sha256": "4acaf8a22d7888c9a1e303bdcd03765a9c2d119f69feb2b11f31e43807731c9c",
+        "bytes": 1095685,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1176680,
+          "opaque": 529,
+          "bbox": [
+            25,
+            12,
+            1115,
+            1374
+          ]
+        }
+      },
+      "output": "../assets/icon-logs.png",
+      "output_info": {
+        "size": [
+          80,
+          96
+        ],
+        "mode": "RGBA",
+        "sha256": "57b1f0493dde863bcc164ebaed103ab63524cf12c1308fe87a1419b3d0406219",
+        "bytes": 8394,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 5547,
+          "opaque": 428,
+          "bbox": [
+            16,
+            14,
+            67,
+            81
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-handgun",
+      "transparent": true,
+      "source": "sources/achievement-handgun.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "646ea0ede345d4068daa9bc77ec9b5bde94b9c828251985f9e0e3a83d3ad5343",
+        "bytes": 1580248,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 993134,
+          "opaque": 1156,
+          "bbox": [
+            0,
+            64,
+            1212,
+            1232
+          ]
+        }
+      },
+      "output": "../assets/achievement-handgun.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "7eaf22ddb433f15ca8a4eab071e5f22cf8e5fd6fbde3e2f990622d43ff58ed76",
+        "bytes": 242505,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 171095,
+          "opaque": 31,
+          "bbox": [
+            44,
+            25,
+            495,
+            478
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-punisher",
+      "transparent": true,
+      "source": "sources/achievement-punisher.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "66337c0382f0db45f3cea92e6592d5a388b779e11f67497ecd23426715d9e999",
+        "bytes": 1490201,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1017462,
+          "opaque": 567,
+          "bbox": [
+            0,
+            23,
+            1254,
+            1222
+          ]
+        }
+      },
+      "output": "../assets/achievement-punisher.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "eb72722a3b2a93bca09c7d1e7974fc489ad3e5a3e6e251d51daf1399590568c3",
+        "bytes": 223255,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 181006,
+          "opaque": 29,
+          "bbox": [
+            15,
+            41,
+            496,
+            486
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-shotgun",
+      "transparent": true,
+      "source": "sources/achievement-shotgun.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "f2283e9aa4bdfb903f31bf21005812ddad2d6a14ee4cead8be1b78f5c3b56aac",
+        "bytes": 643524,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1359999,
+          "opaque": 741,
+          "bbox": [
+            27,
+            49,
+            1220,
+            1224
+          ]
+        }
+      },
+      "output": "../assets/achievement-shotgun.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "7e6d218af123148a51caa82283ff654d3a0b49b37529c918157d4782a16facf8",
+        "bytes": 110760,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 227778,
+          "opaque": 18,
+          "bbox": [
+            23,
+            19,
+            496,
+            490
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-riot-gun",
+      "transparent": true,
+      "source": "sources/achievement-riot-gun.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "990ff080daa0c3384d28aa64145161f4e4bb205266c8cf051f76adcbc015373e",
+        "bytes": 1087304,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1198979,
+          "opaque": 608,
+          "bbox": [
+            12,
+            23,
+            1254,
+            1238
+          ]
+        }
+      },
+      "output": "../assets/achievement-riot-gun.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "a48b0a00c8b4f139f38485c1fe98bffcaad7bf6e6211a44adb16feefbb425319",
+        "bytes": 164334,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 206505,
+          "opaque": 20,
+          "bbox": [
+            16,
+            31,
+            496,
+            448
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-tmp",
+      "transparent": true,
+      "source": "sources/achievement-tmp.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "23643dc5ebec1989ca8fa54bd0e02e472df45b58bf9a30d7a0f12fbf34ad62c9",
+        "bytes": 1489377,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 998345,
+          "opaque": 1325,
+          "bbox": [
+            31,
+            20,
+            1217,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-tmp.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "cb374519ae15122faf2a1d31e1e074591c1e573fcc21be103d4c168744fdb377",
+        "bytes": 234320,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 175363,
+          "opaque": 61,
+          "bbox": [
+            31,
+            33,
+            486,
+            480
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-rifle",
+      "transparent": true,
+      "source": "sources/achievement-rifle.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "352a757d4b0c5c12ea7248eadefb307cb0527bc26da66957c507ae15d3247918",
+        "bytes": 719262,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1335536,
+          "opaque": 595,
+          "bbox": [
+            0,
+            39,
+            1238,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-rifle.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "38e7a47f740300c9c76963e25f864b22630776f71b4f2742f91beb4d50ddfa1d",
+        "bytes": 115118,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 226636,
+          "opaque": 17,
+          "bbox": [
+            22,
+            21,
+            496,
+            480
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-magnum",
+      "transparent": true,
+      "source": "sources/achievement-magnum.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "23631fad1e703d78f66ae238e9ff125a066c172a5ba62d2690b30b2445ddf970",
+        "bytes": 1354162,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 1110936,
+          "opaque": 570,
+          "bbox": [
+            27,
+            32,
+            1240,
+            1228
+          ]
+        }
+      },
+      "output": "../assets/achievement-magnum.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "766bcecb6dcd0024cd48e06d253ec5c23a9923509683f6cb5b5ce287fd664866",
+        "bytes": 212978,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 190129,
+          "opaque": 20,
+          "bbox": [
+            15,
+            42,
+            496,
+            479
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-difficulty-easy",
+      "transparent": true,
+      "source": "sources/achievement-difficulty-easy.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "afa4fa00f5c4d0121ca4e9830832835f06e25b9112e300869667030c7e44bd23",
+        "bytes": 1999013,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 807868,
+          "opaque": 389,
+          "bbox": [
+            0,
+            9,
+            1253,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-difficulty-easy.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "32f8776cda76eed64c1aeac4b510022cd136ba63644d323ab43f1c308120e752",
+        "bytes": 289388,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 149571,
+          "opaque": 13,
+          "bbox": [
+            31,
+            46,
+            482,
+            465
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-difficulty-normal",
+      "transparent": true,
+      "source": "sources/achievement-difficulty-normal.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "c4ef1ebd9e8637567a3cc8e76384ff4c8865bab088166f036ba7e3edea773285",
+        "bytes": 1999643,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 843128,
+          "opaque": 403,
+          "bbox": [
+            37,
+            0,
+            1240,
+            1254
+          ]
+        }
+      },
+      "output": "../assets/achievement-difficulty-normal.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "717fd1f2a95ada177352935e2e64d1f16c4fb980f0093709addca4d1797801a3",
+        "bytes": 284244,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 155159,
+          "opaque": 47,
+          "bbox": [
+            64,
+            15,
+            483,
+            483
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-difficulty-professional",
+      "transparent": true,
+      "source": "sources/achievement-difficulty-professional.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "94c9f4da0ae2fd310025c87402251dc0a1ad3b5b6c64c5a6d740d0599245b542",
+        "bytes": 2011151,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 808801,
+          "opaque": 415,
+          "bbox": [
+            0,
+            0,
+            1240,
+            1236
+          ]
+        }
+      },
+      "output": "../assets/achievement-difficulty-professional.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "b6d9cd5ea469f68739735afbb374c52284ddb0a12a68e895890a82b4011e263b",
+        "bytes": 302496,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 147474,
+          "opaque": 27,
+          "bbox": [
+            27,
+            16,
+            476,
+            483
+          ]
+        }
+      }
+    },
+    {
+      "name": "achievement-platinum",
+      "transparent": true,
+      "source": "sources/achievement-platinum.png",
+      "source_info": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "61a98a9ae63350e9db5dc79625a2b3b7f7f41c341f6072bac92cfd289b96f27f",
+        "bytes": 2351600,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 769106,
+          "opaque": 626,
+          "bbox": [
+            0,
+            23,
+            1212,
+            1214
+          ]
+        }
+      },
+      "output": "../assets/achievement-platinum.png",
+      "output_info": {
+        "size": [
+          512,
+          512
+        ],
+        "mode": "RGBA",
+        "sha256": "c0e19346559eba8bfaf50b6ef3667bc06fee14b8ad9ac07fd6d6fa8dd4d50adf",
+        "bytes": 359596,
+        "alpha": {
+          "range": [
+            0,
+            255
+          ],
+          "transparent": 135866,
+          "opaque": 30,
+          "bbox": [
+            69,
+            28,
+            461,
+            489
+          ]
+        }
+      }
+    }
+  ],
+  "aliases": {
+    "case-paper": "paper"
+  },
+  "references": [
+    "docs/launcher-concepts/03-incident-dossier.png",
+    "docs/launcher-concepts/04-achievements.png"
+  ]
+}

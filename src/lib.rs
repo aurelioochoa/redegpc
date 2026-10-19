@@ -48,6 +48,8 @@ mod mem;
 mod objc;
 mod options;
 mod paths;
+pub mod redegpc;
+mod redegpc_controls;
 mod stack;
 mod window;
 
@@ -211,9 +213,20 @@ pub fn main<T: Iterator<Item = String>>(mut args: T) -> Result<(), String> {
         log!("Warning: The bundle path has a trailing quotation mark! This often happens accidentally on Windows when tab-completing, because '\\\"' gets interpreted by Rust in the wrong way. Did you meant to write {:?}?", fixed);
     }
 
+    launch_app(bundle_path, options, option_args, app_args, just_info, None)
+}
+
+fn launch_app(
+    bundle_path: PathBuf,
+    mut options: options::Options,
+    option_args: Vec<String>,
+    app_args: Option<Vec<String>>,
+    just_info: bool,
+    game_settings: Option<redegpc::runtime::GameSettings>,
+) -> Result<(), String> {
     let bundle_data = fs::BundleData::open_any(&bundle_path)
         .map_err(|e| format!("Could not open app bundle: {e}"))?;
-    let (bundle, fs) = match bundle::Bundle::new_bundle_and_fs_from_host_path(
+    let (bundle, mut fs) = match bundle::Bundle::new_bundle_and_fs_from_host_path(
         bundle_data,
         /* read_only_mode: */ false,
     ) {
@@ -222,6 +235,17 @@ pub fn main<T: Iterator<Item = String>>(mut args: T) -> Result<(), String> {
             return Err(format!("Application bundle error: {err}. Check that the path is to an .app directory or an .ipa file."));
         }
     };
+
+    if game_settings.is_some() {
+        if let Some(archive) = redegpc::runtime::decoded_archive() {
+            fs.redirect_readonly_file(&bundle.bundle_path().join("main.dz"), archive)
+                .map_err(|()| "Cannot install the decoded game archive in the guest filesystem")?;
+        }
+        if let Some(config) = redegpc::runtime::loading_config() {
+            fs.redirect_readonly_file(&bundle.bundle_path().join("app.icf"), config)
+                .map_err(|()| "Cannot install the loading profile in the guest filesystem")?;
+        }
+    }
 
     let app_id = bundle.bundle_identifier();
     let minimum_os_version = bundle.minimum_os_version();
@@ -321,7 +345,7 @@ pub fn main<T: Iterator<Item = String>>(mut args: T) -> Result<(), String> {
         Ok(mut file) => apply_options(file.get(), default_options_path, &mut options, app_id)?,
         Err(err) => echo!("Warning: Could not open {}: {}", default_options_path, err),
     }
-    let user_options_path = paths::user_data_base_path().join(paths::USER_OPTIONS_FILE);
+    let user_options_path = paths::user_options_path();
     match std::fs::File::open(&user_options_path) {
         Ok(file) => apply_options(file, user_options_path.display(), &mut options, app_id)?,
         Err(err) => echo!(
@@ -336,6 +360,10 @@ pub fn main<T: Iterator<Item = String>>(mut args: T) -> Result<(), String> {
     for option_arg in option_args {
         let parse_result = options.parse_argument(&option_arg);
         assert!(parse_result == Ok(true));
+    }
+
+    if let Some(settings) = game_settings {
+        redegpc::runtime::apply_settings(&mut options, settings);
     }
 
     let res = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {

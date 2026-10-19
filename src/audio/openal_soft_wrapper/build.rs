@@ -31,6 +31,11 @@ fn main() {
         let workspace_root = package_root.join("../../..");
 
         let mut build = cmake::Config::new(workspace_root.join("vendor/openal-soft"));
+        // The pinned OpenAL revision relies on a transitive <cstdint> include
+        // which libstdc++ 16 no longer supplies. Leave the vendor tree pinned.
+        if os.eq_ignore_ascii_case("linux") {
+            build.cxxflag("-include").cxxflag("cstdint");
+        }
 
         // Prevent any out dir re-use for Android. For some reason, this causes
         // weird linker errors when cross-compiling on macOS.

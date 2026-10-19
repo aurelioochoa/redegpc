@@ -1,147 +1,58 @@
-# touchHLE: high-level emulator for early iOS apps
+# redegpc
 
-**touchHLE** is a high-level emulator for early iOS apps. It runs on modern desktop operating systems and Android, and is written in Rust.
+Rust host for the English **Resident Evil Degeneration v1.03.00** IPA, based on touchHLE revision `ca1de89c578e79746f33c1332e28efd106c334ba`.
 
-touchHLE's high-level emulation (HLE) approach differs from low-level emulation (LLE) in that it does not directly simulate the iPhone/iPod touch hardware. Instead of running iOS inside emulation, touchHLE _itself_ takes the place of iOS and provides its own implementations of the system frameworks (Foundation, UIKit, OpenGL ES, OpenAL, etc). The only code the [emulated CPU](https://github.com/merryhime/dynarmic) executes is the app binary and [a handful of libraries](touchHLE_dylibs/).
+This implementation is under local qualification. See [observed results and remaining defects](docs/qualification.md) and [acceptance gates](GATES.md); a successful build does not establish playable compatibility.
 
-The goal of this project is to run games from the early days of iOS:
+Build on Linux x86_64 with Rust, C/C++ compilers, CMake, Boost headers, pkg-config, liblzma development headers (xz), and the native SDL/OpenAL development dependencies. FFmpeg must be on PATH for the original intro. Keep the pinned submodules and Cargo.lock:
 
-* Currently: iPhone, iPod touch and iPad apps for iPhone OS 2.x, iPhone OS 3.x, and iOS 4.0.x.
-* Longer term: high-DPI (“Retina Display”) support, newer iOS 4 versions, iOS 5.x, iOS 6.x.
-* [Never](https://github.com/touchHLE/touchHLE/issues/181#issuecomment-1777098259): 64-bit iOS.
+```sh
+git submodule update --init --recursive
+CARGO_BUILD_JOBS=4 cargo build --locked --release --bin redegpc
+./target/release/redegpc import "/path/to/Resident Evil Degeneration - v1.03.00.ipa"
+./target/release/redegpc check
+./target/release/redegpc run
+```
 
-**This does not mean that all apps for these OS versions work.** The vast majority of iOS 2.x, 3.x and 4.x apps do not currently work in touchHLE, and the ones that do work are generally games (support for other apps is not prioritized as it is more complex and less fun). Compatibility will improve gradually over time with contributions from various developers. The [touchHLE app compatibility database](https://appdb.touchhle.org/) tracks which apps work in touchHLE; it is a crowdsourced effort to which anyone can contribute. **We don't take requests, so please do not ask us to support your favourite game.**
+The default executable is `redegpc`; `cargo run --locked --release -- --help` shows the CLI. The inherited runtime remains available as `cargo run --locked --release --bin touchHLE -- ...`. A dynamically linked build is available with `--no-default-features` and system SDL2/OpenAL Soft. The default bundled build disables the pinned SDL's obsolete direct PipeWire backend; PulseAudio/ALSA remain available. CMake 4 and GCC 16 compatibility adaptations keep vendor revisions unchanged.
 
-If you're curious about the history and motivation behind the project, you might want to read [the original announcement](https://hikari.noyu.me/blog/2023-02-06-touchhle-anouncement-thread-tech-games-me-and-passion-projects.html). For an introduction to some of the technical details, check out [_touchHLE in depth_](https://hikari.noyu.me/blog/2023-04-13-touchhle-in-depth-1-function-calls.html).
+The Makefile provides shortcuts: `make build`, `make import IPA="/path/to/game.ipa"`, `make check-install`, and `make run ARGS="--windowed --fps"`. Use `make verify` for the existing project checks and `make help` for all targets. `make dev` and `make launcher` open the native incident dossier launcher using the optimized release host; `make debug` remains available for source debugging. Builds default to four Cargo jobs; override with `CARGO_BUILD_JOBS=8 make build`.
 
-**Check out the website for downloads, FAQ, social media, and more:**<br>👉 <https://touchhle.org/> 👈
+All three PC hosts (`re4mepc`, `redegpc` and `bio3dpc`) share the core targets
+`help`, `setup`, `dev`, `build`, `run`, `test`, `check`, `verify`, `fmt`, `clean`
+and `distclean`. Plain `make` shows grouped help. `make setup` initializes native
+submodules, fetches locked Rust dependencies and checks Python/Tk/Pillow; install
+the system prerequisites listed above and the launcher dependencies first.
+`make check` checks Rust without linking. `make verify` also builds release
+binaries and runs formatting, focused Clippy, library and synthetic CLI checks.
+`make clean` removes Python caches while keeping Cargo artifacts; use
+`make distclean` to run Cargo cleanup as well. Both preserve game files and saves.
+`make check-game` validates imported game files; `make check-install` remains
+an alias. `NO_COLOR=1` disables help colours; `FORCE_COLOR=1` enables them.
 
-## Important disclaimer
+The [native launcher installation guide](launcher/README.md) covers Python/Tk/Pillow setup, importing your supported IPA, first launch, storage and troubleshooting. Open it with `make launcher` or `./target/release/redegpc launcher`. Use `make desktop` to install a desktop icon and applications-menu entry that open the launcher; keep this checkout in place. In **Installation**, choose your intact, unencrypted English iPhone v1.03.00 `.ipa`, wait for **Ready to play**, then use **Overview → Play**. The first launch prepares a local cache and takes longer; after import, the source archive/drive is no longer required. The game is not included. The launcher provides installation verification, persistent display/input/volume settings and live logs. Resize adapts the paper layout to the window, and F11 toggles launcher fullscreen independently of the game's display preference. The achievement browser includes all 23 proposed goals and category filters; gameplay achievement tracking is not implemented. `make test-launcher` runs isolated interaction checks on a graphical display.
 
-This project is not affiliated with or endorsed by Apple Inc in any way. iPhone, iOS, iPod, iPod touch and iPad are trademarks of Apple Inc in the United States and other countries.
+Import requires the English bundle `jp.co.capcom.residentevil.en`, version `1.03.00`, with an unencrypted ARM Mach-O. Import is bounded, rejects traversal/unsafe symlinks/duplicate paths, extracts into a staging directory, validates the app, hashes every file using SHA-256, and atomically changes the current installation pointer. Existing installations and saves survive rejected imports. The source IPA and external drive are unnecessary after import. Original `main.dz` and configuration bytes are retained. Apple’s standard CodeResources signature alias is materialized as a regular file; its original target is recorded in the manifest. `check` rehashes all installed files and rejects unexpected files or symlinks. A crash may leave a staging directory or import lock; remove the lock only after confirming no importer is active. Previous installations are retained to avoid destructive replacement.
 
-Only use touchHLE to emulate software you have obtained legally.
+See the [measured loading improvement](docs/qualification.md#loading-optimization-2026-10-16). On Linux, the first launch prepares a decoded copy of `main.dz` under the data directory's `cache/assets-v1`. Later launches and level transitions read the cached assets directly, avoiding repeated ARM LZMA decompression. The imported archive stays byte-for-byte intact and `check` still verifies the originals. Cache entries are tied to the source digest, checked on reuse, and rebuilt automatically if damaged. If preparation fails, the original loader remains available. Deleting the cache is safe; the next launch regenerates it. A separate cached loading profile batches serialization callbacks in 1 MiB chunks (with a 50 ms progress interval) to keep progress responsive. The original configuration is retained; gameplay, logos and story cutscene timing are unchanged; the usual touch controls skip those sequences.
 
-## Platform support
+Running with no subcommand launches the imported game or explains import when no installation exists. Launch options include `--fullscreen`, `--windowed`, `--volume=0..100`, `--touch`, `--desktop`, `--fps`, and `--resources <directory>`; display/input/volume settings persist. F11 toggles fullscreen for the current session. The game runs at its original 480×320 internal resolution in landscape, with aspect-preserving presentation and inherited timing. Driver swap waits are explicitly disabled because the guest and compositor already pace frames; an additional driver wait can stall game updates even while the compositor reports 60 FPS. The game profile enables forced composition: Airplay waits for a draw callback which the inherited fullscreen fast path omits.
 
-* Officially supported: x64 Windows, x64 macOS and AArch64 Android.
-  * These are the platforms with binary releases.
-  * If you're an Apple Silicon Mac user, the x64 build reportedly works in Rosetta.
-* Probably works, but you must build it yourself: AArch64 macOS, x64 Linux, AArch64 Linux.
-* Never?: other architectures.
+Desktop actions: WASD/arrows movement, hold right mouse and move the mouse to aim, left mouse fire while aiming and pointer clicks in menus, R reload (simulated screen tip), hold Space to shake off a grab, E contextual action, Tab inventory, Escape pause/back. Desktop mode removes the touch movement pad, aim/fire, knife and walk graphics and blocks ordinary mouse clicks on their gameplay targets. The phone shortcut stays visible and clickable; menus keep normal mouse navigation. Use E for contextual gameplay actions. Contextual icons (pickup, doors, kicks, ladders, jumps, reload and shake-off), health/ammo and menus remain visible. Keyboard actions use separate synthetic input, so mouse clicks on the removed controls cannot change the keyboard control state. Game assets and saves are unchanged. Movement drags from the control-pad center. Inventory opens the phone’s Items page; Escape closes it or opens the phone menu. Aim uses timed taps so holding right mouse does not fire. E follows the current action icon; without a nearby interaction that icon enters native aim mode. Focus loss releases held inputs and cancels pending navigation. A per-data-directory OS lease prevents overlapping runtimes from rotating the same saves. `--touch` preserves original pointer/touch control and all touch-control graphics, and still plays the movie.
 
-Input methods:
+Storage follows XDG, with standard home-directory fallbacks:
 
-- For simulated touch input, there are four options:
-  - Mouse/trackpad input (tap/hold/drag by pressing the left mouse button)
-  - Virtual cursor using a game controller (move the cursor with the right analog stick, and tap/hold/drag by pressing the stick or the right shoulder button)
-  - Mapping of game controller buttons or the left analog stick to specific on-screen locations (see the descriptions of `--button-to-touch=`, `--dpad-to-touch=` and `--stick-to-touch=` in `OPTIONS_HELP.txt`)
-  - Real touch input, if you're on a device that has a touch screen
-- For simulated accelerometer input, there are three options:
-  - Tilt control simulation using the left analog stick of a game controller
-  - Tilt control simulation using a mouse (hold down the right mouse button)
-  - Real accelerometer input, if you are using a phone, tablet or some other device with a built-in accelerometer (TODO: support game controllers with accelerometers)
+| Contents | Location |
+|---|---|
+| Imported installations and current manifest | `$XDG_DATA_HOME/redegpc` (`~/.local/share/redegpc`) |
+| Persistent saves | data directory's `touchHLE_sandbox` |
+| Settings and additional upstream options | `$XDG_CONFIG_HOME/redegpc` (`~/.config/redegpc`) |
+| Runtime log | `$XDG_STATE_HOME/redegpc/logs/redegpc.log` (`~/.local/state/redegpc/logs/redegpc.log`) |
 
-## Development status
+Resources resolve next to the executable (`resources/` or `../share/redegpc/`), then the source checkout compiled into a development build. Use `--resources` to select them explicitly. A moved binary needs `touchHLE_dylibs`, `touchHLE_fonts`, and `touchHLE_default_options.txt` in that resource directory, including all their notices. No working-directory changes are made. The public Rust `redegpc::runtime::run(RuntimeConfig)` entry accepts app, resource, data, config and log directories plus typed game settings, and initializes one runtime per process on the main thread.
 
-This project has been in development since December 2022. This was originally [hikari\_no\_yume](https://hikari.noyu.me/)'s full-time passion project. Since its release in February 2023, a number of other volunteers have also [contributed in their free time](https://github.com/touchHLE/touchHLE/graphs/contributors), and this is no longer a single-person project. There's only been a handful of releases so far and no promises can be made about the future. Please be patient.
+Movie playback uses FFmpeg to decode local MPEG-4/AAC into bounded RGBA frame queues and PCM, draws into the runtime's existing window, and plays PCM through SDL. Guest completion notifications (ended, failed or user exit) run on the guest run loop. Escape/Enter/Space, click or touch skips the movie. FFmpeg errors are explicit and return control through a failure notification. The original runtime's simulated playback remains for other applications.
 
-In general, the supported functionality is defined by the supported apps: most contributors are interested in getting a particular game working, and contribute support for whichever missing features are needed for that game. Consequently, the completeness varies a lot between APIs, e.g. UIKit is easily the most hacky and incomplete of the large frameworks that have been implemented, because most games don't use very much of its functionality, whereas the OpenGL ES and OpenAL implementations are probably complete enough to cover a large number of early apps, because games make heavy use of these.
+Run `python scripts/verify.py` for locked release build, formatting, focused Clippy, and library tests. See [upstream build documentation](dev-docs/building.md), [original README](README.touchHLE.md), and [notices](NOTICE.redegpc.md). The game and its assets are not distributed here.
 
-# Usage
-
-First obtain touchHLE, either a [binary release](https://github.com/touchHLE/touchHLE/releases) or by building it yourself (see the next section).
-
-You'll then need an app that you can run. The [app compatibility database](https://appdb.touchhle.org/) is a good guide for which versions of which apps are known to work, but bear in mind that it may contain outdated or inaccurate information. Note that the app binary must be decrypted to be usable.
-
-There's a few ways you can run an app in touchHLE.
-
-## Special Android notes
-
-Windows, Mac and Linux users can skip this section.
-
-On Android, only the graphical user interface (app picker) is available. Therefore, you must put your “.ipa” files or “.app” bundles inside the “touchHLE\_apps” directory. Note that you can only do that once you have run touchHLE at least once.
-
-File management can be tricky on Android due to [restrictions introduced by Google in newer Android versions](https://developer.android.com/about/versions/11/privacy/storage#scoped-storage). One of these methods may work:
-
-* If you tap the “File manager” button in touchHLE, this should open some sort of file manager. You might also be able to find touchHLE in your device's file manager app (often called “Files”, or sometimes “Downloads”), alongside cloud storage services. There are some limitations on what kinds of operations are possible. The files in this location are stored on your device. Warning: on some devices, the “File manager” button _will_ open a file manager, but it will crash when actually doing file operations (this is probably a bug in Android, we have not been able to debug it). If this happens to you, clear that file manager from your recent apps list and try to navigate to your device's file manager app directly instead, rather than via the touchHLE UI.
-* If you have an older version of Android, you may be able to directly access touchHLE's files by browsing to `/sdcard/Android/data/org.touchhle.android/files/touchHLE_apps`. Note that the `/sdcard` directory is usually not on the SD card.
-* You may be able to use ADB. If you're unfamiliar with ADB, try using <https://yume-chan.github.io/ya-webadb/> (in Google Chrome or another browser with WebUSB) with your device connected over USB. touchHLE's files can be found in “sdcard” > “Android” > “data” > “org.touchhle.android” > “files” > “touchHLE\_apps”.
-
-## Graphical user interface
-
-touchHLE has a built-in app picker. If you put your `.ipa` files and `.app` bundles in the `touchHLE_apps` directory, they will show up in the app picker when you run touchHLE.
-
-To configure the options, you can edit the `touchHLE_options.txt` file. To get a list of options, look in the `OPTIONS_HELP.txt` file.
-
-## Command-line user interface
-
-**This section does not apply on Android.**
-
-You can see the command-line usage by passing the `--help` flag.
-
-If you're a Windows user and unfamiliar with the command line, these instructions may help you get started:
-
-1. Move the `.ipa` file or `.app` bundle to the same folder as `touchHLE.exe`.
-2. Hold the Shift key and right-click on the empty space in the folder window.
-3. Click “Open with PowerShell”.
-4. Type `.\touchHLE.exe "YourAppNameHere.ipa"` (or `.app` as appropriate) and press Enter. If you want to specify options, add a space after the app name (outside the quotes) and then type the options, separated by spaces.
-
-## Local multiplayer support
-
-touchHLE provides limited support for local multiplayer via Wi-Fi in some games. At the moment of writing it is supported in Asphalt 4 and N.O.V.A.
-
-Real iOS devices could also join/host games!
-
-**Usage:**
-1. Install touchHLE on 2+ devices connected to the same Wi-Fi network.
-2. **Important:** Ensure touchHLE is whitelisted in your OS firewall/network settings.
-3. Enable "Network access" in Quick options or via `--allow-network-access`.
-4. Start/join multiplayer in the game.
-
-**FAQs:**
-* **Tunneling over Internet/VPN:** Not officially supported, but might work.
-* **Bluetooth:** Not supported.
-
-**Known issues:**
-* On macOS you may need to launch touchHLE from terminal as otherwise OS will block network connections.
-
-## Other stuff
-
-Any data saved by the app (e.g. **saved games**) are stored in the `touchHLE_sandbox` folder.
-
-If the emulator crashes almost immediately while running a **known-working** version of a game, please check whether you have any overlays turned on like the Steam overlay, Discord overlay, RivaTuner Statistics Server, etc. Sadly, as useful as these tools are, they work by injecting themselves into other apps or games and don't always clean up after themselves, so they can break touchHLE… it's not our fault. 😢 Currently only RivaTuner Statistics Server is known to be a problem. If you find another overlay that doesn't work, please tell us about it.
-
-# Building and contributing
-
-See the `CONTRIBUTING.md` file in the git repo if you want to contribute. If you just want build touchHLE, look at `dev-docs/building.md`.
-
-# License
-
-touchHLE © 2023–2026 touchHLE project contributors.
-
-The source code of touchHLE itself (not its dependencies) is licensed under the Mozilla Public License, version 2.0.
-
-Due to license compatibility concerns, binaries are under the GNU General Public License version 3 or later.
-
-For a best effort listing of all licenses of dependencies, build touchHLE and pass the `--copyright` flag when running it, or click the “Copyright info” button in the app picker.
-
-Please note that different licensing terms apply to the bundled dynamic libraries (in `touchHLE_dylibs/`) and fonts (in `touchHLE_fonts/`). Please consult the respective directories for more information.
-
-# Thanks
-
-We stand on the shoulders of giants. Thank you to:
-
-* Everyone who has contributed to the project or supported any of its contributors financially.
-* The authors of and contributors to the many libraries used by this project: [dynarmic](https://github.com/merryhime/dynarmic), [rust-macho](https://github.com/flier/rust-macho), [SDL](https://libsdl.org/), [rust-sdl2](https://github.com/Rust-SDL2/rust-sdl2), [stb\_image](https://github.com/nothings/stb), Imagination Technologies' [PVRTC decompressor](https://github.com/powervr-graphics/Native_SDK/blob/master/framework/PVRCore/texture/PVRTDecompress.cpp), [openal-soft](https://github.com/kcat/openal-soft), [hound](https://github.com/ruuda/hound), [Symphonia](https://github.com/pdeljanov/Symphonia), [RustType](https://gitlab.redox-os.org/redox-os/rusttype), [the Liberation fonts](https://github.com/liberationfonts/liberation-fonts), [the Noto CJK fonts](https://github.com/googlefonts/noto-cjk), [rust-plist](https://github.com/ebarnard/rust-plist), [nibarchive](https://github.com/michaelwright235/nibarchive), [quick-xml](https://github.com/tafia/quick-xml), [gl-rs](https://github.com/brendanzab/gl-rs), [cargo-license](https://github.com/onur/cargo-license), [cc-rs](https://github.com/rust-lang/cc-rs), [cmake-rs](https://github.com/rust-lang/cmake-rs), [cargo-ndk](https://github.com/bbqsrc/cargo-ndk), [cargo-ndk-android-gradle](https://github.com/willir/cargo-ndk-android-gradle), [md-5 and sha1](https://github.com/RustCrypto/hashes), [encoding_rs](https://github.com/hsivonen/encoding_rs), [corosensei](https://github.com/Amanieu/corosensei), [uuid](https://github.com/uuid-rs/uuid) and the Rust standard library.
-* The Skyline emulator project (RIP), for [writing the tedious boilerplate needed to replace file management on newer Android versions](https://github.com/skyline-emu/skyline/blob/dc20a615275f66bee20a4fd851ef0231daca4f14/app/src/main/java/emu/skyline/provider/DocumentsProvider.kt).
-* The [Rust project](https://www.rust-lang.org/) generally.
-* The various people out there who've documented the iOS platform, officially or otherwise. Much of this documentation is linked to within this codebase!
-* The iOS hacking/jailbreaking community.
-* The Free Software Foundation, for making libgcc and libstdc++ copyleft and therefore saving this project from ABI hell.
-* The National Security Agency of the United States of America, for [Ghidra](https://ghidra-sre.org/).
-* [GerritForge](http://www.gerritforge.com/) for providing free Gerrit hosting to the general public, including us.
-* The many contributors to [Gerrit](https://www.gerritcodereview.com/).
-* Many friends who took an interest in the project and gave suggestions and encouragement.
-* Developers of early iOS apps. What treasures you created!
-* Apple, and NeXT before them, for creating such fantastic platforms.
+Development qualification: `REDEGPC_TRACE=touchHLE::fs,touchHLE::window` enables focused traces. `REDEGPC_TRACE=touchHLE::redegpc::asset_cache` logs cache verification timing; `REDEGPC_ORIGINAL_ASSETS=1` temporarily uses the original compressed archive and loading configuration for comparisons. `REDEGPC_FRAME_TRACE=/absolute/new-file.csv` records presentation intervals; use `python scripts/summarize_frames.py` to summarize them. `scripts/qualify_launches.py` checks repeated real X11 menu launches against reviewed positive and negative captures, and can hide the source drive in each child mount namespace using Bubblewrap. `scripts/check_active_qualification.py` independently recounts active-world time and verifies captured frames from a soak. These helpers require Pillow (12.3+) and graphical captures use an accessible X11 display; they are development tools.

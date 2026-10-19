@@ -14,9 +14,8 @@ use std::sync::LazyLock;
 /// is not convenient for users who aren't accustomed to command-line tools or
 /// who don't have access to ADB, so we also write to a log file.
 pub fn get_log_file() -> &'static File {
-    static LOG_FILE: LazyLock<File> = LazyLock::new(|| {
-        File::create(crate::paths::user_data_base_path().join("touchHLE_log.txt")).unwrap()
-    });
+    static LOG_FILE: LazyLock<File> =
+        LazyLock::new(|| File::create(crate::paths::log_file_path()).unwrap());
 
     &LOG_FILE
 }
@@ -44,7 +43,7 @@ macro_rules! log_no_panic {
 /// when debugging.
 macro_rules! log_dbg {
     ($($arg:tt)+) => {
-        if $crate::log::ENABLED_MODULES.contains(&module_path!()) {
+        if $crate::log::debug_enabled(module_path!()) {
             log!($($arg)*);
         }
     }
@@ -114,3 +113,16 @@ macro_rules! echo_no_panic {
 /// Put modules to enable [log_dbg] for here, e.g. "touchHLE::mem" to see when
 /// memory is allocated and freed.
 pub const ENABLED_MODULES: &[&str] = &[];
+
+/// Comma-separated exact module paths for focused local guest investigations.
+pub fn debug_enabled(module: &str) -> bool {
+    static EXTRA: LazyLock<Vec<String>> = LazyLock::new(|| {
+        std::env::var("REDEGPC_TRACE")
+            .unwrap_or_default()
+            .split(',')
+            .filter(|s| !s.is_empty())
+            .map(str::to_owned)
+            .collect()
+    });
+    ENABLED_MODULES.contains(&module) || EXTRA.iter().any(|s| s == module)
+}

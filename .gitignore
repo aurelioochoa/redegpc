@@ -27,3 +27,34 @@ android/build
 # Default developer dump file
 
 DUMP.txt
+
+# Local qualification and copyrighted game assets
+.unlazy/
+*.ipa
+.import-*/
+
+# Python qualification helpers
+__pycache__/
+
+# Game archives, extracted applications, and local game data
+*.IPA
+*.ipsw
+*.obb
+*.dz
+*.app/
+!/tests/TestApp.app/
+/Payload/
+/game/
+/games/
+/installations/
+/saves/
+/cache/
+
+# Local credentials, agent state, and conversation exports
+.env
+.env.*
+!.env.example
+/.aws/
+/.agents/
+/.codex/
+/codex-session-*.md

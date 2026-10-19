@@ -1,0 +1,101 @@
+[
+  {
+    "name": "achievement-handgun",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-1e1e2ec9-16cf-45c5-b39b-3d1582ed2960.png"
+  },
+  {
+    "name": "achievement-punisher",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-b4e5db0e-f0c7-4d18-b1a9-8589800f0aaa.png"
+  },
+  {
+    "name": "achievement-shotgun",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-4dcb10d6-3146-4dc0-913b-d77b168e93bf.png"
+  },
+  {
+    "name": "achievement-riot-gun",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-70f39957-757f-49b5-9e29-64aa83c60780.png"
+  },
+  {
+    "name": "achievement-tmp",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-d5febf21-d762-4a33-94e5-76ae378eb1eb.png"
+  },
+  {
+    "name": "achievement-rifle",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-0a4cf4a8-0082-4bd6-bb3b-3d95042d3d5a.png"
+  },
+  {
+    "name": "achievement-magnum",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-319b34be-dbba-4e44-bb09-1ed4800b9216.png"
+  },
+  {
+    "name": "achievement-difficulty-easy",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-0cc2b17b-b116-4090-addc-56ad0aa51628.png"
+  },
+  {
+    "name": "achievement-difficulty-normal",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-9011fd62-8451-4afc-9756-a387b21b8d49.png"
+  },
+  {
+    "name": "achievement-difficulty-professional",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-232fc146-f96f-4c4a-a49b-3d67cd0afcb4.png"
+  },
+  {
+    "name": "achievement-platinum",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-e42e849b-e734-47c7-a7f3-f9bb4009efc9.png"
+  }
+]

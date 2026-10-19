@@ -76,15 +76,6 @@ pub fn recomposite_if_necessary(env: &mut Environment, force: bool) -> Option<In
         return None;
     }
 
-    if env.options.print_fps {
-        env.framework_state
-            .core_animation
-            .composition
-            .fps_counter
-            .get_or_insert_with(FpsCounter::start)
-            .count_frame(format_args!("Core Animation compositor"));
-    }
-
     let now = Instant::now();
     let interval = 1.0 / 60.0; // 60Hz
     let new_recomposite_next = if let Some(recomposite_next) = env
@@ -371,6 +362,15 @@ pub fn recomposite_if_necessary(env: &mut Environment, force: bool) -> Option<In
     }
     std::mem::drop(gles);
     window.swap_window();
+
+    if env.options.print_fps {
+        env.framework_state
+            .core_animation
+            .composition
+            .fps_counter
+            .get_or_insert_with(FpsCounter::start)
+            .count_frame(format_args!("Core Animation compositor"));
+    }
 
     animation_state.update_started_and_finished_animations(env);
 

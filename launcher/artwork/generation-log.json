@@ -1,0 +1,272 @@
+[
+  {
+    "name": "achievement-first-contact",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-422e004f-672f-4428-ac68-4a621653f00a.png"
+  },
+  {
+    "name": "achievement-clear-terminal",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-c8a7fb93-9420-4580-808b-61bb34942b5f.png"
+  },
+  {
+    "name": "achievement-fully-equipped",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-852a5d38-8560-4259-bb8d-76c7c56a4c0c.png"
+  },
+  {
+    "name": "achievement-survivor",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-4185221c-2591-4817-9dc4-31d295577a40.png"
+  },
+  {
+    "name": "achievement-hero",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-342430cf-7309-4503-801a-e351d17401c8.png"
+  },
+  {
+    "name": "achievement-mercenary",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-5ca7b6f6-0f25-430b-97d9-051038f40b76.png"
+  },
+  {
+    "name": "achievement-upgrades",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-11e26341-953d-4569-b1df-30f1d0b57cb9.png"
+  },
+  {
+    "name": "achievement-escape",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-8108fa34-d8f3-4474-8362-da2740b90bfc.png"
+  },
+  {
+    "name": "achievement-cargo",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-255a1168-39cb-458c-8a2c-b4a18f3f8572.png"
+  },
+  {
+    "name": "achievement-gvirus",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-b34f56f7-8e6c-447e-b235-6d3d85602053.png"
+  },
+  {
+    "name": "achievement-shutter",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-5eee560b-e152-4cf7-9a99-550313fa26ed.png"
+  },
+  {
+    "name": "achievement-vip",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-84d1afa2-54ef-4275-baa3-4b9a8dcbde0d.png"
+  },
+  {
+    "name": "icon-achievements",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-9ca6523c-3ac8-4f25-ad8e-f4205e9e9ca5.png"
+  },
+  {
+    "name": "icon-settings",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-2212c71f-de68-4748-bd97-79014c402a16.png"
+  },
+  {
+    "name": "icon-import",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-a6269947-3b65-4d73-96e1-90df17bc2263.png"
+  },
+  {
+    "name": "title-logo",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-35687fff-61ae-45f1-839c-4028276b8a9d.png"
+  },
+  {
+    "name": "paper",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-58e0a14e-7a06-45d1-9cf0-4d340bf72ed9.png"
+  },
+  {
+    "name": "photo-airport",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-13dd3b93-1fd5-4ec7-9267-245bcee9456b.png"
+  },
+  {
+    "name": "photo-leon",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-52bb7595-bc39-4e21-a9b0-948c5ba3893c.png"
+  },
+  {
+    "name": "photo-claire",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-31a45b61-4153-4726-8a8a-c4ef958af0e2.png"
+  },
+  {
+    "name": "photo-protagonists",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-84bd2b8f-1636-49bf-a6ae-5e2477231daa.png"
+  },
+  {
+    "name": "play-plate",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-a1399cc7-2f12-4bde-b30a-7d1dfc894da0.png"
+  },
+  {
+    "name": "quarantine-stamp",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-a8e7776f-8cce-4a0d-ac44-cbccd8f12b35.png"
+  },
+  {
+    "name": "desk-background",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-a82e16c8-c89d-4439-8edb-d315e499616b.png"
+  },
+  {
+    "name": "airport-blueprint",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-e42c603f-e1b3-431b-ad64-d4a065bbe9c8.png"
+  },
+  {
+    "name": "dossier-folder",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-9827d916-295e-4c21-9761-ec8c4b3b694c.png"
+  },
+  {
+    "name": "detail-paper",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-f77c4a23-a999-4916-ba1a-99cbf441bbdb.png"
+  },
+  {
+    "name": "airport-stamp",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-fefde906-13cb-4757-b1c3-060d36e79380.png"
+  },
+  {
+    "name": "paperclip",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-91924474-ec8c-49f2-af5f-5c5c89164685.png"
+  },
+  {
+    "name": "icon-logs",
+    "tool": "built-in image_gen",
+    "references": [
+      "docs/launcher-concepts/03-incident-dossier.png",
+      "docs/launcher-concepts/04-achievements.png"
+    ],
+    "source": "/home/aurelio/.codex/generated_images/01a149cc-1250-7292-8583-65106311d7f2/exec-71ea577a-e580-4f29-a0a4-4491e969dd4d.png"
+  }
+]

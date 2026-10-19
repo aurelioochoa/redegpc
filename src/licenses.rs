@@ -9,6 +9,25 @@ const MAIN_COPYRIGHT: &str = "
 touchHLE © 2023–2026 touchHLE project contributors.
 ";
 
+#[cfg(target_os = "linux")]
+const LIBLZMA: &str = "
+The Linux game host links liblzma from XZ Utils.
+Copyright (C) The XZ Utils authors and contributors.
+BSD Zero Clause License (0BSD):
+
+Permission to use, copy, modify, and/or distribute this
+software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL
+WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+";
+
 const MAIN_LICENSE: &str = "
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -201,6 +220,11 @@ fn print(out: &mut String, resources_are_external_files: bool) -> Result<(), std
     divider(out)?;
     writeln!(out, "{MAIN_LICENSE}")?;
     divider(out)?;
+    #[cfg(target_os = "linux")]
+    {
+        writeln!(out, "{LIBLZMA}")?;
+        divider(out)?;
+    }
     #[cfg(target_os = "android")]
     {
         writeln!(out, "{SKYLINE}")?;

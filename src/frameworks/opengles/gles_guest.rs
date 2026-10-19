@@ -1053,6 +1053,8 @@ fn glTexImage2D(
     type_: GLenum,
     pixels: ConstVoidPtr,
 ) {
+    let desktop_hud =
+        env.options.redegpc_controls && crate::redegpc::runtime::CONFIG.get().is_some();
     with_ctx_and_mem(env, |gles, mem| unsafe {
         let pixels = if pixels.is_null() {
             std::ptr::null()
@@ -1061,6 +1063,28 @@ fn glTexImage2D(
             let size = image_size_estimate(pixel_count, format, type_);
             mem.ptr_at(pixels.cast::<u8>(), size).cast::<GLvoid>()
         };
+        // Filter a host-owned upload copy only. The guest still receives all
+        // normal touch events, including the contextual E action.
+        let filtered = if desktop_hud
+            && target == gles11::TEXTURE_2D
+            && level == 0
+            && border == 0
+            && format == gles11::RGBA
+            && type_ == gles11::UNSIGNED_BYTE
+            && !pixels.is_null()
+            && matches!((width, height), (512, 256) | (128, 128))
+        {
+            crate::redegpc::hud::desktop_texture(
+                width,
+                height,
+                from_raw_parts(pixels.cast::<u8>(), (width * height * 4) as usize),
+            )
+        } else {
+            None
+        };
+        let pixels = filtered
+            .as_ref()
+            .map_or(pixels, |copy| copy.as_ptr().cast());
         gles.TexImage2D(
             target,
             level,

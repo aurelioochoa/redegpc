@@ -12,6 +12,7 @@ homepage = "https://touchhle.org/"
 
 [package]
 name = "touchHLE"
+default-run = "redegpc"
 version = { workspace = true }
 edition = { workspace = true }
 license = { workspace = true }
@@ -25,6 +26,10 @@ crate-type = ["cdylib", "rlib"]
 [[bin]]
 name = "touchHLE"
 path = "src/bin.rs"
+
+[[bin]]
+name = "redegpc"
+path = "src/bin/redegpc.rs"
 
 [features]
 default = ["static"]

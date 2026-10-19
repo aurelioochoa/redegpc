@@ -17,6 +17,9 @@ use crate::gles::{create_gles1_ctx_no_parent_stack, GLESContext, GLES};
 use crate::image::Image;
 use crate::matrix::Matrix;
 use crate::options::Options;
+use crate::redegpc_controls::{Controls, Input, Phase, Touch};
+
+pub(crate) mod movie;
 use crate::Environment;
 use sdl2::mouse::MouseButton;
 use sdl2::pixels::PixelFormatEnum;
@@ -129,6 +132,7 @@ pub enum FingerId {
     ButtonToTouch(crate::options::Button),
     StickToTouch,
     DpadToTouch,
+    Redegpc(crate::redegpc_controls::Action),
 }
 pub type Coords = (f32, f32);
 
@@ -211,6 +215,15 @@ fn surface_from_image(image: &Image) -> Surface<'_> {
 }
 
 pub struct Window {
+    redegpc_controls: Controls,
+    redegpc_pointer_touch: Option<Coords>,
+    redegpc_gameplay: bool,
+    redegpc_pointer_from_hud: bool,
+    redegpc_focused: bool,
+    redegpc_mouse_captured: bool,
+    movie_output: Option<movie::MovieOutput>,
+    movie_active: bool,
+    movie_skip_requested: bool,
     _sdl_ctx: sdl2::Sdl,
     video_ctx: sdl2::VideoSubsystem,
     window: sdl2::video::Window,
@@ -364,6 +377,15 @@ impl Window {
         let max_height = window.size().1;
 
         let mut window = Window {
+            redegpc_controls: Controls::default(),
+            redegpc_pointer_touch: None,
+            redegpc_gameplay: false,
+            redegpc_pointer_from_hud: false,
+            redegpc_mouse_captured: false,
+            redegpc_focused: true,
+            movie_output: None,
+            movie_active: false,
+            movie_skip_requested: false,
             _sdl_ctx: sdl_ctx,
             video_ctx,
             window,
@@ -418,6 +440,66 @@ impl Window {
         window
     }
 
+    /// Release desktop actions on focus loss and before a movie takes input.
+    pub(crate) fn clear_redegpc_input(&mut self) {
+        let touches = self.redegpc_controls.clear();
+        self.release_redegpc_touches(touches);
+    }
+
+    pub(crate) fn observe_redegpc_frame(&mut self, pixels: &[u8], width: u32, height: u32) {
+        let gameplay = crate::redegpc::hud::gameplay_frame(pixels, width, height);
+        if gameplay != self.redegpc_gameplay {
+            log_dbg!("Desktop pointer routing: gameplay={gameplay}");
+            if gameplay {
+                self.redegpc_controls.entered_gameplay();
+            }
+            if gameplay && !self.redegpc_pointer_from_hud {
+                if let Some(coords) = self.redegpc_pointer_touch.take() {
+                    self.event_queue
+                        .push_back(Event::TouchesUp(HashMap::from([(FingerId::Mouse, coords)])));
+                }
+            }
+        }
+        self.redegpc_gameplay = gameplay;
+    }
+
+    fn release_redegpc_touches(&mut self, touches: Vec<Touch>) {
+        self.queue_redegpc_touches(touches);
+        if let Some(coords) = self.redegpc_pointer_touch.take() {
+            self.event_queue
+                .push_back(Event::TouchesUp(HashMap::from([(FingerId::Mouse, coords)])));
+        }
+        self.virtual_accelerometer_last = None;
+    }
+
+    fn queue_redegpc_touches(&mut self, touches: Vec<Touch>) {
+        let capture = self.redegpc_controls.captures_mouse();
+        if capture != self.redegpc_mouse_captured {
+            self._sdl_ctx.mouse().set_relative_mouse_mode(capture);
+            self.redegpc_mouse_captured = capture;
+        }
+        for touch in touches {
+            // Actions use the game's logical landscape coordinates, unaffected
+            // by desktop scaling, while UIKit receives portrait coordinates.
+            let [x, y] = self
+                .rotation_matrix()
+                .inverse()
+                .unwrap()
+                .transform([touch.coords.0 / 480.0 - 0.5, touch.coords.1 / 320.0 - 0.5]);
+            let (width, height) = self.size_unrotated_unscaled();
+            let coords = (
+                ((x + 0.5) * width as f32).round(),
+                ((y + 0.5) * height as f32).round(),
+            );
+            let fingers = HashMap::from([(FingerId::Redegpc(touch.action), coords)]);
+            self.event_queue.push_back(match touch.phase {
+                Phase::Down => Event::TouchesDown(fingers),
+                Phase::Move => Event::TouchesMove(fingers),
+                Phase::Up => Event::TouchesUp(fingers),
+            });
+        }
+    }
+
     /// Poll for events from the OS. This needs to be done reasonably often
     /// (60Hz is probably fine) so that the host OS doesn't consider touchHLE
     /// to be unresponsive. Note that events are not returned by this function,
@@ -433,6 +515,10 @@ impl Window {
             return;
         }
         self.last_polled = now;
+        if options.redegpc_controls {
+            let touches = self.redegpc_controls.poll();
+            self.queue_redegpc_touches(touches);
+        }
 
         fn transform_input_coords(
             window: &Window,
@@ -512,6 +598,197 @@ impl Window {
             } else {
                 break;
             };
+
+            if self.consume_movie_event(&event) {
+                continue;
+            }
+            if options.redegpc_controls {
+                use sdl2::keyboard::Keycode;
+                match event {
+                    E::Window {
+                        win_event: sdl2::event::WindowEvent::FocusLost,
+                        ..
+                    }
+                    | E::AppWillEnterBackground { .. } => {
+                        self.redegpc_focused = false;
+                        let touches = self.redegpc_controls.clear_on_focus_loss();
+                        self.release_redegpc_touches(touches);
+                    }
+                    E::Window {
+                        win_event: sdl2::event::WindowEvent::FocusGained,
+                        ..
+                    } => self.redegpc_focused = true,
+                    E::KeyDown { .. }
+                    | E::KeyUp { .. }
+                    | E::MouseButtonDown { .. }
+                    | E::MouseButtonUp { .. }
+                    | E::MouseMotion { .. }
+                        if !self.redegpc_focused =>
+                    {
+                        continue
+                    }
+                    E::KeyDown {
+                        keycode: Some(Keycode::F11),
+                        repeat: false,
+                        ..
+                    } if !Self::rotatable_fullscreen() => {
+                        let mode = if self.fullscreen {
+                            sdl2::video::FullscreenType::Off
+                        } else {
+                            sdl2::video::FullscreenType::Desktop
+                        };
+                        match self.window.set_fullscreen(mode) {
+                            Ok(()) => {
+                                self.fullscreen = !self.fullscreen;
+                                if !self.fullscreen {
+                                    let (width, height) = size_for_orientation(
+                                        self.device_family,
+                                        self.device_orientation,
+                                        self.scale_hack,
+                                    );
+                                    if let Err(error) = self.window.set_size(width, height) {
+                                        log!("Cannot restore window dimensions: {}", error);
+                                    }
+                                }
+                            }
+                            Err(error) => {
+                                log!("Cannot toggle fullscreen: {}", error);
+                            }
+                        }
+                        continue;
+                    }
+                    E::KeyDown {
+                        keycode: Some(key), ..
+                    }
+                    | E::KeyUp {
+                        keycode: Some(key), ..
+                    } => {
+                        let input = match key {
+                            Keycode::W => Some(Input::W),
+                            Keycode::A => Some(Input::A),
+                            Keycode::S => Some(Input::S),
+                            Keycode::D => Some(Input::D),
+                            Keycode::Up => Some(Input::Up),
+                            Keycode::Left => Some(Input::Left),
+                            Keycode::Down => Some(Input::Down),
+                            Keycode::Right => Some(Input::Right),
+                            Keycode::R => Some(Input::Reload),
+                            Keycode::Space => Some(Input::Shake),
+                            Keycode::E => Some(Input::Interact),
+                            Keycode::Tab => Some(Input::Inventory),
+                            Keycode::Escape => Some(Input::Pause),
+                            _ => None,
+                        };
+                        if let Some(input) = input {
+                            let touches = self
+                                .redegpc_controls
+                                .set(input, matches!(event, E::KeyDown { .. }));
+                            self.queue_redegpc_touches(touches);
+                            continue;
+                        }
+                    }
+                    E::MouseButtonDown {
+                        mouse_btn: MouseButton::Right,
+                        ..
+                    }
+                    | E::MouseButtonUp {
+                        mouse_btn: MouseButton::Right,
+                        ..
+                    } => {
+                        let touches = self
+                            .redegpc_controls
+                            .set(Input::Aim, matches!(event, E::MouseButtonDown { .. }));
+                        self.queue_redegpc_touches(touches);
+                        continue;
+                    }
+                    E::MouseButtonDown {
+                        mouse_btn: MouseButton::Left,
+                        x,
+                        y,
+                        ..
+                    } => {
+                        if self.redegpc_controls.is_held(Input::Fire)
+                            || self.redegpc_pointer_touch.is_some()
+                        {
+                            continue;
+                        }
+                        if self.redegpc_controls.is_held(Input::Aim) {
+                            let touches = self.redegpc_controls.set(Input::Fire, true);
+                            self.queue_redegpc_touches(touches);
+                        } else if self.redegpc_pointer_touch.is_none() {
+                            let (vx, vy, vw, vh) = self.viewport();
+                            let logical = (
+                                (x as f32 - vx as f32) / vw as f32 * 480.0,
+                                (y as f32 - vy as f32) / vh as f32 * 320.0,
+                            );
+                            if !Controls::allows_pointer_click(self.redegpc_gameplay, logical) {
+                                continue;
+                            }
+                            self.redegpc_pointer_from_hud = self.redegpc_gameplay;
+                            if self.redegpc_gameplay {
+                                let touches = self.redegpc_controls.clear();
+                                self.queue_redegpc_touches(touches);
+                            }
+                            // Gameplay accepts only the visible phone shortcut.
+                            // Menus retain ordinary clicks; keyboard actions use
+                            // their separate synthetic fingers and bypass this.
+                            let coords = transform_input_coords(self, (x as f32, y as f32), false);
+                            self.redegpc_pointer_touch = Some(coords);
+                            self.event_queue
+                                .push_back(Event::TouchesDown(HashMap::from([(
+                                    FingerId::Mouse,
+                                    coords,
+                                )])));
+                        }
+                        continue;
+                    }
+                    E::MouseButtonUp {
+                        mouse_btn: MouseButton::Left,
+                        x,
+                        y,
+                        ..
+                    } => {
+                        if self.redegpc_controls.is_held(Input::Fire) {
+                            let touches = self.redegpc_controls.set(Input::Fire, false);
+                            self.queue_redegpc_touches(touches);
+                        }
+                        if let Some(coords) = self.redegpc_pointer_touch.take() {
+                            let (vx, vy, vw, vh) = self.viewport();
+                            if self.redegpc_pointer_from_hud {
+                                self.redegpc_controls.observe_pointer_click((30.0, 30.0));
+                            } else {
+                                self.redegpc_controls.observe_pointer_click((
+                                    (x as f32 - vx as f32) / vw as f32 * 480.0,
+                                    (y as f32 - vy as f32) / vh as f32 * 320.0,
+                                ));
+                            }
+                            self.redegpc_pointer_from_hud = false;
+                            self.event_queue.push_back(Event::TouchesUp(HashMap::from([(
+                                FingerId::Mouse,
+                                coords,
+                            )])));
+                        }
+                        continue;
+                    }
+                    E::MouseMotion { xrel, yrel, .. } if self.redegpc_controls.captures_mouse() => {
+                        self.redegpc_controls.mouse_motion(xrel, yrel);
+                        continue;
+                    }
+                    E::MouseMotion { x, y, .. } => {
+                        if self.redegpc_pointer_touch.is_some() && !self.redegpc_pointer_from_hud {
+                            let coords = transform_input_coords(self, (x as f32, y as f32), false);
+                            self.redegpc_pointer_touch = Some(coords);
+                            self.event_queue
+                                .push_back(Event::TouchesMove(HashMap::from([(
+                                    FingerId::Mouse,
+                                    coords,
+                                )])));
+                        }
+                        continue;
+                    }
+                    _ => {}
+                }
+            }
 
             // Virtual accelerometer
             match event {
@@ -936,6 +1213,16 @@ impl Window {
     /// Get the real or simulated accelerometer output.
     /// See also [crate::frameworks::uikit::ui_accelerometer].
     pub fn get_acceleration(&self, options: &Options) -> (f32, f32, f32) {
+        if options.redegpc_controls {
+            if let Some((x, y, z)) = self
+                .redegpc_controls
+                .shake_acceleration()
+                .or_else(|| self.redegpc_controls.reload_acceleration())
+            {
+                let [x, y] = self.rotation_matrix().inverse().unwrap().transform([x, y]);
+                return (x, y, z);
+            }
+        }
         if self.controllers.is_empty() || !options.analog_stick_tilt_controls {
             if let Some(ref accelerometer) = self.accelerometer {
                 let data = accelerometer.get_data().unwrap();
@@ -1160,6 +1447,17 @@ impl Window {
 
         let gl_ctx = self.window.gl_create_context()?;
 
+        // EAGLContext and the Core Animation compositor already pace guest
+        // frames. A second wait in the desktop driver's buffer swap blocks
+        // the host thread, including guest threads waiting on draw callbacks.
+        // Set this on every context: the default is driver/platform dependent.
+        if let Err(error) = self
+            .video_ctx
+            .gl_set_swap_interval(sdl2::video::SwapInterval::Immediate)
+        {
+            log!("Cannot disable driver v-sync: {}", error);
+        }
+
         Ok(GLContext(gl_ctx))
     }
 
@@ -1257,7 +1555,7 @@ impl Window {
             gl_ctx.DeleteTextures(1, &texture);
         };
 
-        self.window.gl_swap_window();
+        self.swap_window();
 
         // hold onto GL context so the image doesn't disappear, and hold
         // onto image so we can rotate later if necessary
@@ -1266,7 +1564,10 @@ impl Window {
     /// Swap front-buffer and back-buffer so the result of OpenGL rendering is
     /// presented.
     pub fn swap_window(&self) {
-        self.window.gl_swap_window();
+        if !self.movie_active {
+            self.window.gl_swap_window();
+            crate::redegpc::metrics::presented();
+        }
     }
 
     /// Consider the emulated device to be rotated to a particular orientation.

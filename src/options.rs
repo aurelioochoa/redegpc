@@ -34,6 +34,8 @@ pub enum Button {
 /// Struct containing all user-configurable options.
 #[derive(Clone)]
 pub struct Options {
+    /// Enable the Degeneration desktop action layer; other apps retain upstream input.
+    pub redegpc_controls: bool,
     pub fullscreen: bool,
     pub device_family: Option<DeviceFamily>,
     pub initial_orientation: DeviceOrientation,
@@ -67,6 +69,7 @@ pub struct Options {
 impl Default for Options {
     fn default() -> Self {
         Options {
+            redegpc_controls: false,
             fullscreen: false,
             device_family: None,
             initial_orientation: DeviceOrientation::Portrait,
@@ -114,7 +117,9 @@ impl Options {
             Ok(arg)
         }
 
-        if arg == "--fullscreen" {
+        if arg == "--redegpc-controls" {
+            self.redegpc_controls = true;
+        } else if arg == "--fullscreen" {
             self.fullscreen = true;
         } else if arg == "--upside-down" {
             self.initial_orientation = DeviceOrientation::PortraitUpsideDown;

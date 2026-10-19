@@ -350,6 +350,9 @@ pub const CLASSES: ClassExports = objc_classes! {
                 read_renderbuffer(gles.as_mut(), pixels_vec)
             }
         };
+        if env.options.redegpc_controls {
+            env.window.as_mut().unwrap().observe_redegpc_frame(&pixels_vec, width, height);
+        }
         present_pixels(env, drawable, pixels_vec, width, height);
     }
 

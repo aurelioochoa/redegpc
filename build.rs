@@ -15,6 +15,13 @@ pub fn main() {
     let out_dir = PathBuf::from(std::env::var("OUT_DIR").unwrap());
     let package_root = Path::new(env!("CARGO_MANIFEST_DIR"));
 
+    if std::env::var("CARGO_CFG_TARGET_OS").unwrap() == "linux" {
+        let source = package_root.join("src/redegpc/lzma.c");
+        cc::Build::new().file(&source).compile("redegpc_lzma");
+        rerun_if_changed(&source);
+        println!("cargo:rustc-link-lib=lzma");
+    }
+
     // Generate a list of dependencies with license and author information.
     // This is used in license.rs
 

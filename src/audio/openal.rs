@@ -17,6 +17,8 @@ pub use al_sys::{alcCloseDevice, alcGetError, alcGetString, alcOpenDevice};
 
 use al_types::*;
 
+const AL_GAIN: ALenum = 0x100A;
+
 static OPENALMANAGER_INSTANCE_EXISTS: std::sync::atomic::AtomicBool =
     std::sync::atomic::AtomicBool::new(false);
 pub struct OpenALManager {}
@@ -37,6 +39,7 @@ impl Drop for OpenALManager {
 
 #[derive(Debug)]
 pub struct OpenALContext {
+    listener_gain: std::cell::Cell<ALfloat>,
     context: *mut ALCcontext,
     // We don't need to guarantee the lifetime or thread-safety of the device -
     // OpenAL (should) do that for us.
@@ -66,7 +69,11 @@ impl OpenALContext {
             device,
             context
         );
-        Ok(Self { context, device })
+        Ok(Self {
+            context,
+            device,
+            listener_gain: std::cell::Cell::new(1.0),
+        })
     }
 
     pub fn make_current<'al_ctx, 'manager: 'al_ctx>(
@@ -77,8 +84,15 @@ impl OpenALContext {
         // check ourselves.
         let ret = unsafe { al_sys::alcMakeContextCurrent(self.context) };
         assert!(ret == ALC_TRUE);
+        unsafe {
+            al_sys::alListenerf(
+                AL_GAIN,
+                self.listener_gain.get() * crate::redegpc::runtime::volume(),
+            )
+        };
         OpenAL {
             _al_lifetime: PhantomData,
+            listener_gain: &self.listener_gain,
         }
     }
 
@@ -108,6 +122,7 @@ impl Drop for OpenALContext {
 }
 
 pub struct OpenAL<'al_ctx> {
+    listener_gain: &'al_ctx std::cell::Cell<ALfloat>,
     _al_lifetime: PhantomData<&'al_ctx ()>,
 }
 
@@ -139,7 +154,12 @@ impl OpenAL<'_> {
     }
 
     pub unsafe fn Listenerf(&self, param: ALenum, value: ALfloat) {
-        al_sys::alListenerf(param, value)
+        if param == AL_GAIN && value.is_finite() && value >= 0.0 {
+            self.listener_gain.set(value);
+            al_sys::alListenerf(param, value * crate::redegpc::runtime::volume())
+        } else {
+            al_sys::alListenerf(param, value)
+        }
     }
     pub unsafe fn Listener3f(
         &self,
@@ -151,7 +171,11 @@ impl OpenAL<'_> {
         al_sys::alListener3f(param, value1, value2, value3)
     }
     pub unsafe fn Listenerfv(&self, param: ALenum, values: *const ALfloat) {
-        al_sys::alListenerfv(param, values)
+        if param == AL_GAIN && !values.is_null() {
+            self.Listenerf(param, *values)
+        } else {
+            al_sys::alListenerfv(param, values)
+        }
     }
     pub unsafe fn Listeneri(&self, param: ALenum, value: ALint) {
         al_sys::alListeneri(param, value)
@@ -164,7 +188,11 @@ impl OpenAL<'_> {
     }
 
     pub unsafe fn GetListenerf(&self, param: ALenum, value: *mut ALfloat) {
-        al_sys::alGetListenerf(param, value)
+        if param == AL_GAIN && !value.is_null() {
+            *value = self.listener_gain.get();
+        } else {
+            al_sys::alGetListenerf(param, value)
+        }
     }
     pub unsafe fn GetListener3f(
         &self,
@@ -176,7 +204,11 @@ impl OpenAL<'_> {
         al_sys::alGetListener3f(param, value1, value2, value3)
     }
     pub unsafe fn GetListenerfv(&self, param: ALenum, values: *mut ALfloat) {
-        al_sys::alGetListenerfv(param, values)
+        if param == AL_GAIN {
+            self.GetListenerf(param, values)
+        } else {
+            al_sys::alGetListenerfv(param, values)
+        }
     }
     pub unsafe fn GetListeneri(&self, param: ALenum, value: *mut ALint) {
         al_sys::alGetListeneri(param, value)

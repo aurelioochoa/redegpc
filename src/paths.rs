@@ -70,7 +70,10 @@ impl ResourceFile {
             // On other OSes, resources are accessed as ordinary files.
             #[cfg(not(target_os = "android"))]
             file: {
-                let base_path = get_macos_bundled_resources_path();
+                let base_path = crate::redegpc::runtime::CONFIG
+                    .get()
+                    .map(|config| config.resource_directory.clone())
+                    .or_else(get_macos_bundled_resources_path);
                 // When not in a bundle, look in the current directory.
                 let path = base_path.as_deref().unwrap_or(Path::new(".")).join(path);
                 std::fs::File::open(path).map_err(|e| e.to_string())?
@@ -113,6 +116,9 @@ pub const SANDBOX_DIR: &str = "touchHLE_sandbox";
 /// Get a platform-specific base path needed for accessing touchHLE's
 /// user-modifiable files. This is empty on platforms other than Android.
 pub fn user_data_base_path() -> Cow<'static, Path> {
+    if let Some(config) = crate::redegpc::runtime::CONFIG.get() {
+        return Cow::Borrowed(&config.data_directory);
+    }
     #[cfg(target_os = "android")]
     unsafe {
         // This is an exception to the rule that SDL2 should only be used
@@ -146,6 +152,20 @@ pub fn user_data_base_path() -> Cow<'static, Path> {
         }
         Cow::from(Path::new("."))
     }
+}
+
+pub fn user_options_path() -> PathBuf {
+    crate::redegpc::runtime::CONFIG.get().map_or_else(
+        || user_data_base_path().join(USER_OPTIONS_FILE),
+        |c| c.config_directory.join(USER_OPTIONS_FILE),
+    )
+}
+
+pub fn log_file_path() -> PathBuf {
+    crate::redegpc::runtime::CONFIG.get().map_or_else(
+        || user_data_base_path().join("touchHLE_log.txt"),
+        |c| c.log_directory.join("redegpc.log"),
+    )
 }
 
 /// Get a URI that can be used to open a file manager or similar for the path

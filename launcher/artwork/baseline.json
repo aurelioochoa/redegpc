@@ -1,0 +1,569 @@
+{
+  "paper": {
+    "size": [
+      1376,
+      768
+    ],
+    "mode": "RGB",
+    "sha256": "809d581a0899cb3c6b3a1b8d8feb753aa8be724b5786fc7f4c8cbc20321ea928",
+    "bytes": 2027714
+  },
+  "photo-protagonists": {
+    "size": [
+      548,
+      370
+    ],
+    "mode": "RGB",
+    "sha256": "b1ce637d0bb8545d35ccaa96c1dce1834d15cb3f072d425a25b895a86e064b3e",
+    "bytes": 350283
+  },
+  "title-logo": {
+    "size": [
+      610,
+      230
+    ],
+    "mode": "RGBA",
+    "sha256": "f27b0ad59742097cf1438a8231743163df86b6125b3e6abb71bcda0bd33a2d98",
+    "bytes": 241807,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 110899,
+      "opaque": 22995,
+      "bbox": [
+        0,
+        0,
+        610,
+        230
+      ]
+    }
+  },
+  "photo-claire": {
+    "size": [
+      320,
+      310
+    ],
+    "mode": "RGB",
+    "sha256": "cc6275964bef0e2bbf69989c5ce213fd2f74d9407d08257474523d0455919259",
+    "bytes": 172414
+  },
+  "raw_cargo": {
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGB",
+    "sha256": "a8775d2ea458352fdc9f395966db82d9a8fdab2d3fe5033df8395c903b410d53",
+    "bytes": 290124
+  },
+  "test_menu_icons": {
+    "size": [
+      120,
+      240
+    ],
+    "mode": "RGB",
+    "sha256": "8b3451823281cbbb8e148cf196af7b941848d139d5a67def9da407bdf7bb1f85",
+    "bytes": 48698
+  },
+  "achievements": {
+    "size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "sha256": "1aaf33e9648d39bd08d54d0e2983feb39280371cb5ba011daebb6a27e5c6c66b",
+    "bytes": 2437825
+  },
+  "quarantine-stamp": {
+    "size": [
+      255,
+      115
+    ],
+    "mode": "RGBA",
+    "sha256": "13de1d03755b8211e7a73a12ad157271ddce8d4e0b91fc9cf0ced6413ed4bc70",
+    "bytes": 66624,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 16742,
+      "opaque": 8168,
+      "bbox": [
+        0,
+        0,
+        255,
+        115
+      ]
+    }
+  },
+  "achievement-fully-equipped": {
+    "size": [
+      768,
+      512
+    ],
+    "mode": "RGBA",
+    "sha256": "03b59f963bf5a4f3e0cb543d5eea0603a4f448c539fcbd2d8ed89c1273e127e3",
+    "bytes": 706715,
+    "alpha": {
+      "range": [
+        0,
+        254
+      ],
+      "transparent": 155943,
+      "opaque": 0,
+      "bbox": [
+        0,
+        0,
+        768,
+        512
+      ]
+    }
+  },
+  "achievement-vip": {
+    "size": [
+      431,
+      408
+    ],
+    "mode": "RGBA",
+    "sha256": "354e90f28fb683d1bd201d396a3f12e4670b1eafcedadee3206a3d5619b8772b",
+    "bytes": 297508,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 90085,
+      "opaque": 78962,
+      "bbox": [
+        6,
+        6,
+        425,
+        402
+      ]
+    }
+  },
+  "achievement-shutter": {
+    "size": [
+      369,
+      410
+    ],
+    "mode": "RGBA",
+    "sha256": "0f3b5c8725a7f6cf1d5c1584b9493b8aa80111ce4add91a326fa364d54435c9a",
+    "bytes": 267057,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 58781,
+      "opaque": 89590,
+      "bbox": [
+        6,
+        6,
+        363,
+        404
+      ]
+    }
+  },
+  "achievement-survivor": {
+    "size": [
+      762,
+      512
+    ],
+    "mode": "RGBA",
+    "sha256": "a7955b192f7c3f30ece4bf1749e0572eac6ad35b82a2ff47496e69099b717154",
+    "bytes": 669800,
+    "alpha": {
+      "range": [
+        0,
+        254
+      ],
+      "transparent": 204982,
+      "opaque": 0,
+      "bbox": [
+        0,
+        0,
+        754,
+        512
+      ]
+    }
+  },
+  "achievement-escape": {
+    "size": [
+      474,
+      325
+    ],
+    "mode": "RGBA",
+    "sha256": "6ac240b242290c107c70286b2c99535579d88828e694b19a89ffbf16af011f08",
+    "bytes": 214754,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 90578,
+      "opaque": 53541,
+      "bbox": [
+        6,
+        6,
+        468,
+        319
+      ]
+    }
+  },
+  "achievement-atlas": {
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA",
+    "sha256": "36dda92ee230c1b6a0413968bf3ae67388aa641f41486f8258240bf3855b2cf1",
+    "bytes": 2790524,
+    "alpha": {
+      "range": [
+        0,
+        254
+      ],
+      "transparent": 737828,
+      "opaque": 0,
+      "bbox": [
+        0,
+        0,
+        1522,
+        1024
+      ]
+    }
+  },
+  "icon-import": {
+    "size": [
+      80,
+      70
+    ],
+    "mode": "RGBA",
+    "sha256": "84aa87a195b7075ba66f30a007737e544165679f609803c68e7b8088507839c1",
+    "bytes": 12766,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 91,
+      "opaque": 2378,
+      "bbox": [
+        0,
+        0,
+        80,
+        70
+      ]
+    }
+  },
+  "raw_shutter": {
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGB",
+    "sha256": "b7d1386377397e30bd00977e237abd37cf33b110c730749687a5289a5068a1a3",
+    "bytes": 307749
+  },
+  "achievement-first-contact": {
+    "size": [
+      768,
+      512
+    ],
+    "mode": "RGBA",
+    "sha256": "91efdc4c65f14102b15c4a8247b9c876ebb3fac7108b60f71d9e138df0927d73",
+    "bytes": 731737,
+    "alpha": {
+      "range": [
+        0,
+        254
+      ],
+      "transparent": 187864,
+      "opaque": 0,
+      "bbox": [
+        0,
+        0,
+        768,
+        512
+      ]
+    }
+  },
+  "photo-airport": {
+    "size": [
+      863,
+      580
+    ],
+    "mode": "RGB",
+    "sha256": "0f86b5623d9b0c6cd7e86186d9399fba085663da02c1f51c52aa9c89874517cc",
+    "bytes": 881113
+  },
+  "photo-leon": {
+    "size": [
+      260,
+      325
+    ],
+    "mode": "RGB",
+    "sha256": "414d819022a268ad4011ba861657d91c10e7b201e9132458bad7d5fbabdcb5d5",
+    "bytes": 148760
+  },
+  "overview": {
+    "size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "sha256": "4b5ba1e782631a07546fd3ea44192b93725af2ceb33c874e6de8a1b6c1b3aec1",
+    "bytes": 2545820
+  },
+  "achievement-hero": {
+    "size": [
+      446,
+      382
+    ],
+    "mode": "RGBA",
+    "sha256": "50c8bdb6266f6991b442ebf5abcd59fe4e90cc1bd45fec3b47e1da50a7fa2872",
+    "bytes": 325606,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 60526,
+      "opaque": 90474,
+      "bbox": [
+        8,
+        8,
+        438,
+        374
+      ]
+    }
+  },
+  "test_title_area": {
+    "size": [
+      700,
+      290
+    ],
+    "mode": "RGB",
+    "sha256": "2fd52b4ac7b4306bc1d375ce07c4b88b2034809f20d442a911d5415a8030346f",
+    "bytes": 301327
+  },
+  "achievement-mercenary": {
+    "size": [
+      445,
+      446
+    ],
+    "mode": "RGBA",
+    "sha256": "e327aa0bee59206d69dc22f8183acb482c48b60a4389b01bfb70408b192656fc",
+    "bytes": 250683,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 141173,
+      "opaque": 46299,
+      "bbox": [
+        8,
+        8,
+        437,
+        438
+      ]
+    }
+  },
+  "case-paper": {
+    "size": [
+      1376,
+      768
+    ],
+    "mode": "RGB",
+    "sha256": "809d581a0899cb3c6b3a1b8d8feb753aa8be724b5786fc7f4c8cbc20321ea928",
+    "bytes": 2027714
+  },
+  "achievement-cargo": {
+    "size": [
+      422,
+      372
+    ],
+    "mode": "RGBA",
+    "sha256": "c659498cd355e40061363facbe9854ce73e81388143c0ee58bcda376bc94420b",
+    "bytes": 244261,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 50422,
+      "opaque": 105097,
+      "bbox": [
+        6,
+        6,
+        416,
+        366
+      ]
+    }
+  },
+  "raw_vip": {
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGB",
+    "sha256": "1142342581b9bec83d84bed1097efadc8bd557a9214c04ea776762b6794207d7",
+    "bytes": 312985
+  },
+  "achievement-clear-terminal": {
+    "size": [
+      698,
+      497
+    ],
+    "mode": "RGBA",
+    "sha256": "41f9b8e4f34845e2a1239288e2189e4db8464a3719ea912653af71663ad7360a",
+    "bytes": 629082,
+    "alpha": {
+      "range": [
+        0,
+        254
+      ],
+      "transparent": 139657,
+      "opaque": 0,
+      "bbox": [
+        0,
+        8,
+        690,
+        497
+      ]
+    }
+  },
+  "achievement-upgrades": {
+    "size": [
+      435,
+      344
+    ],
+    "mode": "RGBA",
+    "sha256": "6d9c0c7ae93c3539192bef02d79520af4d6102f5c399c347e97489e73b6a4892",
+    "bytes": 254629,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 69468,
+      "opaque": 46998,
+      "bbox": [
+        8,
+        8,
+        427,
+        336
+      ]
+    }
+  },
+  "icon-achievements": {
+    "size": [
+      80,
+      85
+    ],
+    "mode": "RGBA",
+    "sha256": "6d89c6e741afa63ad4c244ce3c0ad47185ed3052d10261ea348c404b391d7951",
+    "bytes": 18410,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 922,
+      "opaque": 3996,
+      "bbox": [
+        0,
+        0,
+        80,
+        85
+      ]
+    }
+  },
+  "play-plate": {
+    "size": [
+      645,
+      92
+    ],
+    "mode": "RGB",
+    "sha256": "3c68041e2fafbc251304bee6f8a419048f3c88b88b42c3d9ad80a373e6aaff6e",
+    "bytes": 71196
+  },
+  "test_photos_area": {
+    "size": [
+      1210,
+      860
+    ],
+    "mode": "RGB",
+    "sha256": "9c1b2691a1da923f5a5626f8ce77e9da4194a8b56da9e4c35c1c5bfb388bdefd",
+    "bytes": 1697775
+  },
+  "icon-settings": {
+    "size": [
+      75,
+      70
+    ],
+    "mode": "RGBA",
+    "sha256": "7d813be0ca5cd24e4690786b1d2e68a3b384bdf76336007b6cd4416e3c433d6f",
+    "bytes": 13016,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 359,
+      "opaque": 3846,
+      "bbox": [
+        0,
+        0,
+        75,
+        70
+      ]
+    }
+  },
+  "raw_escape": {
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGB",
+    "sha256": "21ab1d0034f220e41819fc6a8fa05f3c5a6b8666bccc6a6cbd2fdb0df3af76d6",
+    "bytes": 228102
+  },
+  "raw_gvirus": {
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGB",
+    "sha256": "218eea6ea46731d2be6f40f450fee3c9d1a2c667cca5ea351b10e74f8335ba4e",
+    "bytes": 265606
+  },
+  "achievement-gvirus": {
+    "size": [
+      358,
+      407
+    ],
+    "mode": "RGBA",
+    "sha256": "d2e90bb5525b69e783a91b88d175205f390300adda983efd869f835bb96d67c7",
+    "bytes": 216958,
+    "alpha": {
+      "range": [
+        0,
+        255
+      ],
+      "transparent": 78641,
+      "opaque": 66089,
+      "bbox": [
+        6,
+        6,
+        352,
+        401
+      ]
+    }
+  }
+}

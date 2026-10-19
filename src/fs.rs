@@ -792,6 +792,27 @@ impl Fs {
         Some((parent, final_component.to_string()))
     }
 
+    /// Replace the backing of an existing read-only resource, leaving its
+    /// original host file and all writable sandbox nodes intact.
+    pub(crate) fn redirect_readonly_file(
+        &mut self,
+        path: &GuestPath,
+        replacement: &Path,
+    ) -> Result<(), ()> {
+        let Some((FsNode::Directory { children, .. }, name)) = self.lookup_parent_node(path) else {
+            return Err(());
+        };
+        let Some(FsNode::File {
+            location,
+            writeable: false,
+        }) = children.get_mut(&name)
+        else {
+            return Err(());
+        };
+        *location = FileLocation::Path(replacement.to_owned());
+        Ok(())
+    }
+
     /// Like [Path::exists] but for the guest filesystem.
     pub fn exists(&self, path: &GuestPath) -> bool {
         self.lookup_node(path).is_some()
@@ -1304,5 +1325,47 @@ impl Fs {
             },
         );
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod cache_tests {
+    use super::*;
+
+    #[test]
+    fn asset_redirect_changes_only_existing_readonly_backing() {
+        let directory =
+            std::env::temp_dir().join(format!("redegpc-fs-cache-{}", uuid::Uuid::new_v4()));
+        std::fs::create_dir(&directory).unwrap();
+        let original = directory.join("original");
+        let cached = directory.join("cached");
+        std::fs::write(&original, b"original").unwrap();
+        std::fs::write(&cached, b"decoded").unwrap();
+        let node = |writeable| FsNode::File {
+            location: FileLocation::Path(original.clone()),
+            writeable,
+        };
+        let mut fs = Fs {
+            root: FsNode::dir().with_child(
+                "app",
+                FsNode::dir()
+                    .with_child("main.dz", node(false))
+                    .with_child("save", node(true)),
+            ),
+            working_directory: GuestPathBuf::from("/".to_string()),
+            home_directory: GuestPathBuf::from("/".to_string()),
+        };
+        let archive = GuestPath::new("/app/main.dz");
+        fs.redirect_readonly_file(archive, &cached).unwrap();
+        assert_eq!(fs.read(archive).unwrap(), b"decoded");
+        assert_eq!(std::fs::read(&original).unwrap(), b"original");
+        assert!(fs
+            .redirect_readonly_file(GuestPath::new("/app/save"), &cached)
+            .is_err());
+        assert!(fs
+            .redirect_readonly_file(GuestPath::new("/app/missing"), &cached)
+            .is_err());
+        assert_eq!(fs.read(GuestPath::new("/app/save")).unwrap(), b"original");
+        std::fs::remove_dir_all(directory).unwrap();
     }
 }
