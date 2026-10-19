@@ -131,7 +131,7 @@ Builds default to four Cargo jobs; override with `CARGO_BUILD_JOBS=8 make build`
 
 See [detailed usage, architecture and qualification tools](docs/advanced-usage.md), [loading measurements](docs/qualification.md#loading-optimization-2026-10-16), and the [upstream README](README.touchHLE.md).
 
-Contributions use this repository's GitHub issues and pull requests. Read the [contribution guide](CONTRIBUTING.md) and [piracy policy](CODE_OF_CONDUCT.md); both are available in English and Spanish.
+Contributions use this repository's GitHub issues and pull requests. Read the bilingual [contribution guide](CONTRIBUTING.md#english) and [piracy policy](CODE_OF_CONDUCT.md#english).
 
 ## License and credits
 
