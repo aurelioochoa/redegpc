@@ -6,4 +6,4 @@ Do not remove touchHLE_dylibs/COPYING.*, touchHLE_fonts/LICENSE.*, vendor licens
 
 The Linux host links the system liblzma library from XZ Utils for bounded asset decoding. liblzma is copyright the XZ Utils authors and contributors and licensed under the BSD Zero Clause License (0BSD). No XZ command-line tool is bundled.
 
-Resident Evil Degeneration and its supplied IPA/assets remain the property of their respective owners. No game asset or executable is included in the source tree. Import copies user-supplied files into private local application storage.
+Resident Evil Degeneration and its supplied IPA/assets remain the property of their respective owners. No game executable, archive, or extracted game data is included in the source tree. The README includes captured gameplay screenshots and GIFs, plus an original illustrated fan banner; see docs/media/README.md for provenance. Import copies user-supplied files into private local application storage.

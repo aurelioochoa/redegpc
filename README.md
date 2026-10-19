@@ -1,12 +1,38 @@
-# redegpc
+# Resident Evil Degeneration PC Port
+
+![Resident Evil Degeneration PC Port — Leon and Claire at the airport](docs/media/banner.png)
+
+Play the English iPhone release on Linux with keyboard and mouse controls, a native desktop launcher, and local saves. Bring your own **Resident Evil Degeneration v1.03.00** IPA; game files are not included.
 
 Rust host for the English **Resident Evil Degeneration v1.03.00** IPA, based on touchHLE revision `ca1de89c578e79746f33c1332e28efd106c334ba`.
 
 This implementation is under local qualification. See [observed results and remaining defects](docs/qualification.md) and [acceptance gates](GATES.md); a successful build does not establish playable compatibility.
 
+## Gameplay
+
+Actual gameplay captured from the Linux build, at the game's native 480×320 resolution.
+
+| Exploring the airport | Aiming and firing |
+| --- | --- |
+| ![Leon exploring the airport with desktop controls](docs/media/gameplay-exploration.gif) | ![Leon aiming and firing with mouse controls](docs/media/gameplay-aiming.gif) |
+
+## Screenshots
+
+| Airport exploration | Over-the-shoulder aiming |
+| --- | --- |
+| ![In-game airport scene](docs/media/screenshot-airport.png) | ![In-game aiming view](docs/media/screenshot-aiming.png) |
+| **Title screen** | **Native desktop launcher** |
+| ![Resident Evil Degeneration title menu](docs/media/screenshot-title.png) | ![Incident dossier launcher with installation status and Play control](docs/launcher/overview-1000x620.png) |
+
+The banner is original illustrated fan artwork. Screenshots and GIFs show the running project; see [media provenance](docs/media/README.md).
+
+## Build and play
+
 Build on Linux x86_64 with Rust, C/C++ compilers, CMake, Boost headers, pkg-config, liblzma development headers (xz), and the native SDL/OpenAL development dependencies. FFmpeg must be on PATH for the original intro. Keep the pinned submodules and Cargo.lock:
 
 ```sh
+git clone https://github.com/aurelioochoa/redegpc.git
+cd redegpc
 git submodule update --init --recursive
 CARGO_BUILD_JOBS=4 cargo build --locked --release --bin redegpc
 ./target/release/redegpc import "/path/to/Resident Evil Degeneration - v1.03.00.ipa"
