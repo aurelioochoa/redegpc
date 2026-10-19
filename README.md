@@ -1,84 +1,138 @@
 # Resident Evil Degeneration PC Port
 
-![Resident Evil Degeneration PC Port — Leon and Claire at the airport](docs/media/banner.png)
+**English** · [Español](README.es.md)
 
-Play the English iPhone release on Linux with keyboard and mouse controls, a native desktop launcher, and local saves. Bring your own **Resident Evil Degeneration v1.03.00** IPA; game files are not included.
+![Resident Evil Degeneration — Leon and Claire at the airport](docs/media/banner.png)
 
-Rust host for the English **Resident Evil Degeneration v1.03.00** IPA, based on touchHLE revision `ca1de89c578e79746f33c1332e28efd106c334ba`.
+Play the English iPhone release of **Resident Evil Degeneration** on Linux with keyboard and mouse controls, a native desktop launcher, and local saves. `redegpc` is a Rust compatibility host based on touchHLE revision `ca1de89c578e79746f33c1332e28efd106c334ba`.
 
-This implementation is under local qualification. See [observed results and remaining defects](docs/qualification.md) and [acceptance gates](GATES.md); a successful build does not establish playable compatibility.
+**Bring your own game:** the supported release is the unencrypted **English iPhone v1.03.00 IPA**. The project does not include game files. This is an experimental preservation project; full playable compatibility has not been established.
+
+[Gameplay](#gameplay) · [Quick start](#quick-start) · [Game files](#game-files) · [Controls](#controls) · [Development](#development)
 
 ## Gameplay
 
-Actual gameplay captured from the Linux build, at the game's native 480×320 resolution.
+Actual Linux gameplay captured at the original **480×320** resolution.
 
-| Exploring the airport | Aiming and firing |
+| Airport exploration | Aiming and firing |
 | --- | --- |
-| ![Leon exploring the airport with desktop controls](docs/media/gameplay-exploration.gif) | ![Leon aiming and firing with mouse controls](docs/media/gameplay-aiming.gif) |
+| ![Leon exploring the airport](docs/media/gameplay-exploration.gif) | ![Leon aiming and firing](docs/media/gameplay-aiming.gif) |
+| ![Airport scene](docs/media/screenshot-airport.png) | ![Over-the-shoulder aiming](docs/media/screenshot-aiming.png) |
 
-## Screenshots
+The banner is illustrated fan artwork; screenshots and GIFs show the running project. See [media provenance](docs/media/README.md).
 
-| Airport exploration | Over-the-shoulder aiming |
-| --- | --- |
-| ![In-game airport scene](docs/media/screenshot-airport.png) | ![In-game aiming view](docs/media/screenshot-aiming.png) |
-| **Title screen** | **Native desktop launcher** |
-| ![Resident Evil Degeneration title menu](docs/media/screenshot-title.png) | ![Incident dossier launcher with installation status and Play control](docs/launcher/overview-1000x620.png) |
+## Requirements
 
-The banner is original illustrated fan artwork. Screenshots and GIFs show the running project; see [media provenance](docs/media/README.md).
+- **Linux x86_64** with a graphical desktop.
+- Rust, C/C++ compilers, CMake, Boost headers, `pkg-config`, liblzma development headers (XZ), and native SDL/OpenAL development dependencies.
+- **Python 3.10+, Tk and Pillow** for the launcher.
+- **FFmpeg** on `PATH` for the original intro's video and audio.
 
-## Build and play
+Keep `Cargo.lock` and the pinned submodules. See the [build documentation](dev-docs/building.md) and [launcher dependency guide](launcher/README.md#install-and-open-the-launcher) for platform packages and Python setup.
 
-Build on Linux x86_64 with Rust, C/C++ compilers, CMake, Boost headers, pkg-config, liblzma development headers (xz), and the native SDL/OpenAL development dependencies. FFmpeg must be on PATH for the original intro. Keep the pinned submodules and Cargo.lock:
+## Quick start
+
+Install the system prerequisites above, then:
 
 ```sh
 git clone https://github.com/aurelioochoa/redegpc.git
 cd redegpc
 git submodule update --init --recursive
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r launcher/requirements.txt
+make launcher
+```
+
+`make launcher` builds the optimized host and opens the incident dossier launcher. In **Installation**, choose your supported IPA and wait for **Ready to play**, then use **Overview → Play**. The first launch prepares a local asset cache and takes longer.
+
+For direct command-line play:
+
+```sh
 CARGO_BUILD_JOBS=4 cargo build --locked --release --bin redegpc
 ./target/release/redegpc import "/path/to/Resident Evil Degeneration - v1.03.00.ipa"
 ./target/release/redegpc check
 ./target/release/redegpc run
 ```
 
-The default executable is `redegpc`; `cargo run --locked --release -- --help` shows the CLI. The inherited runtime remains available as `cargo run --locked --release --bin touchHLE -- ...`. A dynamically linked build is available with `--no-default-features` and system SDL2/OpenAL Soft. The default bundled build disables the pinned SDL's obsolete direct PipeWire backend; PulseAudio/ALSA remain available. CMake 4 and GCC 16 compatibility adaptations keep vendor revisions unchanged.
+## Game files
 
-The Makefile provides shortcuts: `make build`, `make import IPA="/path/to/game.ipa"`, `make check-install`, and `make run ARGS="--windowed --fps"`. Use `make verify` for the existing project checks and `make help` for all targets. `make dev` and `make launcher` open the native incident dossier launcher using the optimized release host; `make debug` remains available for source debugging. Builds default to four Cargo jobs; override with `CARGO_BUILD_JOBS=8 make build`.
+Only bundle **`jp.co.capcom.residentevil.en`**, version **`1.03.00`**, with an **unencrypted ARM Mach-O** is supported. Select the intact `.ipa`; do not extract it first. Other versions, languages and encrypted executables are rejected.
 
-All three PC hosts (`re4mepc`, `redegpc` and `bio3dpc`) share the core targets
-`help`, `setup`, `dev`, `build`, `run`, `test`, `check`, `verify`, `fmt`, `clean`
-and `distclean`. Plain `make` shows grouped help. `make setup` initializes native
-submodules, fetches locked Rust dependencies and checks Python/Tk/Pillow; install
-the system prerequisites listed above and the launcher dependencies first.
-`make check` checks Rust without linking. `make verify` also builds release
-binaries and runs formatting, focused Clippy, library and synthetic CLI checks.
-`make clean` removes Python caches while keeping Cargo artifacts; use
-`make distclean` to run Cargo cleanup as well. Both preserve game files and saves.
-`make check-game` validates imported game files; `make check-install` remains
-an alias. `NO_COLOR=1` disables help colours; `FORCE_COLOR=1` enables them.
+Import validates the app, copies it to local storage, records SHA-256 hashes and switches installations only after success. Rejected imports preserve existing installations and saves. After import, the source IPA and external drive are no longer needed. `check` verifies the installed originals; the decoded cache is separate and can be regenerated.
 
-The [native launcher installation guide](launcher/README.md) covers Python/Tk/Pillow setup, importing your supported IPA, first launch, storage and troubleshooting. Open it with `make launcher` or `./target/release/redegpc launcher`. Use `make desktop` to install a desktop icon and applications-menu entry that open the launcher; keep this checkout in place. In **Installation**, choose your intact, unencrypted English iPhone v1.03.00 `.ipa`, wait for **Ready to play**, then use **Overview → Play**. The first launch prepares a local cache and takes longer; after import, the source archive/drive is no longer required. The game is not included. The launcher provides installation verification, persistent display/input/volume settings and live logs. Resize adapts the paper layout to the window, and F11 toggles launcher fullscreen independently of the game's display preference. The achievement browser includes all 23 proposed goals and category filters; gameplay achievement tracking is not implemented. `make test-launcher` runs isolated interaction checks on a graphical display.
+See [import and recovery details](launcher/README.md#import-your-game) and the [detailed usage guide](docs/advanced-usage.md#build-and-play).
 
-Import requires the English bundle `jp.co.capcom.residentevil.en`, version `1.03.00`, with an unencrypted ARM Mach-O. Import is bounded, rejects traversal/unsafe symlinks/duplicate paths, extracts into a staging directory, validates the app, hashes every file using SHA-256, and atomically changes the current installation pointer. Existing installations and saves survive rejected imports. The source IPA and external drive are unnecessary after import. Original `main.dz` and configuration bytes are retained. Apple’s standard CodeResources signature alias is materialized as a regular file; its original target is recorded in the manifest. `check` rehashes all installed files and rejects unexpected files or symlinks. A crash may leave a staging directory or import lock; remove the lock only after confirming no importer is active. Previous installations are retained to avoid destructive replacement.
+## Launcher
 
-See the [measured loading improvement](docs/qualification.md#loading-optimization-2026-10-16). On Linux, the first launch prepares a decoded copy of `main.dz` under the data directory's `cache/assets-v1`. Later launches and level transitions read the cached assets directly, avoiding repeated ARM LZMA decompression. The imported archive stays byte-for-byte intact and `check` still verifies the originals. Cache entries are tied to the source digest, checked on reuse, and rebuilt automatically if damaged. If preparation fails, the original loader remains available. Deleting the cache is safe; the next launch regenerates it. A separate cached loading profile batches serialization callbacks in 1 MiB chunks (with a 50 ms progress interval) to keep progress responsive. The original configuration is retained; gameplay, logos and story cutscene timing are unchanged; the usual touch controls skip those sequences.
+![Native incident dossier launcher](docs/launcher/overview-1000x620.png)
 
-Running with no subcommand launches the imported game or explains import when no installation exists. Launch options include `--fullscreen`, `--windowed`, `--volume=0..100`, `--touch`, `--desktop`, `--fps`, and `--resources <directory>`; display/input/volume settings persist. F11 toggles fullscreen for the current session. The game runs at its original 480×320 internal resolution in landscape, with aspect-preserving presentation and inherited timing. Driver swap waits are explicitly disabled because the guest and compositor already pace frames; an additional driver wait can stall game updates even while the compositor reports 60 FPS. The game profile enables forced composition: Airplay waits for a draw callback which the inherited fullscreen fast path omits.
+- **Installation:** import and verify the game.
+- **Overview:** play after verification succeeds.
+- **Settings & controls:** save display, input and volume preferences for the next launch; choose a desktop icon.
+- **Achievements:** browse 23 proposed goals and category filters. Gameplay achievement tracking is not implemented.
+- **View logs:** inspect import, verification and runtime output.
 
-Desktop actions: WASD/arrows movement, hold right mouse and move the mouse to aim, left mouse fire while aiming and pointer clicks in menus, R reload (simulated screen tip), hold Space to shake off a grab, E contextual action, Tab inventory, Escape pause/back. Desktop mode removes the touch movement pad, aim/fire, knife and walk graphics and blocks ordinary mouse clicks on their gameplay targets. The phone shortcut stays visible and clickable; menus keep normal mouse navigation. Use E for contextual gameplay actions. Contextual icons (pickup, doors, kicks, ladders, jumps, reload and shake-off), health/ammo and menus remain visible. Keyboard actions use separate synthetic input, so mouse clicks on the removed controls cannot change the keyboard control state. Game assets and saves are unchanged. Movement drags from the control-pad center. Inventory opens the phone’s Items page; Escape closes it or opens the phone menu. Aim uses timed taps so holding right mouse does not fire. E follows the current action icon; without a nearby interaction that icon enters native aim mode. Focus loss releases held inputs and cancels pending navigation. A per-data-directory OS lease prevents overlapping runtimes from rotating the same saves. `--touch` preserves original pointer/touch control and all touch-control graphics, and still plays the movie.
+F11 toggles launcher fullscreen independently of the game's display preference. Tab and Shift-Tab move between controls; Enter or Space activates them.
 
-Storage follows XDG, with standard home-directory fallbacks:
+Run `make desktop` to install the applications-menu entry, desktop shortcut and `~/.local/bin/redegpc`. With an active virtual environment, use `make desktop PYTHON=.venv/bin/python`. The installed command opens the launcher without arguments; `redegpc run` starts the game directly. Keep this checkout in place. `make uninstall-desktop` removes the integration while preserving game files and saves. See the [full launcher guide](launcher/README.md).
 
-| Contents | Location |
-|---|---|
-| Imported installations and current manifest | `$XDG_DATA_HOME/redegpc` (`~/.local/share/redegpc`) |
-| Persistent saves | data directory's `touchHLE_sandbox` |
-| Settings and additional upstream options | `$XDG_CONFIG_HOME/redegpc` (`~/.config/redegpc`) |
-| Runtime log | `$XDG_STATE_HOME/redegpc/logs/redegpc.log` (`~/.local/state/redegpc/logs/redegpc.log`) |
+## Controls
 
-Resources resolve next to the executable (`resources/` or `../share/redegpc/`), then the source checkout compiled into a development build. Use `--resources` to select them explicitly. A moved binary needs `touchHLE_dylibs`, `touchHLE_fonts`, and `touchHLE_default_options.txt` in that resource directory, including all their notices. No working-directory changes are made. The public Rust `redegpc::runtime::run(RuntimeConfig)` entry accepts app, resource, data, config and log directories plus typed game settings, and initializes one runtime per process on the main thread.
+| Input | Action |
+| --- | --- |
+| W / A / S / D or arrows | Move |
+| Hold right mouse and move mouse | Aim |
+| Left mouse while aiming | Fire |
+| R | Reload |
+| Hold Space | Shake off a grab |
+| E | Contextual action |
+| Tab | Open inventory |
+| Escape | Pause / back |
+| F11 | Toggle game fullscreen |
 
-Movie playback uses FFmpeg to decode local MPEG-4/AAC into bounded RGBA frame queues and PCM, draws into the runtime's existing window, and plays PCM through SDL. Guest completion notifications (ended, failed or user exit) run on the guest run loop. Escape/Enter/Space, click or touch skips the movie. FFmpeg errors are explicit and return control through a failure notification. The original runtime's simulated playback remains for other applications.
+Menus retain normal pointer navigation. Desktop mode hides the original movement, aim/fire, knife and walk graphics while keeping contextual actions, health, ammo and the phone shortcut visible. E follows the current contextual icon; without a nearby interaction it can enter the game's native aim mode. Losing focus releases held inputs.
 
-Run `python scripts/verify.py` for locked release build, formatting, focused Clippy, and library tests. See [upstream build documentation](dev-docs/building.md), [original README](README.touchHLE.md), and [notices](NOTICE.redegpc.md). The game and its assets are not distributed here.
+Use `./target/release/redegpc run --touch` for original touch controls. Other options include `--fullscreen`, `--windowed`, `--volume=0..100` and `--fps`; display, input and volume settings persist. Escape, Enter, Space or a click skips the movie. See [detailed runtime behavior](docs/advanced-usage.md#build-and-play).
 
-Development qualification: `REDEGPC_TRACE=touchHLE::fs,touchHLE::window` enables focused traces. `REDEGPC_TRACE=touchHLE::redegpc::asset_cache` logs cache verification timing; `REDEGPC_ORIGINAL_ASSETS=1` temporarily uses the original compressed archive and loading configuration for comparisons. `REDEGPC_FRAME_TRACE=/absolute/new-file.csv` records presentation intervals; use `python scripts/summarize_frames.py` to summarize them. `scripts/qualify_launches.py` checks repeated real X11 menu launches against reviewed positive and negative captures, and can hide the source drive in each child mount namespace using Bubblewrap. `scripts/check_active_qualification.py` independently recounts active-world time and verifies captured frames from a soak. These helpers require Pillow (12.3+) and graphical captures use an accessible X11 display; they are development tools.
+## Saves and settings
+
+| Content | Default location |
+| --- | --- |
+| Imported installations, manifest and cache | `~/.local/share/redegpc` |
+| Saves | `~/.local/share/redegpc/touchHLE_sandbox` |
+| Settings and upstream options | `~/.config/redegpc` |
+| Runtime log | `~/.local/state/redegpc/logs/redegpc.log` |
+
+`XDG_DATA_HOME`, `XDG_CONFIG_HOME` and `XDG_STATE_HOME` override the corresponding base directories. Clearing the asset cache is recoverable; deleting the data directory also deletes saves. Previous installations are retained, and an OS lease prevents overlapping runtimes from using the same saves.
+
+## Status and limitations
+
+The project is under local qualification. A successful build or a gameplay capture does not establish full campaign compatibility. Read the [observed results and remaining defects](docs/qualification.md) and [acceptance gates](GATES.md) before assessing support.
+
+The runtime preserves the game's original resolution and timing. Cached asset decoding improves later loads while keeping imported originals intact. The launcher can browse proposed achievements but does not award them. Current platform support targets Linux x86_64.
+
+## Development
+
+| Command | Purpose |
+| --- | --- |
+| `make help` | Show available targets |
+| `make setup` | Initialize submodules, fetch locked dependencies and check launcher prerequisites |
+| `make build` | Build the release host |
+| `make dev` / `make launcher` | Build and open the native launcher |
+| `make run ARGS="--windowed --fps"` | Run with extra options |
+| `make check-game` | Verify imported game files (`check-install` is an alias) |
+| `make check` | Check Rust without linking |
+| `make verify` | Build and run formatting, focused Clippy, library and synthetic CLI checks |
+| `make test-launcher` | Run isolated launcher checks on a graphical display |
+| `make clean` / `make distclean` | Remove Python caches / also clean Cargo artifacts |
+
+Builds default to four Cargo jobs; override with `CARGO_BUILD_JOBS=8 make build`. Cleaning preserves game files and saves. The inherited runtime remains available with `cargo run --locked --release --bin touchHLE -- ...`.
+
+See [detailed usage, architecture and qualification tools](docs/advanced-usage.md), [loading measurements](docs/qualification.md#loading-optimization-2026-10-16), and the [upstream README](README.touchHLE.md).
+
+## License and credits
+
+Based on **touchHLE**, retaining its history and notices. New host and compatibility code follows **MPL-2.0** source notices; the documented combined binary is **GPL-3.0-or-later**. Individual components retain their licenses. See [LICENSE](LICENSE), [upstream terms](README.touchHLE.md) and [redegpc notices](NOTICE.redegpc.md).
+
+Resident Evil Degeneration and its game assets belong to their respective owners. The game is not distributed here; runtime resources and dependencies retain their required notices.
