@@ -1,15 +1,29 @@
-name: Request support for a specific app
-description: We do not take these requests. Please do not make them.
-labels: ["issue does not meet guidelines"]
+name: Suggest a redegpc improvement
+description: Propose an improvement to this port, its launcher, controls, documentation or tests.
 body:
   - type: markdown
     attributes:
       value: |
-        We do not take requests to add support for specific apps.
-        Please do not make such requests.
-  - type: checkboxes
+        This fork focuses on Resident Evil Degeneration for Linux x86_64.
+        General compatibility with unrelated iPhone applications is outside
+        its current scope. English and Spanish are welcome.
+  - type: textarea
+    id: problem
     attributes:
-      label: By submitting this issue, I certify that…
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the result you want and any alternatives you considered.
+    validations:
+      required: true
+  - type: checkboxes
+    id: piracy-policy
+    attributes:
+      label: Piracy policy
       options:
-        - label: I understand my issue will be immediately rejected.
+        - label: I understand that linking to, discussing or asking for pirated content is not permitted, including abandonware and illegal copies of free applications.
           required: true

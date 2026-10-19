@@ -131,6 +131,8 @@ Builds default to four Cargo jobs; override with `CARGO_BUILD_JOBS=8 make build`
 
 See [detailed usage, architecture and qualification tools](docs/advanced-usage.md), [loading measurements](docs/qualification.md#loading-optimization-2026-10-16), and the [upstream README](README.touchHLE.md).
 
+Contributions use this repository's GitHub issues and pull requests. Read the [contribution guide](CONTRIBUTING.md) and [piracy policy](CODE_OF_CONDUCT.md); both are available in English and Spanish.
+
 ## License and credits
 
 Based on **touchHLE**, retaining its history and notices. New host and compatibility code follows **MPL-2.0** source notices; the documented combined binary is **GPL-3.0-or-later**. Individual components retain their licenses. See [LICENSE](LICENSE), [upstream terms](README.touchHLE.md) and [redegpc notices](NOTICE.redegpc.md).

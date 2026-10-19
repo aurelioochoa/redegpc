@@ -131,6 +131,8 @@ La compilación usa cuatro tareas de Cargo por defecto; cambia el valor con `CAR
 
 Consulta la [guía detallada de uso, arquitectura y herramientas de validación](docs/advanced-usage.md), las [mediciones de carga](docs/qualification.md#loading-optimization-2026-10-16) y el [README de touchHLE](README.touchHLE.md) (en inglés).
 
+Las contribuciones se revisan en los issues y pull requests de este repositorio. Lee la [guía de contribución](CONTRIBUTING.es.md) y la [política de piratería](CODE_OF_CONDUCT.es.md); ambas están disponibles en inglés y español.
+
 ## Licencia y créditos
 
 Basado en **touchHLE**, conservando su historial y avisos. El nuevo código del host y de compatibilidad sigue los avisos **MPL-2.0**; el binario combinado documentado es **GPL-3.0-or-later**. Cada componente conserva su licencia. Consulta [LICENSE](LICENSE), las [condiciones originales](README.touchHLE.md) y los [avisos de redegpc](NOTICE.redegpc.md).

@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: File an app compatibility report
-    about: The app compatibility database tracks which apps do and don't work in touchHLE.
-    url: https://appdb.touchhle.org/
+  - name: Installation and troubleshooting guide
+    about: Set up redegpc, import your supported IPA and troubleshoot the launcher.
+    url: https://github.com/aurelioochoa/redegpc/blob/main/launcher/README.md
+  - name: README en español
+    about: Requisitos, instalación, controles y limitaciones de redegpc en español.
+    url: https://github.com/aurelioochoa/redegpc/blob/main/README.es.md

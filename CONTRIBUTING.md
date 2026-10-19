@@ -1,97 +1,67 @@
-# Contributing to touchHLE
+# Contributing to redegpc
 
-Please also read the [code of conduct](CODE_OF_CONDUCT.md).
+**English** · [Español](CONTRIBUTING.es.md)
 
-## Issues
+`redegpc` is an experimental Linux PC port of Resident Evil Degeneration, based on touchHLE. This guide covers contributions to this fork. Reports and changes are reviewed through this repository's [issues](https://github.com/aurelioochoa/redegpc/issues) and [pull requests](https://github.com/aurelioochoa/redegpc/pulls).
 
-Please bear in mind that there are infinitely many apps that do not work in touchHLE right now, so please don't open issues about broken apps unless one of these applies:
+## Scope
 
-- You know that this specific version of the app worked in a previous version of touchHLE and you can reproduce this.
-- The app is partially working (e.g. loaded up to the menu but the main game doesn't work). The fact that an app's splash screen (Default.png) shows up doesn't mean it's partially working.
+The current target is **Linux x86_64** and the **English iPhone v1.03.00** release, bundle `jp.co.capcom.residentevil.en`. Contributions to the host, importer, controls, launcher, loading, saves, documentation and tests are useful.
 
-## Source control and review
+General compatibility with other iPhone applications is outside the current scope. Read the [README](README.md), [launcher guide](launcher/README.md) and [observed results and limitations](docs/qualification.md) before describing a problem.
 
-### Setting up the repo
+## Reports and proposals
 
-touchHLE uses git source control. You can get the source code from GitHub like this:
+Open an [issue](https://github.com/aurelioochoa/redegpc/issues/new/choose) in English or Spanish and include:
 
-```
-$ git clone https://github.com/touchHLE/touchHLE.git
-$ cd touchHLE
-```
+- Your `redegpc` revision (`git rev-parse HEAD`), Linux distribution and architecture.
+- GPU/driver and desktop session when the problem concerns rendering, window behavior or input.
+- Reproduction steps, expected and observed results, and whether an earlier revision worked.
+- Game version, the result of `make check-game` and relevant logs. Do not attach the IPA or extracted game files; remove private details from logs.
 
-touchHLE uses Gerrit for code review. [The touchHLE repo on GerritHub](https://review.gerrithub.io/admin/repos/touchHLE/touchHLE) is where you can submit patches.
+For larger proposals, explain the problem and intended design to help review. Distinguish build/component checks from real gameplay observations; reaching the menu does not establish full campaign compatibility.
 
-If you're unfamiliar with Gerrit or GerritHub, please read [Working with Gerrit: An example](https://gerrithub.io/Documentation/intro-gerrit-walkthrough.html) first to get an overview of the expected workflow.
+## Development setup
 
-Log into GerritHub with your GitHub account. (If that fails with some server error, try again in a few hours; there are some reliability issues.) If it's your first time using GerritHub, you can then [go to “GitHub” &gt; “Profile” in the Gerrit UI](https://review.gerrithub.io/plugins/github-plugin/static/account.html) to set up your profile and import your SSH keys. It is recommended to provide a “Full name”, which is just a display name and does not have to be your legal name.
+To submit changes, fork this repository on GitHub, clone your fork and create a branch from `main`. Follow the [README requirements and setup](README.md#requirements), retaining `Cargo.lock` and pinned submodules.
 
-You can then add GerritHub as a “remote” (replace `your-github-username-here` with your username):
-
-```
-$ git remote add gerrit "ssh://your-github-username-here@review.gerrithub.io:29418/touchHLE/touchHLE"
-```
-
-Gerrit requires your commit messages to have a `Change-Id:` line in them. Gerrit provides a git hook that adds this line to your commit messages automatically. You can install it like this (Windows users may need to use git bash for this):
-
-```
-$ (f=`git rev-parse --git-dir`/hooks/commit-msg ; mkdir -p $(dirname $f) ; curl -Lo $f https://review.gerrithub.io/tools/hooks/commit-msg ; chmod +x $f)
+```sh
+git submodule update --init --recursive
+make setup
+make build
 ```
 
-### Pushing changes
+The launcher needs Python 3.10+, Tk and Pillow; FFmpeg plays the original intro. Synthetic checks need no game files. Real-game checks require your own compatible, unencrypted IPA and a graphical desktop.
 
-Make a local branch based on `trunk` with your changes. Try to avoid bundling unrelated changes in one commit. If you make a mistake in a commit that hasn't been merged yet, please fix it by modifying the original commit (e.g. using `git commit --amend --reset-author`), rather than by adding a separate commit.
+## Changes and verification
 
-Once you're happy with your changes, you can push them for review on Gerrit with:
+Keep each pull request focused on one problem and add tests when they catch a meaningful regression. Preserve imported originals and saves; use synthetic fixtures or isolated installations for tests. Follow the [existing coding style](dev-docs/code-style.md).
 
-```
-$ git push gerrit HEAD:refs/for/trunk
-```
+| Command | Purpose |
+| --- | --- |
+| `make fmt-check` | Check Rust formatting |
+| `make check` | Check the library and binaries without linking |
+| `make test` | Run library tests without the upstream iOS test toolchain |
+| `make lint` | Run focused Clippy checks |
+| `make test-cli` | Exercise the CLI/importer with synthetic fixtures |
+| `make verify` | Check, build and run formatting, focused Clippy, library and synthetic CLI tests |
+| `make test-launcher` | Run isolated launcher checks; requires a graphical display |
+| `make check-game` | Verify your imported game installation |
 
-Then go to GerritHub, make sure you didn't push anything you didn't intend to, and add `hikari_no_yume` and `ciciplusplus` as reviewers.
+Run `make verify` for runtime, importer or build-system changes. Add `make test-launcher` for launcher changes. For documentation, check links, examples and formatting; a runtime rebuild is unnecessary. State what you checked and identify any checks you could not run.
 
-If you're submitting a large number of changes with a common theme, e.g. improving compatibility with some app, it is recommended to _also_ create a GitHub pull request. This improves visibility and ensures your changes are tested by the GitHub CI. You can then tag the Gerrit reviews with a “topic” named like `touchHLE/pull/xxx` where xxx is the pull request number. You can bulk-tag things using the checkboxes on the GerritHub homepage.
+## Pull requests
 
-Please also see the following guidelines for what to do with code changes.
+Target **`aurelioochoa/redegpc:main`**. Describe the problem, resulting behavior, verification and any remaining limitations or regressions. Include screenshots when they help review visual changes. The maintainer reviews changes on GitHub; Gerrit and touchHLE review identifiers are not part of this fork's workflow.
 
-### Submitting changes
+## AI assistance
 
-In order to submit a patch set (PS) on the GerritHub, following conditions should be met:
+AI-assisted contributions are allowed in this fork. Contributors remain responsible for understanding and reviewing the content, verifying its behavior, and checking its provenance and license compatibility. Describe substantial AI assistance in the pull request.
 
-- PS should receive a +2 code review
-- Verified +1 should be set (on practice this means that author checked that code compiles, tests passes and lint/clippy doesn't complain)
-- There are no merge conflicts with the trunk
+This policy applies to `redegpc`. Changes submitted to upstream touchHLE must follow upstream's own contribution rules.
 
-Once met, a `Submit` button should be visible in the GerritHub UI.
-On click, the changes would be accepted to the trunk of the repo and automatically synced to the GitHub as well.
-If you reached that stage - congrats! Your first contribution is accepted ;)
+## Provenance and licensing
 
-## Code contributions
+Contribute only material you have the right to share. Prefer public documentation, reproducible observations and original work; do not include copied proprietary code, leaked material, IPAs or extracted game assets. Follow the [piracy policy](CODE_OF_CONDUCT.md).
 
-The developer documentation can be found in [the `dev-docs` directory](dev-docs/) and throughout the codebase. At a minimum, you'll probably want to read [the building guide](dev-docs/building.md) and [the coding style guide](dev-docs/code-style.md).
-
-Please run [`dev-scripts/format.sh`](dev-scripts/format.sh) and [`dev-scripts/lint.sh`](dev-scripts/lint.sh) on your changes before committing.
-
-You should also run `cargo test`. [Building the integration tests requires downloading LLVM and a custom toolchain](tests/README.md), so it's understandable if you want to skip them (`cargo test -- --skip test_app`) and let the GitHub Actions CI catch any issues when you submit your pull request. Alternatively, you can download a pre-built version of the integration tests app (TestApp) from GitHub Actions CI and run it in touchHLE.
-
-If you're going to open a pull request with non-trivial changes, please talk to us first so we can figure out if we're likely to accept them. It would be a shame if your effort had to be wasted.
-
-Avoid sending everything as big commit(s) - we prefer to have smaller self-mergeable commits which could be reviewed and submitted independently.
-
-Please also understand that we maintain a certain code quality standards and your contribution would be accepted _only_ if it does meet them. If your don't have time or willingness to be involved in the review process to attain those, please avoid contributing. You could check [past merged patch sets](https://review.gerrithub.io/q/project:touchHLE/touchHLE+status:merged) to get an idea what is expected.
-
-### Copyright and reverse engineering
-
-(Please also read the copyright rules in the code of conduct.)
-
-⚠️ Be **very** careful about copyright. To put it simply: **don't contribute if you've seen code you shouldn't have seen, don't copy code that isn't yours to copy, and especially don't _secretly_ copy and pretend you didn't**. Any infringement of Apple or other copyrights could threaten the foundations of the project, and the livelihoods of current contributors. **If in doubt, don't do it**, but in particular:
-
-* ⚠️ When implementing an API, rely firstly and primarily on public documentation.
-* ⚠️ Do not under any circumstances look at or rely on _leaked_ code, documentation, tools, etc. Material being available somewhere does not mean it is open-source.
-* ⚠️ Do not disassemble or decompile components of iOS or other Apple platforms. If you can't figure out how else you would find out how an API should behave, please just don't try to implement it.
-* ⚠️ Looking at header files is occasionally necessary, but it should not be your first resort, and you must only use them as a source of simple facts (e.g. what value does a constant have, what type does a type alias resolve to). Do not copy their layout and organization. Do not copy anything you do not need to. Except where the name is part of the ABI or public API, do not copy names.
-* ⚠️ Bear in mind that open-source code is still covered by copyright, and so the same caution applies to consulting open-source code. Especially try to avoid looking at the implementation files, unless there is no other option, and do not copy algorithms. (Note however that if it's under a compatible license, we may be able to bring the open-source code into the project _under that license, as a dependency_.)
-* ⚠️ If you work or have worked at Apple, or NeXT, or various other organisations, then you may have seen the proprietary source code used in components of iOS. If that's the case, please do not contribute to this project.
-* ⚠️ If your employment contract or applicable law in your country means that you don't own the copyright on code you want to contribute to this project, or if for some other reason you may need permission from your employer to contribute to this project: please do obtain that permission before contributing.
-
-Because large language models have most likely "seen" things during their training process that would break these rules, and because they are impossible to audit, ⚠️ **use of AI assistants or AI code generation like ChatGPT, Copilot or similar is also forbidden**.
+Preserve license and copyright headers, dependency notices and attribution history. Changes to MPL-covered code remain subject to its terms. New host code currently follows MPL-2.0; components retain their own licenses and the documented combined binary is GPL-3.0-or-later. See [LICENSE](LICENSE), [project notices](NOTICE.redegpc.md) and [upstream terms](README.touchHLE.md#license). Changing these contribution instructions does not change the software licenses.
