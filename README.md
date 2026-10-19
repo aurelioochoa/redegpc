@@ -10,7 +10,7 @@ Play the English iPhone release of **Resident Evil Degeneration** on Linux with 
 
 **Bring your own game:** the supported release is the unencrypted **English iPhone v1.03.00 IPA**. The project does not include game files. This is an experimental preservation project; full playable compatibility has not been established.
 
-[Gameplay](#gameplay) · [Quick start](#quick-start) · [Game files](#game-files) · [Controls](#controls) · [Development](#development)
+[Gameplay](#gameplay) · [Quick start](#quick-start) · [Game files](#game-files) · [How the port works](#how-the-port-works) · [Controls](#controls) · [Development](#development)
 
 ### Gameplay
 
@@ -64,6 +64,18 @@ Only bundle **`jp.co.capcom.residentevil.en`**, version **`1.03.00`**, with an *
 Import validates the app, copies it to local storage, records SHA-256 hashes and switches installations only after success. Rejected imports preserve existing installations and saves. After import, the source IPA and external drive are no longer needed. `check` verifies the installed originals; the decoded cache is separate and can be regenerated.
 
 See [import and recovery details](launcher/README.md#import-your-game) and the [detailed usage guide](docs/advanced-usage.md#build-and-play).
+
+### How the port works
+
+The original iPhone executable still runs the game logic. The Rust host supplies the parts of iPhone OS it needs through **high-level emulation (HLE)**, using the inherited touchHLE runtime.
+
+1. **Load and execute the app.** After IPA validation, the Mach-O loader maps the ARM executable into guest memory. **Dynarmic** dynamically recompiles its ARM instructions for the host CPU. The dynamic linker connects imported system functions and classes to host implementations.
+2. **Supply iPhone services.** touchHLE implements the Objective-C runtime and the required portions of UIKit, Foundation, libc and other frameworks. Guest callbacks and the app's run loop use these services; filesystem calls place writable app data in the local sandbox used for saves.
+3. **Present graphics and sound.** EAGL/OpenGL ES 1.1 calls pass through touchHLE's graphics layer to the host graphics driver, with SDL managing the window and input. Audio uses the inherited OpenAL-backed services. For the original intro, FFmpeg decodes MPEG-4/AAC into video frames and PCM audio, presented in the same window with SDL audio playback.
+4. **Translate desktop controls.** Keyboard and mouse actions become logical touches at the game's original **480×320** coordinates. A texture-aware HUD filter hides selected touch-control graphics while retaining contextual indicators. The original game continues to interpret those touches and run its own movement, combat and menus.
+5. **Cache expensive asset decoding.** The host expands `main.dz` into a separate, verified cache so later loads avoid repeated ARM LZMA decompression. Imports remain intact, damaged cache entries are rebuilt, and the original loader is available if cache preparation fails. This changes loading work while preserving gameplay timing.
+
+Source entry points: [CPU execution](src/cpu.rs), [dynamic linking](src/dyld.rs), [framework services](src/frameworks/), [desktop controls](src/redegpc_controls.rs), and [asset cache](src/redegpc/asset_cache.rs). See the [implementation reference](docs/advanced-usage.md#build-and-play) for runtime details. Compatibility depends on the supported executable and implemented services; full campaign compatibility remains unverified.
 
 ### Launcher
 
@@ -149,7 +161,7 @@ Juega la versión inglesa de **Resident Evil Degeneration para iPhone** en Linux
 
 **Debes aportar tu propio juego:** solo se admite el **IPA de iPhone en inglés v1.03.00 sin cifrar**. El proyecto no incluye archivos del juego. Es un proyecto experimental de preservación; la compatibilidad completa durante el juego aún no está establecida.
 
-[Jugabilidad](#jugabilidad) · [Inicio rápido](#inicio-rápido) · [Archivos del juego](#archivos-del-juego) · [Controles](#controles) · [Desarrollo](#desarrollo)
+[Jugabilidad](#jugabilidad) · [Inicio rápido](#inicio-rápido) · [Archivos del juego](#archivos-del-juego) · [Cómo funciona el port](#cómo-funciona-el-port) · [Controles](#controles) · [Desarrollo](#desarrollo)
 
 ### Jugabilidad
 
@@ -203,6 +215,18 @@ Solo se admite el paquete **`jp.co.capcom.residentevil.en`**, versión **`1.03.0
 La importación valida la aplicación, la copia al almacenamiento local, registra sus hashes SHA-256 y cambia de instalación solo al terminar correctamente. Una importación rechazada conserva las instalaciones y partidas existentes. Después de importar, ya no necesitas el IPA de origen ni la unidad externa. `check` verifica los originales instalados; la caché decodificada se guarda aparte y puede regenerarse.
 
 Consulta los [detalles de importación y recuperación](launcher/README.md#import-your-game) y la [guía detallada de uso](docs/advanced-usage.md#build-and-play) (en inglés).
+
+### Cómo funciona el port
+
+El ejecutable original de iPhone sigue ejecutando la lógica del juego. El host en Rust proporciona las partes de iPhone OS que necesita mediante **emulación de alto nivel (HLE)**, con el runtime heredado de touchHLE.
+
+1. **Cargar y ejecutar la aplicación.** Tras validar el IPA, el cargador Mach-O sitúa el ejecutable ARM en la memoria emulada. **Dynarmic** recompila dinámicamente sus instrucciones ARM para la CPU anfitriona. El enlazador dinámico conecta las funciones y clases del sistema importadas con implementaciones del host.
+2. **Proporcionar los servicios de iPhone.** touchHLE implementa el runtime de Objective-C y las partes necesarias de UIKit, Foundation, libc y otros frameworks. Los callbacks y el bucle de eventos de la aplicación usan estos servicios; las llamadas al sistema de archivos guardan los datos modificables en el entorno local de partidas.
+3. **Presentar gráficos y sonido.** Las llamadas EAGL/OpenGL ES 1.1 pasan por la capa gráfica de touchHLE al controlador gráfico del host; SDL gestiona la ventana y la entrada. El audio usa los servicios heredados basados en OpenAL. Para la introducción original, FFmpeg decodifica MPEG-4/AAC en fotogramas y audio PCM, mostrados en la misma ventana con reproducción de audio mediante SDL.
+4. **Traducir los controles de escritorio.** Las acciones de teclado y ratón se convierten en toques lógicos en las coordenadas originales de **480×320**. Un filtro del HUD reconoce texturas y oculta ciertos gráficos de controles táctiles, conservando los indicadores contextuales. El juego original interpreta esos toques y ejecuta su movimiento, combate y menús.
+5. **Guardar en caché la decodificación de recursos.** El host expande `main.dz` en una caché separada y verificada para evitar repetir la descompresión LZMA en ARM durante cargas posteriores. Los originales importados se conservan, las entradas dañadas se regeneran y el cargador original sigue disponible si falla la preparación. Esto cambia el trabajo de carga y conserva el ritmo del juego.
+
+Puntos de entrada del código: [ejecución de CPU](src/cpu.rs), [enlazado dinámico](src/dyld.rs), [servicios de frameworks](src/frameworks/), [controles de escritorio](src/redegpc_controls.rs) y [caché de recursos](src/redegpc/asset_cache.rs). La [referencia de implementación](docs/advanced-usage.md#build-and-play) amplía los detalles (en inglés). La compatibilidad depende del ejecutable admitido y de los servicios implementados; la campaña completa sigue sin verificarse.
 
 ### Lanzador
 
