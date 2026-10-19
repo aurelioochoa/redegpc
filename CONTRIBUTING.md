@@ -76,7 +76,7 @@ Preserve license and copyright headers, dependency notices and attribution histo
 
 El objetivo actual es **Linux x86_64** y la versión **inglesa de iPhone v1.03.00**, con identificador `jp.co.capcom.residentevil.en`. Son útiles las mejoras del host, importador, controles, lanzador, cargas, partidas, documentación y pruebas.
 
-La compatibilidad con otras aplicaciones de iPhone queda fuera del alcance actual. Consulta el [README](README.es.md), la [guía del lanzador](launcher/README.md) y los [resultados y limitaciones observados](docs/qualification.md) antes de describir un problema. Las dos últimas referencias están en inglés.
+La compatibilidad con otras aplicaciones de iPhone queda fuera del alcance actual. Consulta el [README](README.md#español), la [guía del lanzador](launcher/README.md) y los [resultados y limitaciones observados](docs/qualification.md) antes de describir un problema. Las dos últimas referencias están en inglés.
 
 ### Informes y propuestas
 
@@ -91,7 +91,7 @@ Para propuestas amplias, explica el problema y el diseño previsto para facilita
 
 ### Preparar el entorno
 
-Para enviar cambios, crea un fork en GitHub, clónalo y abre una rama a partir de `main`. Sigue los requisitos y la preparación del [README](README.es.md#requisitos), conservando `Cargo.lock` y los submódulos fijados.
+Para enviar cambios, crea un fork en GitHub, clónalo y abre una rama a partir de `main`. Sigue los requisitos y la preparación del [README](README.md#requisitos), conservando `Cargo.lock` y los submódulos fijados.
 
 ```sh
 git submodule update --init --recursive
