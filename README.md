@@ -4,6 +4,8 @@
 
 ## English
 
+> **Disclaimer:** `redegpc` is not a decompilation or a static recompilation of Resident Evil Degeneration. It is an effort to preserve the specific English iPhone v1.03.00 release and make it playable on PC, currently targeting Linux x86_64. The touchHLE-based host supplies iPhone OS services while Dynarmic dynamically recompiles the original ARM executable at runtime. This runtime translation is distinct from static recompilation. You must supply your own compatible, unencrypted IPA. Full playable compatibility remains unverified.
+
 ![Resident Evil Degeneration — Leon and Claire at the airport](docs/media/banner.png)
 
 Play the English iPhone release of **Resident Evil Degeneration** on Linux with keyboard and mouse controls, a native desktop launcher, and local saves. `redegpc` is a Rust compatibility host based on touchHLE revision `ca1de89c578e79746f33c1332e28efd106c334ba`.
@@ -147,13 +149,26 @@ See [detailed usage, architecture and qualification tools](docs/advanced-usage.m
 
 Contributions use this repository's GitHub issues and pull requests. Read the bilingual [contribution guide](CONTRIBUTING.md#english) and [piracy policy](CODE_OF_CONDUCT.md#english).
 
-### License and credits
+### License
 
 Based on **touchHLE**, retaining its history and notices. New host and compatibility code follows **MPL-2.0** source notices; the documented combined binary is **GPL-3.0-or-later**. Individual components retain their licenses. See [LICENSE](LICENSE), [upstream terms](README.touchHLE.md) and [redegpc notices](NOTICE.redegpc.md).
 
 Resident Evil Degeneration and its game assets belong to their respective owners. The game is not distributed here; runtime resources and dependencies retain their required notices.
 
+### Credits
+
+- **The original game's developers, publishers and rights holders:** Resident Evil Degeneration for iPhone, its executable, characters, artwork and audio.
+- **touchHLE project contributors:** the high-level iPhone OS emulator and inherited Rust runtime on which this project is based. The retained upstream revision is `ca1de89c578e79746f33c1332e28efd106c334ba`; see the [upstream acknowledgments](README.touchHLE.md#thanks).
+- **Dynarmic contributors:** dynamic ARM-to-host CPU recompilation during execution.
+- **SDL2, rust-sdl2 and OpenAL Soft contributors:** desktop window, input and audio services. **FFmpeg contributors:** original intro video/audio decoding. **XZ Utils contributors:** liblzma asset decompression.
+- **Python, Tcl/Tk and Pillow contributors:** the desktop launcher and image handling.
+- **Project contributors and testers:** game-specific compatibility, PC controls, verified asset caching, launcher and preservation documentation. See [media provenance](docs/media/README.md) and [launcher asset credits](launcher/assets/README.md).
+
+The [upstream README](README.touchHLE.md#license), [project notices](NOTICE.redegpc.md) and `redegpc --copyright` retain the broader dependency and runtime-resource acknowledgments. This unofficial preservation effort has no affiliation with or endorsement from the original game's rights holders.
+
 ## Español
+
+> **Aviso:** `redegpc` no es una descompilación ni una recompilación estática de Resident Evil Degeneration. Es un esfuerzo para preservar la edición inglesa específica de iPhone v1.03.00 y permitir jugarla en PC, actualmente en Linux x86_64. El host basado en touchHLE proporciona servicios de iPhone OS, mientras Dynarmic recompila dinámicamente el ejecutable ARM original en tiempo de ejecución. Esta traducción durante la ejecución es distinta de una recompilación estática. Debes aportar tu propio IPA compatible sin cifrar. La compatibilidad jugable completa sigue sin verificarse.
 
 ![Resident Evil Degeneration: Leon y Claire en el aeropuerto](docs/media/banner.png)
 
@@ -298,8 +313,19 @@ Consulta la [guía detallada de uso, arquitectura y herramientas de validación]
 
 Las contribuciones se revisan en los issues y pull requests de este repositorio. Lee la [guía de contribución](CONTRIBUTING.md#español) y la [política de piratería](CODE_OF_CONDUCT.md#español); cada documento contiene inglés y español.
 
-### Licencia y créditos
+### Licencia
 
 Basado en **touchHLE**, conservando su historial y avisos. El nuevo código del host y de compatibilidad sigue los avisos **MPL-2.0**; el binario combinado documentado es **GPL-3.0-or-later**. Cada componente conserva su licencia. Consulta [LICENSE](LICENSE), las [condiciones originales](README.touchHLE.md) y los [avisos de redegpc](NOTICE.redegpc.md).
 
 Resident Evil Degeneration y sus recursos pertenecen a sus respectivos propietarios. El juego no se distribuye aquí; los recursos del runtime y las dependencias conservan sus avisos obligatorios.
+
+### Créditos
+
+- **Desarrolladores, editores y titulares del juego original:** Resident Evil Degeneration para iPhone, su ejecutable, personajes, arte y audio.
+- **Colaboradores del proyecto touchHLE:** emulador de alto nivel de iPhone OS y runtime heredado en Rust sobre el que se basa este proyecto. La revisión original conservada es `ca1de89c578e79746f33c1332e28efd106c334ba`; consulta los [agradecimientos originales](README.touchHLE.md#thanks) (en inglés).
+- **Colaboradores de Dynarmic:** recompilación dinámica de ARM a la CPU anfitriona durante la ejecución.
+- **Colaboradores de SDL2, rust-sdl2 y OpenAL Soft:** servicios de ventana, entrada y audio de escritorio. **Colaboradores de FFmpeg:** decodificación del vídeo y audio de la introducción original. **Colaboradores de XZ Utils:** descompresión de recursos con liblzma.
+- **Colaboradores de Python, Tcl/Tk y Pillow:** lanzador de escritorio y tratamiento de imágenes.
+- **Colaboradores y testers del proyecto:** compatibilidad específica del juego, controles de PC, caché verificada de recursos, lanzador y documentación de preservación. Consulta la [procedencia del material visual](docs/media/README.md) y los [créditos de recursos del lanzador](launcher/assets/README.md) (en inglés).
+
+El [README original](README.touchHLE.md#license), los [avisos del proyecto](NOTICE.redegpc.md) y `redegpc --copyright` conservan los agradecimientos más amplios de dependencias y recursos del runtime. Este esfuerzo de preservación no es oficial ni cuenta con afiliación o respaldo de los titulares del juego original.
