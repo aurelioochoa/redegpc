@@ -248,3 +248,48 @@ and `control-native-raised`, independently recounted by
 `scripts/check_gameplay_performance.py`, including the slow control's game FPS.
 The rebuilt binary passes formatting, focused Clippy, all 60 enabled library
 tests and CLI checks; the existing external-media test remains ignored.
+
+## Launcher and launch-time optimization, 2026-10-21
+
+All changes are code-only; no artwork, texture, audio or game file changed.
+
+The launcher now decodes its artwork once on four background threads,
+starting with the Overview's images while the window opens. Rotated originals,
+resampled pieces and finished page backgrounds are cached by window size, and
+the other pages are drawn in the background once resizing settles. Every page
+background was hashed before and after the change at 1440×810, 1100×700 and
+1700×900, including achievement selections and filters: all 24 renders are
+pixel-identical.
+
+| Launcher action | Before | After |
+|---|---|---|
+| Open and first paint | ~650 ms | ~280 ms |
+| Switch page (first visit and later) | 340–520 ms | 25–45 ms |
+| Select or page achievements | ~45–65 ms | ~35–40 ms |
+
+`redegpc check` and each launch hash the installation and the decoded asset
+cache. SHA-256 now uses the x86 SHA extensions when the CPU has them, with the
+portable rounds as fallback; a test compares both on 2,000 random blocks and
+against an independent digest. The installation check fell from ~100 ms to
+~28 ms, and launch to "CPU emulation begins" from ~404 ms to ~246 ms. The same
+function also identifies HUD textures during level loads.
+
+Every switch between the game's EAGL context and the compositor's context
+refilled the global OpenGL function table, over a thousand `glXGetProcAddress`
+lookups per switch on the emulator thread. GLX and EGL entry points do not
+depend on the context, so on Linux the table is now filled once per process.
+On the idle radio dialog after Continue, emulator-thread CPU fell from
+0.19 to 0.12 cores (three alternating runs each, disposable data copies).
+
+Profiling the Continue load found no remaining loading stall. With the
+original archive, Continue spends 5.3 seconds on a black loading screen; with
+the decoded cache that phase is gone. The remaining ~3.1 seconds are the
+menu's own selection transition (~1.7 s) and the area title fade-in (~1.4 s),
+during which guest-PC samples match the ordinary frame loop. Startup loading
+runs behind the fixed-length Capcom and Airplay logos. Neither was shortened,
+since that would change game timing.
+
+The rebuilt binary passes `scripts/verify.py` (formatting, focused Clippy,
+65 library tests with the existing one ignored, CLI fixtures). The launcher
+suite passes up to its fullscreen-geometry check, which fails identically with
+the previous launcher on this Wayland desktop.

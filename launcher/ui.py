@@ -1,6 +1,10 @@
 """Tactile dossier presentation. All controls and labels remain live widgets."""
+from collections import OrderedDict
+from dataclasses import dataclass
 import json
 from pathlib import Path
+import queue
+import threading
 import time
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
@@ -17,6 +21,16 @@ IVORY = '#eee7d6'
 PALE = '#c1c9cc'
 MONO = 'DejaVu Sans Mono'
 SERIF = 'DejaVu Serif'
+PAGES = ('overview', 'achievements', 'settings', 'installation')
+OVERVIEW_ASSETS = ('desk-background.png', 'airport-blueprint.png', 'dossier-folder.png',
+                   'quarantine-stamp.png', 'title-logo.png', 'play-plate.png',
+                   'icon-achievements.png', 'icon-settings.png', 'icon-import.png',
+                   'photo-airport.png', 'paperclip.png', 'photo-protagonists.png',
+                   'paper.png', 'icon-logs.png')
+# Rotated photographs fitted whole (Launcher.paste's contain=True).
+ROTATIONS = {'airport-blueprint.png': (-5,), 'quarantine-stamp.png': (4,),
+             'photo-airport.png': (-7, 3, -4), 'paperclip.png': (-14,),
+             'photo-protagonists.png': (-8,), 'airport-stamp.png': (4,)}
 INSTALLATION_STATES = {
     'missing': ('Import required', '#485766', 'download'),
     'pending': ('Waiting for check…', '#765524', 'clock'),
@@ -29,36 +43,186 @@ INSTALLATION_STATES = {
 }
 
 
+class Pending:
+    def __init__(self):
+        self.ready = threading.Event()
+        self.value = self.error = None
+
+    def result(self):
+        self.ready.wait()
+        if self.error:
+            raise self.error
+        return self.value
+
+
+class Memo:
+    """Thread-safe LRU of images. Concurrent requests compute a key only once,
+    so a page warmed in the background is shared rather than redrawn."""
+    def __init__(self, budget):
+        self.lock = threading.Lock()
+        self.entries = OrderedDict()
+        self.sizes = {}
+        self.budget, self.used = budget, 0
+
+    def get(self, key, compute):
+        with self.lock:
+            future = self.entries.get(key)
+            owner = future is None
+            if owner:
+                future = self.entries[key] = Pending()
+            else:
+                self.entries.move_to_end(key)
+        if not owner:
+            return future.result()
+        try:
+            value = compute()
+        except BaseException as error:
+            with self.lock:
+                self.entries.pop(key, None)
+            future.error = error
+            future.ready.set()
+            raise
+        future.value = value
+        future.ready.set()
+        with self.lock:
+            if self.entries.get(key) is future:
+                size = value.width * value.height * len(value.getbands())
+                self.sizes[key] = size
+                self.used += size
+                for old in [k for k in self.entries if k in self.sizes]:
+                    if self.used <= self.budget:
+                        break
+                    self.entries.pop(old)
+                    self.used -= self.sizes.pop(old)
+        return value
+
+
+def background(function, *args):
+    # Daemon threads never delay closing the launcher.
+    threading.Thread(target=function, args=args, daemon=True).start()
+
+
+def parallel(tasks, workers=4):
+    """Start cache-filling tasks without waiting. Pillow releases the GIL while
+    inflating and resampling; a failed task is retried, and reported, by the
+    foreground request for the same image."""
+    pending = queue.SimpleQueue()
+    for task in tasks:
+        pending.put(task)
+
+    def work():
+        while True:
+            try:
+                task = pending.get_nowait()
+            except queue.Empty:
+                return
+            try:
+                task()
+            except Exception:
+                pass
+    for _ in range(min(workers, pending.qsize())):
+        background(work)
+
+
 class Artwork:
     def __init__(self):
         self.images = {}
+        self.decoded = Memo(float('inf'))
+        self.transformed = Memo(128 << 20)
+
+    def preload(self, names):
+        tasks = []
+        for name in names:
+            tasks.append(lambda name=name: self.get(name))
+            tasks += [lambda name=name, angle=angle: self.rotated(name, angle)
+                      for angle in ROTATIONS.get(name, ())]
+        parallel(tasks)
+
+    def decode(self, name):
+        with Image.open(ASSETS / name) as source:
+            image = source.convert('RGBA')
+        if image.getextrema()[3][0] == 0:
+            image = image.crop(image.getbbox())
+        return image
 
     def get(self, name):
-        if name not in self.images:
-            with Image.open(ASSETS / name) as source:
-                image = source.convert('RGBA')
-            if image.getextrema()[3][0] == 0:
-                image = image.crop(image.getbbox())
-            self.images[name] = image
-        return self.images[name]
+        image = self.images.get(name)
+        if image is None:
+            image = self.images[name] = self.decoded.get(name, lambda: self.decode(name))
+        return image
 
-    def paste(self, canvas, name, box, *, angle=0, contain=False, opacity=1):
-        x, y, w, h = map(round, box)
+    def rotated(self, name, angle):
+        # Rotating a full-size original is the slowest step and does not
+        # depend on the window size.
+        return self.transformed.get(('rotated', name, angle), lambda: self.get(name).rotate(
+            angle, Image.Resampling.BICUBIC, expand=True))
+
+    def transform(self, name, w, h, angle, contain, opacity):
         source = self.get(name)
         if contain:
             # Fit the rotated silhouette as well as the image itself. Expanding
             # a fitted photo afterwards can push its border out of the viewport.
             if angle:
-                source = source.rotate(angle, Image.Resampling.BICUBIC, expand=True)
+                source = self.rotated(name, angle)
             image = ImageOps.contain(source, (w, h), Image.Resampling.LANCZOS)
         else:
             image = source.resize((w, h), Image.Resampling.LANCZOS)
         if opacity != 1:
+            image = image.copy() if image is source else image
             image.putalpha(image.getchannel('A').point(lambda a: round(a * opacity)))
         if angle and not contain:
             image = image.rotate(angle, Image.Resampling.BICUBIC, expand=True)
+        return image
+
+    def prepared(self, name, box, *, angle=0, contain=False, opacity=1):
+        x, y, w, h = map(round, box)
+        return self.transformed.get((name, w, h, angle, contain, opacity),
+                                    lambda: self.transform(name, w, h, angle, contain, opacity))
+
+    def fitted(self, name, size):
+        return self.transformed.get(('fit', name, size), lambda: ImageOps.fit(
+            self.get(name), size, Image.Resampling.LANCZOS))
+
+    def paste(self, canvas, name, box, **options):
+        x, y, w, h = map(round, box)
+        image = self.prepared(name, box, **options)
         canvas.alpha_composite(image, (round(x + (w - image.width) / 2),
                                        round(y + (h - image.height) / 2)))
+
+
+@dataclass(frozen=True)
+class Layout:
+    """Viewport geometry. Immutable, so background threads can draw with it."""
+    viewport: tuple
+    scale: float
+    scale_x: float
+    body_origin: tuple
+
+    @classmethod
+    def fit(cls, w, h):
+        scale = min(w / 1440, h / 810)
+        return cls((w, h), scale, w / 1440,
+                   ((w - 1440 * scale) / 2, 48 * scale + (h - 810 * scale) / 2))
+
+    def box(self, bounds):
+        x, y, w, h = bounds
+        left, top = self.point(x, y)
+        # Pick one coordinate space for the whole element, including paper
+        # edges that extend slightly past the body's nominal bottom boundary.
+        sx = self.scale if 48 <= y <= 762 else self.scale_x
+        return left, top, max(1, round(w * sx)), max(1, round(h * self.scale))
+
+    def point(self, x, y):
+        # Only the desk and chrome span the viewport. Keep the dossier and its
+        # controls on one proportional, centered surface when the window resizes.
+        if y < 48:
+            py = y * self.scale
+        elif y > 762:
+            py = self.viewport[1] - (810 - y) * self.scale
+        else:
+            return (round(self.body_origin[0] + x * self.scale),
+                    round(self.body_origin[1] + (y - 48) * self.scale))
+        return round(x * self.scale_x), round(py)
 
 
 class ArtButton(tk.Canvas):
@@ -187,10 +351,11 @@ class Launcher:
         self.page, self.category, self.offset, self.selected = 'overview', 'all', 0, 0
         self.controls, self.entries = {}, []
         self.button_pool = {}
-        self.scale = self.scale_x = 1
-        self.body_origin = (0, 48)
-        self.viewport = (1440, 810)
-        self.scene_key, self.scene_background = None, None
+        self.layout = Layout.fit(1440, 810)
+        self.scale, self.scale_x = self.layout.scale, self.layout.scale_x
+        self.body_origin, self.viewport = self.layout.body_origin, self.layout.viewport
+        self.scenes = Memo(160 << 20)
+        self.warmed, self.warm_job = set(), None
         self.resize_job = None
         self.wheel_job, self.wheel_remainder = None, 0
         self.launcher_fullscreen = False
@@ -212,8 +377,12 @@ class Launcher:
         except (OSError, ValueError) as error:
             self.desktop_icon = ICONS[0][0]
             self.session.transcript.append(f'Desktop icon preference: {error}\n')
+        # Overview artwork first: decoding overlaps creating the window.
+        self.art.preload([*OVERVIEW_ASSETS, f'desktop-icons/{self.desktop_icon}.png', *sorted(
+            str(path.relative_to(ASSETS)) for path in ASSETS.rglob('*.png')
+            if str(path.relative_to(ASSETS)) not in OVERVIEW_ASSETS)])
         window.title('Resident Evil · Degeneration')
-        self.update_window_icon()
+        window.after(250, self.update_window_icon)
         window.geometry(f'{min(1440, window.winfo_screenwidth())}x{min(810, window.winfo_screenheight())}')
         window.minsize(1000, 620)
         window.configure(bg='#0b151d')
@@ -242,24 +411,10 @@ class Launcher:
         return family, -max(10, round(size * self.scale)), weight
 
     def box(self, bounds):
-        x, y, w, h = bounds
-        left, top = self.point(x, y)
-        # Pick one coordinate space for the whole element, including paper
-        # edges that extend slightly past the body's nominal bottom boundary.
-        sx = self.scale if 48 <= y <= 762 else self.scale_x
-        return left, top, max(1, round(w * sx)), max(1, round(h * self.scale))
+        return self.layout.box(bounds)
 
     def point(self, x, y):
-        # Only the desk and chrome span the viewport. Keep the dossier and its
-        # controls on one proportional, centered surface when the window resizes.
-        if y < 48:
-            py = y * self.scale
-        elif y > 762:
-            py = self.viewport[1] - (810 - y) * self.scale
-        else:
-            return (round(self.body_origin[0] + x * self.scale),
-                    round(self.body_origin[1] + (y - 48) * self.scale))
-        return round(x * self.scale_x), round(py)
+        return self.layout.point(x, y)
 
     def text(self, x, y, label, size=20, *, family=SERIF, color=INK, width=None, anchor='nw', weight='normal'):
         px, py, _, _ = self.box((x, y, 1, 1))
@@ -290,63 +445,91 @@ class Launcher:
         self.resize_job = self.window.after(60, self.render)
 
     def scene(self):
-        key = (self.page, self.viewport)
-        if self.scene_key != key:
-            self.scene_background = self.static_scene()
-            self.scene_key = key
-        image = self.scene_background.copy()
+        image = self.static_scene(self.page, self.layout)
         if self.page == 'achievements':
+            # Cached scenes are shared; draw the selection onto a copy.
+            image = image.copy()
             selected = self.filtered()[self.selected]
             self.paste(image, Path(selected['asset']).name, (968, 119, 285, 170))
             for row, entry in enumerate(self.filtered()[self.offset:self.offset + 4]):
                 self.paste(image, Path(entry['asset']).name, (76, 300 + row * 96, 116, 75))
         return image
 
-    def paste(self, image, name, box, **options):
+    def warm(self, layout):
+        """Draw the other pages and achievement art off the Tk thread, so the
+        first visit to each page reuses finished images."""
+        try:
+            for page in PAGES:
+                self.static_scene(page, layout)
+            for entry in self.catalog:
+                name = Path(entry['asset']).name
+                for box in [(968, 119, 285, 170), (76, 300, 116, 75)]:
+                    self.art.prepared(*self.part(layout, name, box))
+        except Exception:
+            pass  # Rendering on demand reports the error.
+
+    def part(self, layout, name, box, **options):
         material = name in ('dossier-folder.png', 'detail-paper.png', 'paper.png',
                             'case-paper.png', 'play-plate.png')
         # Borders are part of each photograph: preserve the complete artwork.
         options.setdefault('contain', not material)
-        self.art.paste(image, name, self.box(box), **options)
+        return name, layout.box(box), options
 
-    def static_scene(self):
-        image = ImageOps.fit(self.art.get('desk-background.png'), self.viewport, Image.Resampling.LANCZOS)
-        self.paste(image, 'airport-blueprint.png', (630, 30, 830, 730), angle=-5, opacity=.47)
-        if self.page == 'overview':
-            self.paste(image, 'dossier-folder.png', (8, 60, 734, 714))
-            self.paste(image, 'quarantine-stamp.png', (466, 109, 208, 84), angle=4)
-            self.paste(image, 'title-logo.png', (94, 216, 532, 182), contain=True)
-            self.paste(image, 'play-plate.png', (87, 426, 554, 80))
-            for name, y in [('achievements', 518), ('settings', 576), ('import', 634)]:
-                self.paste(image, f'icon-{name}.png', (100, y, 49, 49), contain=True)
-            self.paste(image, 'photo-airport.png', (740, 117, 676, 454), angle=-7)
-            self.paste(image, 'paperclip.png', (775, 103, 48, 100), angle=-14, contain=True)
-            self.paste(image, 'photo-protagonists.png', (972, 442, 415, 234), angle=-8)
-            self.paste(image, 'paper.png', (792, 690, 430, 62))
+    def paste(self, image, name, box, **options):
+        name, box, options = self.part(self.layout, name, box, **options)
+        self.art.paste(image, name, box, **options)
+
+    def static_scene(self, page, layout):
+        return self.scenes.get((page, layout.viewport), lambda: self.draw_scene(page, layout))
+
+    def scene_parts(self, page):
+        parts = [('airport-blueprint.png', (630, 30, 830, 730), {'angle': -5, 'opacity': .47})]
+        if page == 'overview':
+            parts += [('dossier-folder.png', (8, 60, 734, 714), {}),
+                      ('quarantine-stamp.png', (466, 109, 208, 84), {'angle': 4}),
+                      ('title-logo.png', (94, 216, 532, 182), {'contain': True}),
+                      ('play-plate.png', (87, 426, 554, 80), {})]
+            parts += [(f'icon-{name}.png', (100, y, 49, 49), {'contain': True})
+                      for name, y in [('achievements', 518), ('settings', 576), ('import', 634)]]
+            parts += [('photo-airport.png', (740, 117, 676, 454), {'angle': -7}),
+                      ('paperclip.png', (775, 103, 48, 100), {'angle': -14, 'contain': True}),
+                      ('photo-protagonists.png', (972, 442, 415, 234), {'angle': -8}),
+                      ('paper.png', (792, 690, 430, 62), {})]
         else:
-            self.paste(image, 'case-paper.png', (25, 71, 817, 677), angle=.6)
-            self.paste(image, 'case-paper.png', (18, 76, 824, 666))
-            self.paste(image, 'airport-stamp.png', (597, 98, 191, 89), angle=4, contain=True)
-            if self.page == 'achievements':
-                self.paste(image, 'detail-paper.png', (866, 72, 528, 397))
-                self.paste(image, 'photo-airport.png', (868, 481, 529, 259), angle=3)
-            elif self.page == 'settings':
-                self.paste(image, 'detail-paper.png', (866, 72, 528, 666))
-                self.paste(image, 'icon-settings.png', (1285, 120, 70, 70), contain=True)
-                for index, (key, label) in enumerate(ICONS):
-                    self.paste(image, f'desktop-icons/{key}.png',
-                               (939 + index * 149, 534, 90, 90), contain=True)
+            parts += [('case-paper.png', (25, 71, 817, 677), {'angle': .6}),
+                      ('case-paper.png', (18, 76, 824, 666), {}),
+                      ('airport-stamp.png', (597, 98, 191, 89), {'angle': 4, 'contain': True})]
+            if page == 'achievements':
+                parts += [('detail-paper.png', (866, 72, 528, 397), {}),
+                          ('photo-airport.png', (868, 481, 529, 259), {'angle': 3})]
+            elif page == 'settings':
+                parts += [('detail-paper.png', (866, 72, 528, 666), {}),
+                          ('icon-settings.png', (1285, 120, 70, 70), {'contain': True})]
+                parts += [(f'desktop-icons/{key}.png', (939 + index * 149, 534, 90, 90), {'contain': True})
+                          for index, (key, label) in enumerate(ICONS)]
             else:
-                self.paste(image, 'photo-airport.png', (868, 108, 529, 356), angle=-4)
-                self.paste(image, 'detail-paper.png', (866, 489, 528, 249))
+                parts += [('photo-airport.png', (868, 108, 529, 356), {'angle': -4}),
+                          ('detail-paper.png', (866, 489, 528, 249), {})]
+        return parts
+
+    def draw_scene(self, page, layout):
+        parts = [self.part(layout, name, box, **options) for name, box, options in self.scene_parts(page)]
+        logs = self.part(layout, 'icon-logs.png', (40, 773, 20, 24), contain=True)
+        # Resample every piece in parallel, then composite in drawing order.
+        parallel([lambda: self.art.fitted('desk-background.png', layout.viewport),
+                  *[lambda part=part: self.art.prepared(part[0], part[1], **part[2])
+                    for part in [*parts, logs]]])
+        image = self.art.fitted('desk-background.png', layout.viewport).copy()
+        for name, box, options in parts:
+            self.art.paste(image, name, box, **options)
         draw = ImageDraw.Draw(image)
-        w, h = self.viewport
-        top, bottom = round(48 * self.scale), round(h - 48 * self.scale)
+        w, h = layout.viewport
+        top, bottom = round(48 * layout.scale), round(h - 48 * layout.scale)
         draw.rectangle((0, 0, w, top), fill=(5, 14, 21, 255))
         draw.rectangle((0, bottom, w, h), fill=(5, 14, 21, 255))
         draw.line((0, top, w, top), fill='#41515b')
         draw.line((0, bottom, w, bottom), fill='#41515b')
-        self.paste(image, 'icon-logs.png', (40, 773, 20, 24), contain=True)
+        self.art.paste(image, logs[0], logs[1], **logs[2])
         return image
 
     def render(self):
@@ -363,11 +546,9 @@ class Launcher:
         self.used_buttons = set()
         self.canvas.delete('all')
         w, h = max(1, self.canvas.winfo_width()), max(1, self.canvas.winfo_height())
-        self.viewport = w, h
-        self.scale = min(w / 1440, h / 810)
-        self.scale_x = w / 1440
-        self.body_origin = ((w - 1440 * self.scale) / 2,
-                            48 * self.scale + (h - 810 * self.scale) / 2)
+        self.layout = Layout.fit(w, h)
+        self.viewport, self.scale = self.layout.viewport, self.layout.scale
+        self.scale_x, self.body_origin = self.layout.scale_x, self.layout.body_origin
         self.background = self.scene()
         self.photo = ImageTk.PhotoImage(self.background)
         self.canvas.create_image(0, 0, image=self.photo, anchor='nw')
@@ -391,6 +572,16 @@ class Launcher:
                 self.button_pool.pop(slot).destroy()
         if focused in self.controls and self.controls[focused].enabled:
             self.controls[focused].focus_set()
+        if self.warm_job:
+            self.window.after_cancel(self.warm_job)
+        # Wait until resizing settles; one size is warmed once.
+        self.warm_job = self.window.after(300, self.schedule_warm)
+
+    def schedule_warm(self):
+        self.warm_job = None
+        if self.layout.viewport not in self.warmed:
+            self.warmed.add(self.layout.viewport)
+            background(self.warm, self.layout)
 
     def draw_overview(self):
         self.text(110, 155, 'H A R V A R D V I L L E  I N C I D E N T', 14, family=MONO)
@@ -827,4 +1018,6 @@ class Launcher:
             self.window.after_cancel(self.tick_job)
         if self.wheel_job:
             self.window.after_cancel(self.wheel_job)
+        if self.warm_job:
+            self.window.after_cancel(self.warm_job)
         self.window.destroy()

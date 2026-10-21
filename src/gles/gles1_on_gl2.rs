@@ -428,7 +428,7 @@ impl GLESContext for GLES1OnGL2Context {
         unsafe {
             window.make_gl_context_current(&self.gl_ctx);
         }
-        gl21::load_with(|s| window.gl_get_proc_address(s));
+        load_functions(|s| window.gl_get_proc_address(s));
         self.is_loaded = true;
 
         Box::new(GLES1OnGL2 {
@@ -448,13 +448,26 @@ impl GLESContext for GLES1OnGL2Context {
         }
 
         make_current_fn(&self.gl_ctx);
-        gl21::load_with(loader_fn);
+        load_functions(loader_fn);
         self.is_loaded = true;
 
         Box::new(GLES1OnGL2 {
             state: &mut self.state,
         })
     }
+}
+
+/// GLX and EGL return the same entry points for every context, so on Linux
+/// the global function table is filled once. Refilling it on each context
+/// switch cost the emulator thread over a thousand lookups per frame.
+fn load_functions(loader: impl FnMut(&'static str) -> *const std::ffi::c_void) {
+    #[cfg(target_os = "linux")]
+    {
+        static LOADED: std::sync::Once = std::sync::Once::new();
+        LOADED.call_once(|| gl21::load_with(loader));
+    }
+    #[cfg(not(target_os = "linux"))]
+    gl21::load_with(loader);
 }
 
 pub struct GLES1OnGL2<'a> {
