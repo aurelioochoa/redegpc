@@ -124,7 +124,7 @@ Use `./target/release/redegpc run --touch` for original touch controls. Other op
 
 ### Status and limitations
 
-The project is under local qualification. A successful build or a gameplay capture does not establish full campaign compatibility. Read the [observed results and remaining defects](docs/qualification.md) and [acceptance gates](GATES.md) before assessing support.
+The project is under local qualification. A successful build or a gameplay capture does not establish full campaign compatibility. Read the [observed results and remaining defects](docs/qualification.md) before assessing support.
 
 The runtime preserves the game's original resolution and timing. Cached asset decoding improves later loads while keeping imported originals intact. The launcher can browse proposed achievements but does not award them. Current platform support targets Linux x86_64.
 
@@ -288,7 +288,7 @@ Usa `./target/release/redegpc run --touch` para los controles táctiles original
 
 ### Estado y limitaciones
 
-El proyecto sigue en validación local. Una compilación correcta o una captura del juego no demuestran compatibilidad con toda la campaña. Consulta los [resultados observados y defectos pendientes](docs/qualification.md) y los [criterios de aceptación](GATES.md) (en inglés).
+El proyecto sigue en validación local. Una compilación correcta o una captura del juego no demuestran compatibilidad con toda la campaña. Consulta los [resultados observados y defectos pendientes](docs/qualification.md) (en inglés).
 
 El runtime conserva la resolución y el ritmo originales. La caché decodificada mejora las cargas posteriores sin alterar los originales importados. El lanzador permite consultar objetivos propuestos, pero no otorga logros. La plataforma objetivo actual es Linux x86_64.
 

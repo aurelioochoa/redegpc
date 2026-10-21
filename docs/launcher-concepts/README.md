@@ -34,4 +34,4 @@ External reference originals were downloaded to `/tmp/redegpc-references/` for v
 
 Generated with the built-in image generation tool, one call per initial concept, with the references supplied as visual guidance. Each overview was subsequently edited to include the user's requested Achievements entry. No CLI/API fallback was used.
 
-See the [initial prompts](prompts.md), [Achievements overview revision prompts](achievement-revision-prompts.md), and [achievements screen prompt](achievements-prompt.md) for reproducibility. These images contain proposed UI lettering; production labels and controls should be rendered by the application.
+These images contain proposed UI lettering; production labels and controls should be rendered by the application.

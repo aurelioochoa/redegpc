@@ -25,7 +25,7 @@ The launcher renders the desk across the actual viewport and centers the dossier
 
 Obsolete `overview.png`, `achievements.png`, `achievement-atlas.png`, `test_*.png` and `raw_*.png` have been removed. The two concept references remain in `docs/launcher-concepts/`.
 
-The [audit](../artwork/AUDIT.md), [initial prompts](../artwork/prompts.json), [additional achievement prompts](../artwork/expansion-prompts.json), [portrait colorization prompts](../artwork/portrait-revision-prompts.json), full-resolution `../artwork/sources/`, [original metadata](../artwork/baseline.json), and [manifest](../artwork/manifest.json) document regeneration using the built-in image generation tool. The original backup is outside the project at `/tmp/redegpc-launcher-assets-before-20261017/`.
+The [audit](../artwork/AUDIT.md), full-resolution `../artwork/sources/`, [original metadata](../artwork/baseline.json), and [manifest](../artwork/manifest.json) document regeneration using the built-in image generation tool. The original backup is outside the project at `/tmp/redegpc-launcher-assets-before-20261017/`.
 
 The [achievement catalog](../achievements.json) links all 23 achievement images to titles and proposed goals, with an explicit complete dependency set for platinum. This is artwork and design data; runtime tracking is not implemented by these files.
 

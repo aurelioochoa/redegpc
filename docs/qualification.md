@@ -208,8 +208,7 @@ identify gameplay: a corner-only HUD test produced a movie false positive
 and was replaced before final measurement. Gameplay captures, timed logs,
 samples and presentation traces are under
 `target/qualification/startup/final-{original,cached}`. Recounted results are
-in `target/qualification/startup/comparison.json`; verification commands are
-in `gates/startup.md`. `scripts/benchmark_loading.py` creates the live evidence;
+in `target/qualification/startup/comparison.json`. `scripts/benchmark_loading.py` creates the live evidence;
 `scripts/check_asset_cache.py` and `scripts/check_loading_benchmark.py`
 independently check its asset, gameplay and timing results.
 

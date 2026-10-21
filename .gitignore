@@ -58,3 +58,16 @@ __pycache__/
 /.agents/
 /.codex/
 /codex-session-*.md
+
+# AI agent work files and image-generation prompts/logs (kept locally only)
+/AGENTS.md
+/CLAUDE.md
+/GATES.md
+/PLAN.md
+/gates/
+/launcher/artwork/GATES.md
+/docs/desktop-icons/prompts.json
+/docs/launcher-concepts/*prompt*.md
+/docs/media/banner-prompt.txt
+/launcher/artwork/*prompts.json
+/launcher/artwork/*generation-log.json

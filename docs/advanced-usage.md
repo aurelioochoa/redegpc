@@ -10,7 +10,7 @@ Play the English iPhone release on Linux with keyboard and mouse controls, a nat
 
 Rust host for the English **Resident Evil Degeneration v1.03.00** IPA, based on touchHLE revision `ca1de89c578e79746f33c1332e28efd106c334ba`.
 
-This implementation is under local qualification. See [observed results and remaining defects](../docs/qualification.md) and [acceptance gates](../GATES.md); a successful build does not establish playable compatibility.
+This implementation is under local qualification. See [observed results and remaining defects](../docs/qualification.md); a successful build does not establish playable compatibility.
 
 ## Gameplay
 

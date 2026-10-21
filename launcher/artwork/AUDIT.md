@@ -27,7 +27,7 @@ At the user's request, obsolete `overview.png`, `achievements.png`, `achievement
 
 ## Generation and export
 
-Built-in image generation, one call per individual asset, with the two concept images supplied as visual references. Initial prompts and transparency settings are in `prompts.json`; additional trophies are in `expansion-prompts.json`; the final blueprint contrast correction is in `revision-prompts.json`; portrait colorization is in `portrait-revision-prompts.json`. Full-resolution outputs are saved in `sources/` and must be retained. No CLI/API fallback is used.
+Built-in image generation, one call per individual asset, with the two concept images supplied as visual references. Full-resolution outputs are saved in `sources/` and must be retained. No CLI/API fallback is used.
 
 `export_assets.py` only resizes and pads/crops generated artwork using ImageMagick; it does not draw, extract backgrounds, or synthesize artwork. Transparent output alpha is retained. The manifest records source and final checksums, dimensions, alpha statistics and aliases. `after.jpg` shows the final individual exports against contrasting backgrounds for visual review.
 
