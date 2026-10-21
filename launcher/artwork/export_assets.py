@@ -52,10 +52,10 @@ def inspect(path):
 
 
 def export(allow_incomplete=False):
-    jobs = json.loads((ROOT / 'prompts.json').read_text())
-    expansion = ROOT / 'expansion-prompts.json'
-    if expansion.exists():
-        jobs += json.loads(expansion.read_text())
+    # The manifest lists every asset and its transparency; prompts stay local.
+    previous = json.loads((ROOT / 'manifest.json').read_text())
+    jobs = [{'name': entry['name'], 'alpha': entry['transparent']}
+            for entry in previous['assets']]
     missing = [j['name'] for j in jobs
                if not (ROOT / 'sources' / (j['name'] + '.png')).is_file()]
     if missing and not allow_incomplete:

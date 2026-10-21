@@ -15,14 +15,8 @@ def sha(path):
 
 def verify(root):
     manifest = json.loads((root / 'manifest.json').read_text())
-    jobs = json.loads((root / 'prompts.json').read_text())
-    expansion = root / 'expansion-prompts.json'
-    if expansion.exists():
-        jobs += json.loads(expansion.read_text())
-    expected = {job['name'] for job in jobs}
-    actual = {entry['name'] for entry in manifest['assets']}
-    assert len(expected) == len(jobs) == len(manifest['assets']), 'Duplicate asset'
-    assert expected == actual, 'Source/export coverage mismatch'
+    expected = actual = {entry['name'] for entry in manifest['assets']}
+    assert len(expected) == len(manifest['assets']), 'Duplicate asset'
     assert set((root / 'sources').glob('*.png')) == {
         root / 'sources' / f'{name}.png' for name in expected}, 'Source set mismatch'
     source_hashes = set()
